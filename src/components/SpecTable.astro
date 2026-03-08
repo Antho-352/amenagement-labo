@@ -1,0 +1,29 @@
+---
+interface Props {
+  headers?: string[];
+  rows: string[][];
+}
+
+const { headers, rows } = Astro.props;
+---
+
+<table class="spec-table">
+  {headers && (
+    <thead>
+      <tr>
+        {headers.map((h) => (
+          <th class="text-left font-bold text-primary pb-4 border-b border-primary/20">{h}</th>
+        ))}
+      </tr>
+    </thead>
+  )}
+  <tbody>
+    {rows.map((row) => (
+      <tr>
+        {row.map((cell, i) => (
+          <td class={i === 0 ? 'font-semibold text-primary' : ''} set:html={cell} />
+        ))}
+      </tr>
+    ))}
+  </tbody>
+</table>

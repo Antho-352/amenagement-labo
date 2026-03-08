@@ -1,0 +1,365 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Contact et devis personnalisé : échangez avec nos experts dès aujourd'hui", "item": "https://amenagement-labo.fr/contact-devis" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('contact-devis');
+} catch (e) {
+  console.error('WP fetch failed for contact-devis:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Quels sont les délais moyens pour une étude complète ?", answer: "Pour un aménagement standard de 100m², nous remettons un premier dossier technique et budgétaire sous 10 jours ouvrés après la visite de site ou l'analyse des plans." },
+  { question: "Intervenez-vous partout en France et à l'international ?", answer: "Absolument. Nos équipes de pose sont mobiles sur l'ensemble du territoire français. Pour les projets internationaux, nous proposons des prestations de conseil et de fourniture d'équipements avec assistance à distance." },
+  { question: "Comment fonctionne le premier contact gratuit ?", answer: "Le premier échange (environ 30 min) sert à qualifier votre projet. C'est une consultation experte sans engagement qui nous permet de vous orienter vers les meilleures solutions techniques et normatives." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Contact et Devis Personnalisé | Expert en Aménagement de Laboratoires 2026"}
+  description={seo?.metaDesc ?? "Obtenez un devis sur mesure pour l'aménagement de votre laboratoire. Expertise technique en conception, installation d'équipements et fourniture de consommables en France. Échangez avec nos spécialistes en 2026."}
+  keywords="devis aménagement laboratoire, contact expert laboratoire, conception labo sur mesure, installation paillasses, équipements techniques labo, maintenance laboratoire 2026"
+  ogTitle={seo?.opengraphTitle ?? "Contactez nos Experts en Aménagement de Laboratoires | Devis Gratuit 2026"}
+  ogDescription={seo?.opengraphDescription ?? "Transformez votre espace de recherche avec une solution clé en main. Contactez Aptik Solutions pour un audit technique complet."}
+  ogImage={seo?.opengraphImage?.sourceUrl ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  twitterTitle={seo?.twitterTitle ?? "Expertise & Devis Aménagement de Laboratoire 2026"}
+  twitterDescription={seo?.twitterDescription ?? "Demandez votre étude personnalisée pour la conception et l'installation de vos équipements de laboratoire partout en France."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8325981/pexels-photo-8325981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  canonical="https://amenagement-labo.fr/contact-devis"
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "Concrétisons ensemble votre <br><span class='italic text-secondary'>vision scientifique.</span>"}
+    subtitle={hero?.heroSubtitle ?? "De la première esquisse à l'installation finale, nos experts vous accompagnent dans la création de laboratoires haute performance, alliant sécurité normative et ergonomie d'avant-garde."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/19238352/pexels-photo-19238352.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Bureau d'études design laboratoire"
+    badge={hero?.heroBadge ?? "Expertise 2026"}
+    height="h-[80vh]"
+    ctas={hero?.heroCtas ?? [
+      { label: 'Demander une étude gratuite', href: '#formulaire' },
+      { label: 'Simuler votre budget', href: '#simulateur', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="font-heading text-4xl text-primary mb-8">Un dialogue direct avec l'excellence technique</h2>
+          <p class="text-lg text-neutral-700 mb-6">
+            En 2026, l'aménagement de laboratoire ne se limite plus à la simple pose de mobilier. Il s'agit d'une orchestration complexe entre <a href="/normes-reglementations" class="text-primary font-semibold underline decoration-secondary">normes de sécurité</a>, flux de travail optimisés et intégration technologique.
+          </p>
+          <p class="text-lg text-neutral-700 mb-6">
+            Chez Aptik Solutions, nous avons supprimé les barrières administratives pour vous offrir un accès direct à nos ingénieurs et concepteurs. Que vous soyez une PME en pleine croissance ou un grand groupe pharmaceutique, notre approche reste la même : **la précision avant tout.**
+          </p>
+          <div class="grid grid-cols-2 gap-8 mt-12">
+            <div>
+              <span class="block text-3xl font-heading text-secondary mb-2">150+</span>
+              <span class="text-sm uppercase tracking-wider text-neutral-500 font-bold">Projets livrés en 2025</span>
+            </div>
+            <div>
+              <span class="block text-3xl font-heading text-secondary mb-2">48h</span>
+              <span class="text-sm uppercase tracking-wider text-neutral-500 font-bold">Délai de réponse moyen</span>
+            </div>
+          </div>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Réunion technique expert" class="rounded-xl shadow-2xl relative z-10" loading="lazy" />
+          <div class="absolute -bottom-6 -left-6 w-64 h-64 bg-secondary/20 -z-10 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODOLOGIE -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal-on-scroll">
+        <h2 class="font-heading text-4xl text-primary mb-6">Une méthodologie de projet agile et dématérialisée</h2>
+        <p class="text-neutral-600">Nous utilisons les outils les plus performants pour garantir une transparence totale et une rapidité d'exécution sans précédent.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
+          <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">01</div>
+          <h3 class="font-heading text-2xl text-primary mb-4">Brief & Visioconférence</h3>
+          <p class="text-neutral-600">Prenez rendez-vous en quelques clics pour un premier échange gratuit. Nous analysons vos besoins en <a href="/conception-laboratoires" class="hover:text-secondary">conception personnalisée</a> et définissons les périmètres techniques.</p>
+        </div>
+        <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
+          <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">02</div>
+          <h3 class="font-heading text-2xl text-primary mb-4">Audit & Simulation 3D</h3>
+          <p class="text-neutral-600">Nos experts se déplacent sur site ou travaillent sur vos plans pour modéliser votre futur espace, incluant les <a href="/installation-equipements-techniques" class="hover:text-secondary">équipements techniques</a> critiques.</p>
+        </div>
+        <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
+          <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">03</div>
+          <h3 class="font-heading text-2xl text-primary mb-4">Devis & Engagement</h3>
+          <p class="text-neutral-600">Recevez une proposition détaillée, transparente et segmentée. Une fois validé, votre projet entre en phase de réalisation avec un interlocuteur unique.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTIMATEUR DE PROJET -->
+  <section id="simulateur" class="py-24 bg-primary text-white overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="bg-white/5 p-12 rounded-3xl border border-white/10 backdrop-blur-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div>
+            <h2 class="font-heading text-4xl mb-8">Estimateur de Projet Express</h2>
+            <p class="text-gray-300 mb-8">Obtenez une première évaluation de la complexité et des besoins de votre laboratoire en moins de 60 secondes. Cet outil se base sur les standards de <a href="/secteurs-activite" class="text-secondary underline">l'industrie en 2026</a>.</p>
+
+            <div class="space-y-8">
+              <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-secondary mb-4">Type de Laboratoire</label>
+                <select id="labType" class="w-full bg-white/10 border border-white/20 p-4 rounded focus:border-secondary outline-none transition-all">
+                  <option value="1">Pharmaceutique / Chimie Fine</option>
+                  <option value="0.8">Agroalimentaire / Cosmétique</option>
+                  <option value="1.2">Recherche Haute Sécurité (P3/P4)</option>
+                  <option value="0.7">Enseignement / R&D Générale</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-secondary mb-4">Surface Estimée (m²)</label>
+                <input type="range" id="surface" min="20" max="1000" step="10" value="50" class="w-full accent-secondary" />
+                <div class="flex justify-between mt-2 text-sm text-gray-400">
+                  <span>20 m²</span>
+                  <span id="surfaceVal" class="text-secondary font-bold text-lg">50 m²</span>
+                  <span>1000 m²</span>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-secondary mb-4">Niveau d'Équipement</label>
+                <div class="grid grid-cols-2 gap-4">
+                  <button class="equip-btn border border-secondary p-4 text-secondary font-bold hover:bg-secondary hover:text-primary transition-all rounded" data-equip="1">Standard</button>
+                  <button class="equip-btn border border-white/20 p-4 text-white font-bold hover:bg-white hover:text-primary transition-all rounded" data-equip="1.5">Premium / Robotisé</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center items-center bg-white text-primary p-12 rounded-2xl shadow-2xl">
+            <h3 class="font-heading text-2xl mb-4 text-center">Estimation de votre Indice de Complexité</h3>
+            <div id="resultScore" class="text-7xl font-heading text-secondary my-8">--</div>
+            <p class="text-center text-sm text-neutral-500 mb-8">Cet indice nous permet de mobiliser les experts adéquats pour votre projet dès le premier appel.</p>
+            <a href="#formulaire" class="w-full py-4 bg-gradient-to-r from-secondary to-[#A68B56] text-white text-center font-bold rounded shadow-lg hover:shadow-secondary/20 transition-all">Confirmer avec un Expert</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES RECAP -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <h2 class="font-heading text-4xl text-primary text-center mb-16 reveal-on-scroll">Une offre globale sans compromis</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/35300832/pexels-photo-35300832.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation paillasses" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
+          <h3 class="font-heading text-xl text-primary mb-4">Infrastructures Techniques</h3>
+          <p class="text-sm text-neutral-600 mb-4">Pose de paillasses ergonomiques, armoires de sécurité et réseaux de fluides spécialisés.</p>
+          <a href="/installation-equipements-techniques" class="text-secondary font-bold text-sm uppercase tracking-widest">Voir les détails →</a>
+        </article>
+        <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plans de laboratoire" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
+          <h3 class="font-heading text-xl text-primary mb-4">Maîtrise d'Œuvre</h3>
+          <p class="text-sm text-neutral-600 mb-4">Gestion complète des <a href="/revetements-finitions">revêtements techniques</a>, électricité et plafonds spécifiques.</p>
+          <a href="/" class="text-secondary font-bold text-sm uppercase tracking-widest">Nos solutions →</a>
+        </article>
+        <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/9628826/pexels-photo-9628826.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Consommables labo" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
+          <h3 class="font-heading text-xl text-primary mb-4">Supply Chain Labo</h3>
+          <p class="text-sm text-neutral-600 mb-4">Fourniture continue en <a href="/consommables-equipements">consommables</a>, verrerie et instrumentation de précision.</p>
+          <a href="/consommables-equipements" class="text-secondary font-bold text-sm uppercase tracking-widest">Le catalogue →</a>
+        </article>
+        <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/96612/pexels-photo-96612.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Normes sécurité" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
+          <h3 class="font-heading text-xl text-primary mb-4">Conformité Totale</h3>
+          <p class="text-sm text-neutral-600 mb-4">Veille réglementaire et mise en conformité pour garantir la sécurité de vos équipes.</p>
+          <a href="/normes-reglementations" class="text-secondary font-bold text-sm uppercase tracking-widest">Les normes →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="py-24 bg-white border-y border-neutral-100">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row gap-16 items-center">
+        <div class="lg:w-1/3 reveal-on-scroll">
+          <h2 class="font-heading text-4xl text-primary mb-6">Ils nous font confiance pour leur futur.</h2>
+          <p class="text-neutral-600 mb-8">Découvrez comment nous avons transformé les espaces de travail de leaders industriels et de centres de recherche publics.</p>
+          <a href="/projets-realisations" class="inline-block py-3 px-6 border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all">Consulter nos références</a>
+        </div>
+        <div class="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8 reveal-on-scroll">
+          <div class="bg-bg-alt p-8 rounded-lg italic text-neutral-700 relative">
+            <span class="text-6xl text-secondary/20 absolute top-4 left-4 font-heading">"</span>
+            <p class="relative z-10 mb-6">"L'expertise d'Aptik Solutions en 2026 a été déterminante pour notre nouvelle unité de R&D à Lyon. Le respect des délais et la qualité des paillasses installées sont exemplaires."</p>
+            <cite class="not-italic font-bold text-primary">— Dr. Marc Leprince, Directeur Innovation PharmaCorp</cite>
+          </div>
+          <div class="bg-bg-alt p-8 rounded-lg italic text-neutral-700 relative">
+            <span class="text-6xl text-secondary/20 absolute top-4 left-4 font-heading">"</span>
+            <p class="relative z-10 mb-6">"Un accompagnement de A à Z. La possibilité de simuler notre budget en ligne nous a permis de gagner un temps précieux lors de notre phase d'investissement."</p>
+            <cite class="not-italic font-bold text-primary">— Sophie Vallet, Responsable Labo BioTech-Alpha</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE DE CONTACT -->
+  <section id="formulaire" class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="max-w-6xl mx-auto bg-white shadow-2xl flex flex-col md:flex-row overflow-hidden rounded-2xl">
+        <!-- Info Column -->
+        <div class="md:w-1/3 bg-primary text-white p-12">
+          <h2 class="font-heading text-3xl mb-8">Contact Direct</h2>
+          <div class="space-y-8">
+            <div class="flex items-start gap-4">
+              <div class="w-6 h-6 text-secondary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Siège Social</h4>
+                <p class="text-gray-300">12 Avenue des Sciences<br>75008 Paris, France</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-6 h-6 text-secondary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Téléphone</h4>
+                <p class="text-gray-300">+33 (0)1 45 67 89 00</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-6 h-6 text-secondary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Horaires d'ouverture</h4>
+                <p class="text-gray-300">Lun - Ven : 08:30 - 18:30</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-20">
+            <p class="text-sm text-gray-400">Suivez notre actualité et nos innovations sur notre blog dédié aux experts.</p>
+            <a href="/conseils-actualites" class="text-secondary underline mt-2 inline-block">Lire les articles</a>
+          </div>
+        </div>
+
+        <!-- Form Column -->
+        <div class="md:w-2/3 p-12">
+          <h3 class="font-heading text-3xl text-primary mb-8">Parlez-nous de votre projet</h3>
+          <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col">
+              <label class="text-sm font-bold text-neutral-500 mb-2">Prénom & Nom *</label>
+              <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-sm font-bold text-neutral-500 mb-2">Entreprise / Institution *</label>
+              <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-sm font-bold text-neutral-500 mb-2">Email Professionnel *</label>
+              <input type="email" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-sm font-bold text-neutral-500 mb-2">Secteur d'activité</label>
+              <select class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded">
+                <option>Pharmacie / Médical</option>
+                <option>Chimie / Énergie</option>
+                <option>Agroalimentaire</option>
+                <option>Cosmétique</option>
+                <option>Recherche / Université</option>
+              </select>
+            </div>
+            <div class="flex flex-col md:col-span-2">
+              <label class="text-sm font-bold text-neutral-500 mb-2">Votre message / Description du besoin</label>
+              <textarea rows="5" class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" placeholder="Décrivez votre projet d'aménagement, d'installation ou vos besoins en équipements..."></textarea>
+            </div>
+            <div class="md:col-span-2 flex items-center gap-3">
+              <input type="checkbox" id="consent" class="w-5 h-5 accent-secondary" />
+              <label for="consent" class="text-xs text-neutral-500">J'accepte que mes données soient traitées dans le cadre de ma demande de devis conformément à la politique de confidentialité.</label>
+            </div>
+            <div class="md:col-span-2">
+              <button type="submit" class="w-full py-5 bg-gradient-to-r from-secondary to-[#A68B56] text-white font-bold text-lg hover:brightness-110 transition-all rounded shadow-lg">Envoyer ma demande de devis</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} />
+
+</BaseLayout>
+
+<script>
+  // Budget Simulator
+  let equipMultiplier = 1;
+  const labTypeSelect = document.getElementById('labType') as HTMLSelectElement;
+  const surfaceInput = document.getElementById('surface') as HTMLInputElement;
+  const surfaceVal = document.getElementById('surfaceVal');
+  const scoreDisplay = document.getElementById('resultScore');
+  const equipBtns = document.querySelectorAll('.equip-btn');
+
+  function calculate() {
+    if (!labTypeSelect || !surfaceInput || !surfaceVal || !scoreDisplay) return;
+    const type = parseFloat(labTypeSelect.value);
+    const surface = parseInt(surfaceInput.value);
+    surfaceVal.innerText = surface + ' m²';
+
+    const score = Math.round((surface * type * equipMultiplier) / 5);
+    scoreDisplay.innerText = score > 100 ? 'Expert+' : String(score);
+  }
+
+  equipBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      equipMultiplier = parseFloat(target.dataset.equip || '1');
+
+      equipBtns.forEach(b => {
+        b.classList.remove('bg-secondary', 'text-primary', 'border-secondary');
+        b.classList.add('border-white/20', 'text-white');
+      });
+      target.classList.add('bg-secondary', 'text-primary', 'border-secondary');
+      target.classList.remove('border-white/20', 'text-white');
+      calculate();
+    });
+  });
+
+  if (labTypeSelect) labTypeSelect.addEventListener('change', calculate);
+  if (surfaceInput) surfaceInput.addEventListener('input', calculate);
+
+  // Init
+  calculate();
+
+  // Form submission
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("Merci pour votre message. Un expert vous contactera sous 48h.");
+    });
+  }
+</script>

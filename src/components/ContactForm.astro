@@ -1,0 +1,90 @@
+---
+// Contact form component
+---
+
+<div class="max-w-6xl mx-auto bg-white shadow-2xl flex flex-col md:flex-row overflow-hidden rounded-2xl">
+  <!-- Info Column -->
+  <div class="md:w-1/3 bg-primary text-white p-12">
+    <h2 class="font-heading text-3xl mb-8">Contact Direct</h2>
+    <div class="space-y-8">
+      <div class="flex items-start gap-4">
+        <div class="w-6 h-6 text-secondary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <div>
+          <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Siège Social</h4>
+          <p class="text-gray-300">12 Avenue des Sciences<br>75008 Paris, France</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4">
+        <div class="w-6 h-6 text-secondary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+        </div>
+        <div>
+          <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Téléphone</h4>
+          <p class="text-gray-300">+33 (0)1 45 67 89 00</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4">
+        <div class="w-6 h-6 text-secondary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div>
+          <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Horaires d'ouverture</h4>
+          <p class="text-gray-300">Lun - Ven : 08:30 - 18:30</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-20">
+      <p class="text-sm text-gray-400">Suivez notre actualité et nos innovations sur notre blog dédié aux experts.</p>
+      <a href="/conseils-actualites" class="text-secondary underline mt-2 inline-block">Lire les articles</a>
+    </div>
+  </div>
+
+  <!-- Form Column -->
+  <div class="md:w-2/3 p-12">
+    <h3 class="font-heading text-3xl text-primary mb-8">Parlez-nous de votre projet</h3>
+    <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-neutral-500 mb-2">Prénom &amp; Nom *</label>
+        <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+      </div>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-neutral-500 mb-2">Entreprise / Institution *</label>
+        <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+      </div>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-neutral-500 mb-2">Email Professionnel *</label>
+        <input type="email" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
+      </div>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-neutral-500 mb-2">Secteur d'activité</label>
+        <select class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded">
+          <option>Pharmacie / Médical</option>
+          <option>Chimie / Énergie</option>
+          <option>Agroalimentaire</option>
+          <option>Cosmétique</option>
+          <option>Recherche / Université</option>
+        </select>
+      </div>
+      <div class="flex flex-col md:col-span-2">
+        <label class="text-sm font-bold text-neutral-500 mb-2">Votre message / Description du besoin</label>
+        <textarea rows="5" class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" placeholder="Décrivez votre projet d'aménagement, d'installation ou vos besoins en équipements..."></textarea>
+      </div>
+      <div class="md:col-span-2 flex items-center gap-3">
+        <input type="checkbox" id="consent" class="w-5 h-5 accent-secondary" />
+        <label for="consent" class="text-xs text-neutral-500">J'accepte que mes données soient traitées dans le cadre de ma demande de devis conformément à la politique de confidentialité.</label>
+      </div>
+      <div class="md:col-span-2">
+        <button type="submit" class="w-full py-5 gold-gradient text-white font-bold text-lg hover:brightness-110 transition-all rounded shadow-lg">Envoyer ma demande de devis</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById('contactForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert("Merci pour votre message. Un expert vous contactera sous 48h.");
+  });
+</script>

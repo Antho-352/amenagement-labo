@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ctas?: { label: string; href: string; variant?: 'primary' | 'outline' }[];
+  bg?: 'white' | 'green' | 'gold';
+}
+
+const { title, description, ctas = [], bg = 'white' } = Astro.props;
+
+const bgClass = {
+  white: 'bg-white',
+  green: 'bg-primary text-white',
+  gold: 'bg-secondary',
+}[bg];
+
+const titleClass = {
+  white: 'text-primary',
+  green: 'text-white',
+  gold: 'text-primary',
+}[bg];
+
+const descClass = {
+  white: 'text-neutral-600',
+  green: 'text-neutral-300',
+  gold: 'text-primary/80',
+}[bg];
+---
+
+<section class={`py-24 ${bgClass}`}>
+  <div class="container mx-auto px-6 text-center">
+    <div class="max-w-3xl mx-auto reveal-on-scroll">
+      <h2 class={`text-5xl ${titleClass} mb-8`} set:html={title} />
+      {description && <p class={`text-xl ${descClass} mb-10`}>{description}</p>}
+      {ctas.length > 0 && (
+        <div class="flex flex-col md:flex-row justify-center gap-6">
+          {ctas.map((cta) =>
+            cta.variant === 'outline' ? (
+              <a href={cta.href} class="border-2 border-secondary text-primary px-12 py-5 rounded-sm font-bold hover:bg-secondary hover:text-white transition">
+                {cta.label}
+              </a>
+            ) : (
+              <a href={cta.href} class="bg-primary text-white px-12 py-5 rounded-sm font-bold shadow-xl hover:scale-105 transition">
+                {cta.label}
+              </a>
+            )
+          )}
+        </div>
+      )}
+      <slot />
+    </div>
+  </div>
+</section>

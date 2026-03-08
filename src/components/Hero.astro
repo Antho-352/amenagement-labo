@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  bgImage: string;
+  bgAlt?: string;
+  ctas?: { label: string; href: string; variant?: 'primary' | 'outline' }[];
+  overlay?: string;
+  badge?: string;
+  height?: string;
+}
+
+const {
+  title,
+  subtitle,
+  bgImage,
+  bgAlt = '',
+  ctas = [],
+  overlay = 'bg-primary/80',
+  badge,
+  height = 'h-[90vh]',
+} = Astro.props;
+---
+
+<section class={`relative ${height} flex items-center overflow-hidden`}>
+  <div class="absolute inset-0 z-0">
+    <img src={bgImage} alt={bgAlt} class="w-full h-full object-cover" loading="eager" />
+    <div class={`absolute inset-0 ${overlay}`}></div>
+  </div>
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-4xl">
+      {badge && (
+        <span class="inline-block px-4 py-1 border border-secondary text-secondary uppercase tracking-widest text-sm mb-6 font-semibold reveal-on-scroll">
+          {badge}
+        </span>
+      )}
+      <h1 class="text-5xl md:text-7xl text-white mb-6 leading-tight reveal-on-scroll" set:html={title} />
+      {subtitle && (
+        <p class="text-xl text-neutral-200 mb-10 max-w-2xl leading-relaxed reveal-on-scroll">
+          {subtitle}
+        </p>
+      )}
+      {ctas.length > 0 && (
+        <div class="flex flex-wrap gap-4 reveal-on-scroll">
+          {ctas.map((cta) =>
+            cta.variant === 'outline' ? (
+              <a href={cta.href} class="border border-white text-white px-10 py-4 font-bold hover:bg-secondary hover:text-primary hover:border-secondary transition-all duration-300">
+                {cta.label}
+              </a>
+            ) : (
+              <a href={cta.href} class="bg-secondary text-primary px-10 py-4 font-bold hover:bg-white transition-all duration-300">
+                {cta.label}
+              </a>
+            )
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,331 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Projets réalisés : références et témoignages clients", "item": "https://amenagement-labo.fr/projets-realisations" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('projets-realisations');
+} catch (e) {
+  console.error('WP fetch failed for projets-realisations:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Puis-je visiter l'un de vos laboratoires réalisés ?", answer: "Oui, sous réserve de l'accord de nos clients et dans le respect des règles de confidentialité et de sécurité. Nous organisons régulièrement des visites pour des projets similaires." },
+  { question: "Quels sont vos délais moyens de réalisation ?", answer: "Un projet complet d'aménagement varie entre 3 et 8 mois selon la complexité technique et la surface. La phase de <a href='/conception-laboratoires' class='text-secondary underline'>conception personnalisée</a> prend généralement 4 à 6 semaines." },
+  { question: "Garantissez-vous le respect des normes ISO et NF ?", answer: "Absolument. Chaque installation fait l'objet d'un procès-verbal de réception attestant de la conformité aux <a href='/normes-reglementations' class='text-secondary underline'>normes en vigueur</a> spécifiques à votre secteur." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Projets réalisés et Témoignages Clients | Expertise Aménagement Laboratoire 2026"}
+  description={seo?.metaDesc ?? "Découvrez nos références prestigieuses en aménagement de laboratoires. Études de cas détaillées, témoignages clients et démonstrations de notre expertise technique en France."}
+  keywords="références laboratoire, témoignages clients, aménagement sur mesure, étude de cas pharmacie, installation paillasses, projets 2026"
+  ogTitle={seo?.opengraphTitle ?? "Nos Réalisations : L'Excellence en Aménagement de Laboratoires"}
+  ogDescription={seo?.opengraphDescription ?? "Explorez nos projets de conception et installation de laboratoires techniques. La preuve par l'image et le retour d'expérience client."}
+  ogImage={seo?.opengraphImage?.sourceUrl ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  twitterTitle={seo?.twitterTitle ?? "Expertise et Réalisations - amenagement-labo.fr"}
+  twitterDescription={seo?.twitterDescription ?? "Découvrez comment nous transformons les espaces scientifiques avec précision et élégance."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8471930/pexels-photo-8471930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  canonical="https://amenagement-labo.fr/projets-realisations"
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "L'Excellence en <span class='text-secondary'>Réalisations</span>"}
+    subtitle={hero?.heroSubtitle ?? "Découvrez comment nous transformons les exigences scientifiques les plus complexes en espaces de travail performants, sécurisés et esthétiques. Nos projets 2026 reflètent notre engagement pour l'innovation."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/35589286/pexels-photo-35589286.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Architecture de laboratoire moderne"
+    height="h-[80vh]"
+    ctas={hero?.heroCtas ?? [
+      { label: 'Explorer nos projets', href: '#projets' },
+      { label: 'Discuter de votre projet', href: '/contact-devis', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl font-heading text-primary mb-8">La Confiance par la Preuve : Pourquoi nos Réalisations Parlent pour Nous</h2>
+          <div class="space-y-6 text-lg leading-relaxed text-neutral-700">
+            <p>
+              Dans l'univers de la recherche et de l'industrie, la précision n'est pas une option, c'est un prérequis. Chez <strong>amenagement-labo.fr</strong>, nous comprenons que choisir un partenaire pour l'aménagement de vos infrastructures critiques est une décision stratégique majeure. C'est pourquoi nous mettons un point d'honneur à documenter nos succès.
+            </p>
+            <p>
+              Un témoignage client n'est pas qu'une simple citation ; c'est une validation par les pairs. En 2026, la transparence est la clé de la crédibilité. Nos études de cas détaillent les défis techniques, les contraintes réglementaires rencontrées et les solutions innovantes apportées, qu'il s'agisse de <a href="/conception-laboratoires" class="text-primary font-semibold underline decoration-secondary">conception personnalisée</a> ou d'installations complexes.
+            </p>
+            <p>
+              Chaque projet est une aventure humaine et technologique. Du secteur pharmaceutique à l'agroalimentaire, nous adaptons nos méthodes pour garantir que l'esthétique rencontre la fonctionnalité la plus pure, tout en respectant scrupuleusement les <a href="/normes-reglementations" class="text-primary font-semibold underline decoration-secondary">normes et réglementations</a> en vigueur.
+            </p>
+          </div>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <div class="aspect-square rounded-full border-2 border-secondary p-4">
+            <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Équipe technique en discussion" class="w-full h-full object-cover rounded-full shadow-2xl" loading="lazy" />
+          </div>
+          <div class="absolute -bottom-10 -left-10 bg-white p-8 shadow-xl max-w-xs border-l-4 border-secondary">
+            <p class="italic text-primary mb-4">"L'accompagnement a été total, de l'esquisse à la pose de la dernière sorbonne. Un gain de productivité mesurable dès le premier mois."</p>
+            <p class="font-bold text-sm">— Dr. L. Martin, Directeur R&D</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY 1: PHARMACEUTIQUE -->
+  <section id="projets" class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-12 items-stretch mb-24 reveal-on-scroll">
+        <div class="w-full md:w-1/2">
+          <img src="https://images.pexels.com/photos/8657295/pexels-photo-8657295.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire pharmaceutique Lyon" class="w-full h-full object-cover rounded-xl shadow-lg" loading="lazy" />
+        </div>
+        <div class="w-full md:w-1/2 flex flex-col justify-center">
+          <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4">Secteur Pharmaceutique - Lyon</span>
+          <h3 class="text-3xl font-heading text-primary mb-6">Unité de Production Stérile Haute Performance</h3>
+          <p class="text-neutral-600 mb-8 text-lg">
+            Le défi : Aménager 1200m² d'espaces de contrôle qualité en respectant les normes ISO 7. Notre intervention a couvert l'intégralité des <a href="/revetements-finitions" class="text-secondary hover:underline">revêtements techniques et finitions</a>, assurant une étanchéité parfaite et une facilité de décontamination.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-secondary rounded-full"></span>
+              <span>Installation de 45 paillasses en résine de synthèse.</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-secondary rounded-full"></span>
+              <span>Système d'aspiration centralisé avec filtration HEPA.</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-secondary rounded-full"></span>
+              <span>Intégration d'<a href="/installation-equipements-techniques" class="hover:text-secondary">armoires de sécurité ventilées</a>.</span>
+            </li>
+          </ul>
+          <blockquote class="border-l-4 border-primary pl-6 py-2 bg-bg-alt italic text-neutral-700">
+            "Un partenaire rare qui comprend les enjeux de la bio-production moderne."
+          </blockquote>
+        </div>
+      </div>
+
+      <!-- CASE STUDY 2: AGROALIMENTAIRE -->
+      <div class="flex flex-col md:flex-row-reverse gap-12 items-stretch mb-24 reveal-on-scroll">
+        <div class="w-full md:w-1/2">
+          <img src="https://images.pexels.com/photos/248167/pexels-photo-248167.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire agroalimentaire Bordeaux" class="w-full h-full object-cover rounded-xl shadow-lg" loading="lazy" />
+        </div>
+        <div class="w-full md:w-1/2 flex flex-col justify-center">
+          <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4">Secteur Agroalimentaire - Bordeaux</span>
+          <h3 class="text-3xl font-heading text-primary mb-6">Centre d'Analyse Microbiologique et Sensorielle</h3>
+          <p class="text-neutral-600 mb-8 text-lg">
+            Optimisation des flux pour réduire les risques de contaminations croisées. Nous avons conçu un mobilier modulaire permettant une évolution future de l'instrumentation. La fourniture des <a href="/consommables-equipements" class="text-secondary hover:underline">consommables et équipements</a> a été intégrée dès la phase de conception.
+          </p>
+          <div class="grid grid-cols-2 gap-4 mb-8 text-sm font-bold text-primary">
+            <div class="p-4 bg-bg-alt border border-neutral-100 rounded text-center">
+              <div class="text-2xl text-secondary">+25%</div>
+              <div>D'efficacité spatiale</div>
+            </div>
+            <div class="p-4 bg-bg-alt border border-neutral-100 rounded text-center">
+              <div class="text-2xl text-secondary">Zéro</div>
+              <div>Non-conformité audit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULATEUR D'IMPACT -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6 max-w-4xl text-center">
+      <h2 class="text-4xl font-heading mb-6">Simulateur d'Impact : Valeur de votre Projet</h2>
+      <p class="text-neutral-300 mb-12">Évaluez comment un aménagement sur mesure impacte vos indicateurs clés de performance (KPI).</p>
+
+      <div class="bg-white text-neutral-900 p-8 rounded-2xl shadow-2xl text-left">
+        <div class="mb-8">
+          <label class="block text-sm font-bold uppercase tracking-wide text-neutral-500 mb-4">Secteur d'activité</label>
+          <select id="sectorSelect" class="w-full p-4 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-secondary outline-none">
+            <option value="pharma">Pharmaceutique / Biotech</option>
+            <option value="chimie">Chimie de spécialité</option>
+            <option value="agro">Agroalimentaire</option>
+            <option value="energie">Énergie & Matériaux</option>
+          </select>
+        </div>
+        <div class="mb-8">
+          <label class="block text-sm font-bold uppercase tracking-wide text-neutral-500 mb-4">Priorité stratégique</label>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button class="sim-btn p-4 border-2 border-secondary rounded-lg hover:bg-secondary hover:text-white transition-all text-center" data-type="securite">Sécurité & Normes</button>
+            <button class="sim-btn p-4 border-2 border-secondary rounded-lg hover:bg-secondary hover:text-white transition-all text-center" data-type="productivite">Productivité</button>
+            <button class="sim-btn p-4 border-2 border-secondary rounded-lg hover:bg-secondary hover:text-white transition-all text-center" data-type="attractivite">Attractivité Talents</button>
+          </div>
+        </div>
+        <div id="simResult" class="hidden p-6 bg-bg-alt border-l-4 border-primary rounded-r-lg">
+          <p id="simText" class="text-lg text-neutral-800 font-medium"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES ANALYSE -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-4xl font-heading text-primary mb-12 reveal-on-scroll">Pourquoi les témoignages sont le socle de notre démarche</h2>
+
+        <div class="space-y-12 text-lg text-neutral-700 leading-relaxed">
+          <div class="reveal-on-scroll">
+            <h3 class="text-2xl font-heading text-secondary mb-4">1. La Preuve Sociale dans un Milieu Critique</h3>
+            <p>
+              Dans les secteurs tels que la <a href="/secteurs-activite" class="underline decoration-secondary">cosmétique ou l'énergie</a>, l'erreur n'est pas permise. Un témoignage client agit comme une balise de sécurité. Il démontre, via un récit personnel, comment un équipement spécifique comme une hotte d'aspiration ou un revêtement de sol résistant aux acides a réellement performé en conditions d'usage intensif.
+            </p>
+          </div>
+
+          <div class="reveal-on-scroll">
+            <h3 class="text-2xl font-heading text-secondary mb-4">2. Humaniser l'Expertise Technique</h3>
+            <p>
+              Un laboratoire est avant tout un lieu de vie pour les chercheurs. Nos études de cas mettent en lumière le confort acoustique, l'ergonomie des postes de travail et la luminosité. Les retours de nos clients soulignent souvent cet aspect : au-delà de la conformité, c'est le bien-être de leurs équipes qui a été amélioré.
+            </p>
+          </div>
+
+          <div class="reveal-on-scroll">
+            <h3 class="text-2xl font-heading text-secondary mb-4">3. Réduire les Hesitations d'Achat</h3>
+            <p>
+              L'investissement dans un nouveau laboratoire est conséquent. Lire l'expérience d'un homologue ayant géré un budget similaire avec succès réduit l'incertitude. Cela permet aux décideurs de se projeter dans une collaboration sereine, sachant que les délais ont été tenus et que le service après-vente est réactif.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMATS DE RÉFÉRENCES -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-heading text-primary mb-16 text-center">Une Variété de Formats pour une Transparence Totale</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-8 border-t-4 border-secondary shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold mb-4">Vidéos Témoignages</h4>
+          <p class="text-neutral-600 mb-6">L'authenticité de la parole directe. Nos clients ouvrent les portes de leurs laboratoires pour montrer les installations en mouvement.</p>
+        </div>
+        <div class="bg-white p-8 border-t-4 border-primary shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <div class="text-primary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold mb-4">Études de Cas PDF</h4>
+          <p class="text-neutral-600 mb-6">Analyses techniques détaillées avec plans de masse, schémas de ventilation et fiches de performance énergétique.</p>
+        </div>
+        <div class="bg-white p-8 border-t-4 border-secondary shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold mb-4">Avis "Étoiles" Certifiés</h4>
+          <p class="text-neutral-600 mb-6">Une évaluation rapide et quantitative sur des critères de ponctualité, de propreté du chantier et de qualité du matériel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODOLOGIE -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="order-2 lg:order-1 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/716661/pexels-photo-716661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Planification technique" class="rounded-3xl shadow-2xl rotate-2" loading="lazy" />
+        </div>
+        <div class="order-1 lg:order-2 reveal-on-scroll">
+          <h2 class="text-4xl font-heading text-primary mb-8">La Méthode 2026 : Co-construction et Rigueur</h2>
+          <p class="text-lg text-neutral-700 mb-8 leading-relaxed">
+            Pour que chaque projet devienne une référence de succès, nous suivons une méthodologie éprouvée qui place le client au centre de la décision. Notre processus n'est pas linéaire, il est itératif.
+          </p>
+          <div class="space-y-6">
+            <div class="flex gap-6">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold">01</div>
+              <div>
+                <h5 class="font-bold text-lg mb-2">Audit de l'existant & Écoute active</h5>
+                <p class="text-neutral-600">Comprendre vos flux réels avant de poser le premier mur. Rien n'est plus précieux que le ressenti des utilisateurs finaux.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold">02</div>
+              <div>
+                <h5 class="font-bold text-lg mb-2">Simulation BIM & Modélisation 3D</h5>
+                <p class="text-neutral-600">Visualisez votre futur laboratoire avant même le début des travaux. Une étape cruciale pour l'ajustement de l'ergonomie.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold">03</div>
+              <div>
+                <h5 class="font-bold text-lg mb-2">Installation & Validation (IQ/OQ/PQ)</h5>
+                <p class="text-neutral-600">Une mise en service documentée garantissant que vos équipements sont opérationnels et conformes aux protocoles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} title="Questions Fréquentes sur nos Réalisations" />
+
+  <!-- CTA -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Votre projet mérite l'excellence."}
+    description={cta?.ctaDescription ?? "Rejoignez nos clients satisfaits et concevons ensemble l'espace qui propulsera vos découvertes de demain."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Demander une étude de faisabilité gratuite', href: '/contact-devis' },
+    ]}
+    bg={cta?.ctaBg ?? "white"}
+  />
+
+</BaseLayout>
+
+<script>
+  const sectorSelect = document.getElementById('sectorSelect') as HTMLSelectElement;
+  const simResult = document.getElementById('simResult');
+  const simText = document.getElementById('simText');
+
+  document.querySelectorAll('.sim-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const type = target.dataset.type;
+      if (!sectorSelect || !simResult || !simText || !type) return;
+
+      const sector = sectorSelect.value;
+      simResult.classList.remove('hidden');
+
+      let message = "";
+      if (type === 'securite') {
+        message = `Pour le secteur ${sector}, une mise en conformité experte réduit les risques d'accidents de 85% et garantit une continuité d'activité sans faille face aux inspections réglementaires.`;
+      } else if (type === 'productivite') {
+        message = `L'optimisation ergonomique des flux dans un laboratoire ${sector} permet un gain de temps de manipulation de 30% par chercheur et réduit la fatigue opérationnelle.`;
+      } else if (type === 'attractivite') {
+        message = `Un aménagement moderne et premium est un levier majeur de recrutement : 92% des talents scientifiques considèrent la qualité de l'environnement de travail comme un critère de choix décisif.`;
+      }
+
+      simText.innerText = message;
+
+      document.querySelectorAll('.sim-btn').forEach(b => {
+        b.classList.remove('bg-secondary', 'text-white');
+      });
+      target.classList.add('bg-secondary', 'text-white');
+    });
+  });
+</script>

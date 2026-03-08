@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    RewriteCond %{REQUEST_URI} /$
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}index.html -f
+    RewriteRule ^(.*/)$ $1index.html [L]
+    RewriteCond %{REQUEST_URI} !.[a-zA-Z0-9]{1,8}$
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+    RewriteRule ^(.+)$ $1.html [L]
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteCond %{DOCUMENT_ROOT}/index.html -f
+    RewriteRule ^$ index.html [L]
+</IfModule>

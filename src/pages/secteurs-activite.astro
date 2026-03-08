@@ -1,0 +1,397 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Secteurs d'activité : solutions adaptées pour pharma, chimie, cosmétique, agroalimentaire et énergie", "item": "https://amenagement-labo.fr/secteurs-activite" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('secteurs-activite');
+} catch (e) {
+  console.error('WP fetch failed for secteurs-activite:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Intervenez-vous pour des rénovations de laboratoires existants ?", answer: "Oui, nous sommes experts en réhabilitation de laboratoires en milieu occupé. Nous planifions les travaux par phases pour minimiser l'impact sur votre activité scientifique." },
+  { question: "Quelles garanties offrez-vous sur vos installations de tuyauterie ?", answer: "Toutes nos installations de réseaux fluides subissent des tests d'épreuve et de pureté. Nous fournissons des certificats de conformité et de traçabilité des matériaux utilisés." },
+  { question: "Pouvez-vous nous accompagner sur la fourniture de consommables après l'installation ?", answer: "Absolument. Notre département <a href='/consommables-equipements' class='text-secondary underline'>consommables et équipements</a> gère votre réapprovisionnement en verrerie, produits chimiques et petit matériel." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Solutions d'Aménagement de Laboratoire par Secteur : Pharma, Chimie, Agro & Énergie | Patie Michel 2026"}
+  description={seo?.metaDesc ?? "Expertise haut de gamme en aménagement de laboratoires sur mesure pour les secteurs pharmaceutique, chimique, cosmétique, agroalimentaire et de l'énergie. Conception, installation technique et conformité aux normes les plus strictes."}
+  keywords="aménagement laboratoire, laboratoire pharmaceutique, laboratoire chimie, industrie cosmétique, agroalimentaire, énergie, paillasses sur mesure, sorbonnes, normes ISO, Patie Michel"
+  ogTitle={seo?.opengraphTitle ?? "Expertise Sectorielle en Aménagement de Laboratoires de Haute Précision - Patie Michel"}
+  ogDescription={seo?.opengraphDescription ?? "Découvrez nos solutions d'aménagement pour les industries exigeantes. De la conception à l'installation d'équipements techniques, nous façonnons l'excellence scientifique."}
+  ogImage="https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+  twitterTitle={seo?.twitterTitle ?? "Aménagement de Laboratoires 2026 : Solutions par Secteur d'Activité"}
+  twitterDescription={seo?.twitterDescription ?? "Pharma, Chimie, Énergie : optimisez vos espaces de recherche avec des installations conformes et sur mesure."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8471930/pexels-photo-8471930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  canonical="https://amenagement-labo.fr/secteurs-activite"
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "L'excellence technique au service de <span class='italic text-secondary'>vos enjeux sectoriels.</span>"}
+    subtitle={hero?.heroSubtitle ?? "Patie Michel conçoit et réalise des environnements de laboratoire haute performance, adaptés aux exigences spécifiques des industries de pointe : pharma, chimie, cosmétique et énergie."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Laboratoire moderne haute technologie"
+    badge={hero?.heroBadge ?? "Expertise Industrielle 2026"}
+    height="h-screen"
+    ctas={hero?.heroCtas ?? [
+      { label: 'Demander une étude', href: '/contact-devis' },
+      { label: 'Voir nos références', href: '/projets-realisations', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl font-heading text-primary mb-8">Une vision globale, une application spécialisée.</h2>
+          <p class="text-lg leading-relaxed text-gray-700 mb-6">
+            En 2026, l'aménagement d'un laboratoire ne se limite plus à la simple pose de mobilier technique. C'est un écosystème complexe où la sécurité des opérateurs, l'intégrité des échantillons et l'efficacité des flux doivent converger. Chez Patie Michel, nous comprenons que chaque secteur d'activité porte ses propres défis réglementaires et techniques.
+          </p>
+          <p class="text-lg leading-relaxed text-gray-700">
+            Qu'il s'agisse de manipuler des substances hautement corrosives dans la chimie lourde ou de garantir une asepsie totale pour la biopharmacie, nos solutions d'aménagement intègrent les <a href="/normes-reglementations" class="text-secondary hover:underline underline-offset-4">normes les plus strictes</a> dès la phase de <a href="/conception-laboratoires" class="text-secondary hover:underline underline-offset-4">conception personnalisée</a>.
+          </p>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <div class="aspect-square bg-primary rounded-tr-[100px] overflow-hidden">
+            <img src="https://images.pexels.com/photos/9628826/pexels-photo-9628826.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Technicien en laboratoire" class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:opacity-100 transition-opacity duration-700" loading="lazy" />
+          </div>
+          <div class="absolute -bottom-8 -left-8 bg-white p-8 border-l-4 border-secondary shadow-xl max-w-xs">
+            <p class="italic text-primary font-heading text-xl">"La précision n'est pas une option, c'est notre fondation."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR 1: PHARMA -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-12">
+        <div class="w-full md:w-1/3 reveal-on-scroll">
+          <h3 class="text-secondary text-sm font-bold tracking-widest uppercase mb-4">Secteur 01</h3>
+          <h2 class="text-5xl font-heading text-primary mb-6">Industrie Pharmaceutique & Médicale</h2>
+          <div class="h-1 w-20 bg-secondary mb-8"></div>
+          <p class="text-gray-600 mb-6 italic">
+            Maîtrise de la contamination, stérilité et traçabilité absolue des fluides.
+          </p>
+        </div>
+        <div class="w-full md:w-2/3 reveal-on-scroll">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 border border-gray-100 hover:border-secondary transition-colors group">
+              <h4 class="text-xl font-bold text-primary mb-4 group-hover:text-secondary">Conformité ISO & BPF</h4>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                Nous concevons des environnements conformes aux Bonnes Pratiques de Fabrication (BPF). Nos installations facilitent les protocoles de décontamination avec des <a href="/revetements-finitions" class="underline">revêtements de sol et murs</a> parfaitement lisses et fongistatiques.
+              </p>
+            </div>
+            <div class="bg-white p-8 border border-gray-100 hover:border-secondary transition-colors group">
+              <h4 class="text-xl font-bold text-primary mb-4 group-hover:text-secondary">Fluides Médicaux & Spéciaux</h4>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                Installation de réseaux de tuyauterie haute pureté pour l'azote liquide, l'oxygène ou l'air comprimé médical, avec certification CE et respect scrupuleux de la norme ISO 13485.
+              </p>
+            </div>
+            <div class="bg-white p-8 border border-gray-100 hover:border-secondary transition-colors group">
+              <h4 class="text-xl font-bold text-primary mb-4 group-hover:text-secondary">Salles Blanches</h4>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                Intégration de sas de transfert, de douches d'air et de plafonds filtrants HEPA pour maintenir des classes d'empoussièrement contrôlées (ISO 5 à ISO 8).
+              </p>
+            </div>
+            <div class="bg-white p-8 border border-gray-100 hover:border-secondary transition-colors group">
+              <h4 class="text-xl font-bold text-primary mb-4 group-hover:text-secondary">Équipements de Sécurité</h4>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                Pose de <a href="/installation-equipements-techniques" class="underline">sorbonnes à haute performance</a> avec régulation de débit variable pour assurer une protection maximale des manipulateurs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR 2: CHIMIE -->
+  <section class="relative bg-primary py-32 text-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row-reverse items-center gap-16">
+        <div class="w-full md:w-1/2 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/9628807/pexels-photo-9628807.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire chimie" class="rounded-lg shadow-2xl" loading="lazy" />
+        </div>
+        <div class="w-full md:w-1/2 reveal-on-scroll">
+          <h3 class="text-secondary text-sm font-bold tracking-widest uppercase mb-4">Secteur 02</h3>
+          <h2 class="text-5xl font-heading mb-8">Industrie Chimique & Pétrochimie</h2>
+          <p class="text-xl text-gray-300 leading-relaxed mb-8">
+            Face à l'agressivité des agents chimiques, nos aménagements privilégient la robustesse et la sécurité active. Nous installons des <a href="/installation-equipements-techniques" class="text-secondary font-semibold">paillasses en grès étiré ou en résine phénolique</a>, matériaux de référence pour leur inertie face aux acides et bases fortes.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <span class="text-secondary mr-4 text-2xl">01.</span>
+              <div>
+                <h5 class="font-bold text-lg">Protection ATEX</h5>
+                <p class="text-gray-400">Installation électrique et ventilation conformes aux zones à risque d'explosion.</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-secondary mr-4 text-2xl">02.</span>
+              <div>
+                <h5 class="font-bold text-lg">Gestion des Stockages</h5>
+                <p class="text-gray-400">Armoires de sécurité ventilées et filtrées pour produits inflammables et corrosifs.</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-secondary mr-4 text-2xl">03.</span>
+              <div>
+                <h5 class="font-bold text-lg">Extractions Spécifiques</h5>
+                <p class="text-gray-400">Hottes d'aspiration et bras articulés pour captage à la source des polluants.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIGURATEUR DE LABO SECTORIEL -->
+  <section class="py-24 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto bg-white p-12 shadow-2xl border-t-8 border-secondary reveal-on-scroll">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-heading text-primary font-bold mb-4">Configurateur de Labo Sectoriel</h2>
+          <p class="text-gray-600">Sélectionnez votre secteur pour voir les équipements préconisés par nos experts en 2026.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <button class="sector-btn border-2 border-primary p-4 hover:bg-primary hover:text-white transition-all text-sm font-bold" data-sector="pharma">PHARMA</button>
+          <button class="sector-btn border-2 border-primary p-4 hover:bg-primary hover:text-white transition-all text-sm font-bold" data-sector="chimie">CHIMIE</button>
+          <button class="sector-btn border-2 border-primary p-4 hover:bg-primary hover:text-white transition-all text-sm font-bold" data-sector="agro">AGRO</button>
+          <button class="sector-btn border-2 border-primary p-4 hover:bg-primary hover:text-white transition-all text-sm font-bold" data-sector="cosme">COSMÉTIQUE</button>
+        </div>
+
+        <div id="config-result" class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0 transition-opacity duration-500">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR 3: COSMÉTIQUE & PARFUMERIE -->
+  <section class="py-24 overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-12 md:col-span-7 reveal-on-scroll">
+          <h3 class="text-secondary text-sm font-bold tracking-widest uppercase mb-4">Secteur 03</h3>
+          <h2 class="text-5xl font-heading text-primary mb-8">Cosmétique & Parfumerie</h2>
+          <p class="text-lg leading-relaxed text-gray-700 mb-8">
+            Dans ce secteur, l'aménagement allie performance technologique et esthétique soignée. Les laboratoires de recherche en cosmétique nécessitent une modularité exemplaire pour s'adapter au développement rapide de nouvelles formulations.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="border-l-2 border-secondary pl-6">
+              <h4 class="font-bold text-primary mb-2">Hygiène Strict</h4>
+              <p class="text-sm text-gray-600">Utilisation massive de l'acier inoxydable 316L pour les cuves et les surfaces de travail, garantissant une nettoyabilité optimale.</p>
+            </div>
+            <div class="border-l-2 border-secondary pl-6">
+              <h4 class="font-bold text-primary mb-2">Contrôle Sensoriel</h4>
+              <p class="text-sm text-gray-600">Éclairage spécifique (IRC élevé) pour l'évaluation chromatique des produits et systèmes de filtration d'odeurs pour les nez.</p>
+            </div>
+          </div>
+          <a href="/consommables-equipements" class="inline-block text-primary font-bold border-b-2 border-secondary pb-1 hover:text-secondary transition-all">
+            Découvrir notre instrumentation dédiée
+          </a>
+        </div>
+        <div class="col-span-12 md:col-span-5 relative mt-12 md:mt-0 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/755992/pexels-photo-755992.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire cosmétique" class="w-full h-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-1000" loading="lazy" />
+          <div class="absolute inset-0 border-8 border-secondary -m-6 -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR 4: AGROALIMENTAIRE -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-1/2 reveal-on-scroll">
+          <div class="relative">
+            <img src="https://images.pexels.com/photos/3912518/pexels-photo-3912518.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Contrôle qualité agroalimentaire" class="rounded-full border-4 border-secondary p-4" loading="lazy" />
+            <div class="absolute top-0 right-0 bg-secondary text-primary p-6 rounded-full font-heading text-2xl italic">Qualité</div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 reveal-on-scroll">
+          <h3 class="text-secondary text-sm font-bold tracking-widest uppercase mb-4">Secteur 04</h3>
+          <h2 class="text-5xl font-heading mb-8">Agroalimentaire : La Sécurité avant tout</h2>
+          <p class="text-lg text-gray-200 mb-6">
+            Les laboratoires agroalimentaires sont le rempart contre les risques sanitaires. Nos aménagements intègrent les principes HACCP pour prévenir tout risque de contamination croisée.
+          </p>
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="w-12 h-12 flex-shrink-0 bg-secondary rounded-full flex items-center justify-center text-primary font-bold">01</div>
+              <p class="text-gray-300">Sols en résine avec remontées en plinthes pour éviter les nids à bactéries.</p>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-12 h-12 flex-shrink-0 bg-secondary rounded-full flex items-center justify-center text-primary font-bold">02</div>
+              <p class="text-gray-300">Verrerie et instrumentation certifiées contact alimentaire.</p>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-12 h-12 flex-shrink-0 bg-secondary rounded-full flex items-center justify-center text-primary font-bold">03</div>
+              <p class="text-gray-300">Zones dédiées à la microbiologie avec enceintes de sécurité biologique (PSM).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR 5: ÉNERGIE & ENVIRONNEMENT -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+        <h3 class="text-secondary text-sm font-bold tracking-widest uppercase mb-4">Secteur 05</h3>
+        <h2 class="text-5xl font-heading text-primary mb-6">Énergie & Environnement</h2>
+        <p class="text-gray-600 text-lg">
+          Qu'il s'agisse de laboratoires d'analyses d'eaux, de contrôle pétrolier ou de recherche sur les nouvelles énergies (Hydrogène), nous fournissons des structures capables de supporter des équipements lourds et des conditions extrêmes.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-on-scroll">
+        <div class="p-10 border-t-4 border-primary bg-gray-50">
+          <h4 class="text-2xl font-heading text-primary mb-4">Traitement de l'Eau</h4>
+          <p class="text-gray-600">Bancs de titration automatiques, paillasses résistantes à l'humidité permanente et systèmes de gestion des rejets polluants.</p>
+        </div>
+        <div class="p-10 border-t-4 border-secondary bg-gray-50">
+          <h4 class="text-2xl font-heading text-primary mb-4">Hydrogène & Gaz</h4>
+          <p class="text-gray-600">Tuyauterie industrielle spécifique pour gaz inflammables, avec capteurs de fuite intégrés et asservissement de la ventilation.</p>
+        </div>
+        <div class="p-10 border-t-4 border-primary bg-gray-50">
+          <h4 class="text-2xl font-heading text-primary mb-4">R&D Matériaux</h4>
+          <p class="text-gray-600">Aménagement de zones pour fours haute température, paillasses renforcées (charge jusqu'à 250kg/m²) et aspirations thermiques.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAVOIR-FAIRE -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="h-px bg-gradient-to-r from-transparent via-secondary to-transparent mb-20"></div>
+      <div class="flex flex-col md:flex-row gap-16">
+        <div class="w-full md:w-2/5 reveal-on-scroll">
+          <h2 class="text-4xl font-heading text-primary mb-6">Un savoir-faire artisanal, une rigueur industrielle.</h2>
+          <p class="text-gray-700 leading-relaxed mb-6">
+            Depuis notre siège, nous pilotons des projets sur tout le territoire français. La force de Patie Michel réside dans l'intégration verticale de ses compétences. Nos équipes ne se contentent pas d'installer ; elles conseillent sur le choix des matériaux les plus pérennes.
+          </p>
+          <p class="text-gray-700 leading-relaxed">
+            Le choix d'une paillasse en **Corian** pour sa réparabilité, ou en **Grès** pour sa résistance thermique, n'est jamais laissé au hasard. Chaque détail, jusqu'à l'emplacement des prises électriques ou des points d'eau, est pensé pour optimiser l'ergonomie de travail des chercheurs.
+          </p>
+        </div>
+        <div class="w-full md:w-3/5 grid grid-cols-2 gap-4 reveal-on-scroll">
+          <div class="space-y-4">
+            <img src="https://images.pexels.com/photos/35543/grid-wire-mesh-stainless-rods-rods-raster.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Inox industriel" class="w-full h-48 object-cover rounded-sm" loading="lazy" />
+            <img src="https://images.pexels.com/photos/8482821/pexels-photo-8482821.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plan de laboratoire" class="w-full h-64 object-cover rounded-sm" loading="lazy" />
+          </div>
+          <div class="space-y-4 pt-8">
+            <img src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation technique" class="w-full h-64 object-cover rounded-sm" loading="lazy" />
+            <img src="https://images.pexels.com/photos/4458203/pexels-photo-4458203.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Détail technique" class="w-full h-48 object-cover rounded-sm" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} />
+
+  <!-- CTA -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Prêt à transformer votre espace de recherche ?"}
+    description={cta?.ctaDescription ?? "Nos experts sont à votre disposition pour une étude personnalisée de votre projet d'aménagement, quel que soit votre secteur d'activité."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Obtenir un devis gratuit', href: '/contact-devis' },
+      { label: "Retour à l'accueil", href: '/', variant: 'outline' },
+    ]}
+    bg={cta?.ctaBg ?? "gold"}
+  />
+
+</BaseLayout>
+
+<script>
+  const configData: Record<string, { title: string; desc: string; icon: string }[]> = {
+    pharma: [
+      { title: "Paillasse", desc: "Revêtement Résine Époxy (Décontamination facile)", icon: "🔬" },
+      { title: "Air", desc: "Hotte à flux laminaire Classe 100", icon: "💨" },
+      { title: "Fluides", desc: "Réseau Gaz Pur (Argon, Azote) certifié ISO", icon: "⚙️" }
+    ],
+    chimie: [
+      { title: "Paillasse", desc: "Grès étiré (Résistance acides forts)", icon: "🧪" },
+      { title: "Sécurité", desc: "Sorbonne d'extraction haute capacité NF EN 14175", icon: "🛡️" },
+      { title: "Stockage", desc: "Armoire ventilée pour inflammables ATEX", icon: "📦" }
+    ],
+    agro: [
+      { title: "Surfaces", desc: "Inox 316L Poli (Inhibition bactérienne)", icon: "🍎" },
+      { title: "Hygiène", desc: "Lave-mains inox à commande fémorale", icon: "🧽" },
+      { title: "Bio", desc: "Poste de Sécurité Microbiologique (PSM Type II)", icon: "🦠" }
+    ],
+    cosme: [
+      { title: "Modularité", desc: "Mobiler sur roulettes avec colonnettes de fluides", icon: "✨" },
+      { title: "Lumière", desc: "Éclairage D65 (Simulation lumière du jour)", icon: "💡" },
+      { title: "Mesure", desc: "Postes de pesée anti-vibrations haute précision", icon: "⚖️" }
+    ]
+  };
+
+  function updateConfig(sector: string, clickedBtn: HTMLElement) {
+    const resultDiv = document.getElementById('config-result');
+    const data = configData[sector];
+    if (!resultDiv || !data) return;
+
+    resultDiv.classList.remove('opacity-100');
+    resultDiv.classList.add('opacity-0');
+
+    setTimeout(() => {
+      resultDiv.innerHTML = data.map(item => `
+        <div class="p-6 border border-gray-200 rounded-lg text-center bg-gray-50">
+          <div class="text-4xl mb-4">${item.icon}</div>
+          <h5 class="font-bold text-primary mb-2">${item.title}</h5>
+          <p class="text-xs text-gray-500">${item.desc}</p>
+        </div>
+      `).join('');
+      resultDiv.classList.remove('opacity-0');
+      resultDiv.classList.add('opacity-100');
+    }, 300);
+
+    document.querySelectorAll('.sector-btn').forEach(btn => {
+      btn.classList.remove('bg-primary', 'text-white');
+    });
+    clickedBtn.classList.add('bg-primary', 'text-white');
+  }
+
+  document.querySelectorAll('.sector-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const sector = target.dataset.sector;
+      if (sector) updateConfig(sector, target);
+    });
+  });
+
+  // Initialize with pharma
+  const firstBtn = document.querySelector('.sector-btn') as HTMLElement;
+  if (firstBtn && firstBtn.dataset.sector) {
+    updateConfig(firstBtn.dataset.sector, firstBtn);
+  }
+</script>

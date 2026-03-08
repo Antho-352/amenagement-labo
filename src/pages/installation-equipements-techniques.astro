@@ -1,0 +1,439 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Installation et pose de paillasses, armoires de sécurité et hottes d'aspiration intégrées", "item": "https://amenagement-labo.fr/installation-equipements-techniques" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('installation-equipements-techniques');
+} catch (e) {
+  console.error('WP fetch failed for installation-equipements-techniques:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Quel est le délai moyen pour une installation complète ?", answer: "Pour un laboratoire standard de 100m², il faut compter environ 4 à 6 semaines entre la validation des plans et la pose finale, incluant la fabrication sur mesure." },
+  { question: "Réalisez-vous également les travaux de second œuvre ?", answer: "Oui, nous proposons des solutions clé en main incluant les <a href='/revetements-finitions' class='text-primary font-bold'>revêtements de sol, plafonds et électricité</a> pour une coordination parfaite." },
+  { question: "Peut-on adapter du mobilier sur des installations existantes ?", answer: "Absolument. Nous intervenons aussi bien sur des projets neufs que sur des rénovations ou extensions de laboratoires existants." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Expertise en Installation de Paillasses et Hottes de Laboratoire | Sur Mesure 2026"}
+  description={seo?.metaDesc ?? "Découvrez notre expertise en installation et pose de paillasses, armoires de sécurité et hottes d'aspiration. Solutions techniques conformes aux normes EN 14470-1 et EN 14175 pour laboratoires exigeants."}
+  keywords="installation paillasse laboratoire, pose mobilier technique, armoire sécurité, hotte aspiration intégrée, sorbonne laboratoire, aménagement scientifique France"
+  ogTitle={seo?.opengraphTitle ?? "Expertise Installation Laboratoire 2026 : Mobilier et Équipements Techniques"}
+  ogDescription={seo?.opengraphDescription ?? "Conception et pose de mobilier de laboratoire haute performance. Paillasses, hottes et stockage sécurisé."}
+  twitterTitle={seo?.twitterTitle ?? "Installation de Paillasses et Équipements de Laboratoire"}
+  twitterDescription={seo?.twitterDescription ?? "Aménagement technique sur mesure : hottes, armoires de sécurité et paillasses ergonomiques."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8471930/pexels-photo-8471930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "Installation de Mobilier Technique de Laboratoire"}
+    subtitle={hero?.heroSubtitle ?? "Maîtrise absolue de la pose de paillasses, armoires de sécurité et hottes d'aspiration. Une intégration fluide et sécurisée pour vos environnements de recherche en 2026."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Laboratoire moderne haute technologie"
+    badge={hero?.heroBadge ?? "Expertise Technique & Précision"}
+    ctas={hero?.heroCtas ?? [
+      { label: 'Demander une étude technique', href: '/contact-devis' },
+      { label: 'Voir nos réalisations', href: '/projets-realisations', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row gap-16 items-center">
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl text-primary mb-6">L'excellence opérationnelle au service de la science</h2>
+          <div class="w-16 h-0.5 bg-secondary my-6"></div>
+          <p class="text-lg leading-relaxed mb-6 text-neutral-700">
+            L'aménagement d'un laboratoire ne se résume pas à la simple pose de meubles. C'est une discipline complexe qui exige une compréhension profonde des flux de travail, de la résistance chimique des matériaux et des impératifs de sécurité collective. En 2026, les standards ont évolué : nous ne parlons plus seulement de mobilier, mais d'unités de travail intelligentes et connectées.
+          </p>
+          <p class="text-lg leading-relaxed mb-8 text-neutral-700">
+            Fort de plusieurs décennies d'expérience en France et à l'international, nous intervenons sur des projets d'envergure pour les secteurs de la <a href="/secteurs-activite" class="text-primary font-bold hover:underline">pharmacie, de la chimie et de la recherche publique</a>. Notre mission est de transformer vos locaux en espaces de haute performance, où chaque paillasse et chaque hotte est installée avec une précision millimétrique.
+          </p>
+          <div class="grid grid-cols-2 gap-8 mt-12">
+            <div class="border-l-4 border-secondary pl-6">
+              <span class="block text-3xl font-bold text-primary">30+ ans</span>
+              <span class="text-sm uppercase tracking-wider text-neutral-500">D'expertise terrain</span>
+            </div>
+            <div class="border-l-4 border-secondary pl-6">
+              <span class="block text-3xl font-bold text-primary">100%</span>
+              <span class="text-sm uppercase tracking-wider text-neutral-500">Conformité Normative</span>
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <div class="relative">
+            <img src="https://images.pexels.com/photos/256297/pexels-photo-256297.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation technique" class="rounded-sm shadow-2xl relative z-10" loading="lazy" />
+            <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-secondary opacity-20 -z-10"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAILLASSES TECHNIQUES -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16 reveal-on-scroll">
+        <h2 class="text-4xl md:text-5xl text-primary mb-4">La Paillasse : Cœur de votre Activité</h2>
+        <p class="text-neutral-500 max-w-2xl mx-auto">Sélection rigoureuse des matériaux et structures pour une durabilité sans compromis face aux agressions chimiques et mécaniques.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="bg-white p-10 shadow-lg reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="w-16 h-16 bg-primary/5 flex items-center justify-center mb-8">
+            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Grès Étiré &amp; Céramique</h3>
+          <p class="text-neutral-600 mb-6">Le choix ultime pour la résistance thermique et chimique extrême. Idéal pour les laboratoires de chimie lourde où les acides concentrés sont monnaie courante.</p>
+          <ul class="text-sm text-neutral-500 space-y-2">
+            <li>• Incombustible (M0)</li>
+            <li>• Résistance totale aux solvants</li>
+            <li>• Facilité de décontamination</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-10 shadow-lg reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="w-16 h-16 bg-primary/5 flex items-center justify-center mb-8">
+            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Résines Phénoliques (Trespa)</h3>
+          <p class="text-neutral-600 mb-6">Polyvalence et hygiène. Les plateaux Trespa TopLab® offrent une surface antibactérienne, parfaite pour les secteurs agroalimentaire et cosmétique.</p>
+          <ul class="text-sm text-neutral-500 space-y-2">
+            <li>• Surface non poreuse</li>
+            <li>• Résistance aux chocs</li>
+            <li>• Certifié pour contact alimentaire</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-10 shadow-lg reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="w-16 h-16 bg-primary/5 flex items-center justify-center mb-8">
+            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Verre Émaillé &amp; Inox</h3>
+          <p class="text-neutral-600 mb-6">Esthétique premium et robustesse. L'acier inoxydable 316L est indispensable en milieu hospitalier et en zone stérile.</p>
+          <ul class="text-sm text-neutral-500 space-y-2">
+            <li>• Soudure sans joint (étanchéité)</li>
+            <li>• Résistance aux UV</li>
+            <li>• Aspect moderne et professionnel</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-20 p-12 bg-primary text-white reveal-on-scroll">
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-2/3">
+            <h3 class="text-3xl text-secondary mb-4 italic">Le saviez-vous ?</h3>
+            <p class="text-lg leading-relaxed">
+              La structure de la paillasse est tout aussi cruciale que son plateau. Nous proposons des piétements en "H" pour une stabilité maximale lors de l'utilisation d'instrumentation lourde, ou en "C" pour libérer de l'espace pour les jambes et faciliter le nettoyage au sol. Pour plus de flexibilité, nos systèmes suspendus permettent de déplacer les modules de rangement selon vos besoins changeants.
+            </p>
+            <p class="mt-4">Plus d'informations sur la <a href="/conception-laboratoires" class="text-secondary font-bold hover:underline">conception personnalisée ici</a>.</p>
+          </div>
+          <div class="md:w-1/3">
+            <img src="https://images.pexels.com/photos/35543/grid-wire-mesh-stainless-rods-rods-raster.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Structure paillasse" class="rounded opacity-80" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARMOIRES DE SÉCURITÉ -->
+  <section class="py-24 bg-white overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row-reverse gap-16 items-center">
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl text-primary mb-6">Stockage Sécurisé &amp; Protection Incendie</h2>
+          <p class="text-lg text-neutral-600 mb-8">
+            La gestion des produits dangereux (acides, bases, inflammables) est le pilier de la sécurité au travail. Nous installons des armoires de sécurité conformes aux normes les plus strictes : <strong>EN 14470-1 (inflammables)</strong> et <strong>EN 14470-2 (gaz comprimés)</strong>.
+          </p>
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="shrink-0 w-12 h-12 border border-secondary flex items-center justify-center text-secondary font-bold italic">90</div>
+              <div>
+                <h4 class="text-xl font-bold text-primary">Résistance au feu Type 90</h4>
+                <p class="text-neutral-500">90 minutes de protection assurant l'évacuation du personnel et l'intervention des pompiers.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="shrink-0 w-12 h-12 border border-secondary flex items-center justify-center text-secondary font-bold italic">V</div>
+              <div>
+                <h4 class="text-xl font-bold text-primary">Ventilation Intégrée</h4>
+                <p class="text-neutral-500">Systèmes de raccordement pour extraction des vapeurs nocives, évitant l'accumulation de mélanges explosifs.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="shrink-0 w-12 h-12 border border-secondary flex items-center justify-center text-secondary font-bold italic">S</div>
+              <div>
+                <h4 class="text-xl font-bold text-primary">Rétention Sécurisée</h4>
+                <p class="text-neutral-500">Bacs de rétention en acier ou polypropylène avec caillebotis pour contenir toute fuite accidentelle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/236748/pexels-photo-236748.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Armoire de sécurité" class="rounded-lg shadow-xl" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SORBONNES ET HOTTES -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mb-16 reveal-on-scroll">
+        <h2 class="text-4xl md:text-6xl text-white mb-6">Hottes d'aspiration &amp; Sorbonnes : Maîtriser l'air</h2>
+        <p class="text-neutral-300 text-xl leading-relaxed">
+          La sorbonne est l'équipement de protection collective (EPC) par excellence. Son installation nécessite un raccordement précis au réseau d'extraction aéraulique pour garantir une vitesse frontale d'air constante et sécurisée.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div class="p-8 border border-white/20 hover:border-secondary transition-all group reveal-on-scroll">
+          <h4 class="text-2xl text-secondary mb-4 group-hover:translate-x-2 transition-transform">Norme EN 14175</h4>
+          <p class="text-sm text-neutral-300">Toutes nos sorbonnes sont certifiées pour le confinement des poussières et gaz, testées in-situ après installation.</p>
+        </div>
+        <div class="p-8 border border-white/20 hover:border-secondary transition-all group reveal-on-scroll">
+          <h4 class="text-2xl text-secondary mb-4 group-hover:translate-x-2 transition-transform">Hottes à Recyclage</h4>
+          <p class="text-sm text-neutral-300">Solution flexible avec filtration moléculaire (charbon actif) pour les laboratoires sans évacuation extérieure.</p>
+        </div>
+        <div class="p-8 border border-white/20 hover:border-secondary transition-all group reveal-on-scroll">
+          <h4 class="text-2xl text-secondary mb-4 group-hover:translate-x-2 transition-transform">Bras Aspirants</h4>
+          <p class="text-sm text-neutral-300">Capture localisée des polluants au plus près de la source pour les manipulations sur paillasse.</p>
+        </div>
+        <div class="p-8 border border-white/20 hover:border-secondary transition-all group reveal-on-scroll">
+          <h4 class="text-2xl text-secondary mb-4 group-hover:translate-x-2 transition-transform">VAV Systems</h4>
+          <p class="text-sm text-neutral-300">Régulation à débit variable pour optimiser la consommation énergétique du bâtiment de 40%.</p>
+        </div>
+      </div>
+
+      <div class="relative h-[400px] overflow-hidden reveal-on-scroll">
+        <img src="https://images.pexels.com/photos/17728785/pexels-photo-17728785.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation réseau aspiration" class="w-full h-full object-cover opacity-50" loading="lazy" />
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="bg-white text-primary p-10 max-w-xl text-center shadow-2xl">
+            <h3 class="text-3xl mb-4 italic">Installation Clé en Main</h3>
+            <p class="mb-6">Nous gérons le réseau de gaines (PP, PVC, Inox), l'installation des ventilateurs d'extraction en toiture et l'équilibrage des débits.</p>
+            <a href="/contact-devis" class="text-secondary font-bold hover:underline">Consulter un ingénieur fluides &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATEUR DE SÉCURITÉ -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="bg-bg-alt p-12 rounded-3xl reveal-on-scroll">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl text-primary mb-4">Simulateur de Besoins Technique</h2>
+          <p class="text-neutral-600">Estimez le type d'équipement recommandé pour votre espace en quelques clics.</p>
+        </div>
+
+        <div class="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-xl grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-bold text-primary mb-2">Surface du laboratoire (m²)</label>
+              <input type="number" id="labSize" placeholder="Ex: 50" class="w-full border-b-2 border-primary/20 p-3 focus:border-secondary outline-none transition-all" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-primary mb-2">Risque principal</label>
+              <select id="riskLevel" class="w-full border-b-2 border-primary/20 p-3 focus:border-secondary outline-none transition-all">
+                <option value="chimique">Chimique (Acides/Bases)</option>
+                <option value="bio">Biologique (Micro-organismes)</option>
+                <option value="physique">Analytique (Instrumentation)</option>
+                <option value="inflammable">Solvants Inflammables</option>
+              </select>
+            </div>
+            <button id="calcBtn" class="w-full bg-primary text-white py-4 font-bold hover:bg-secondary transition-all">Générer la recommandation</button>
+          </div>
+          <div id="resultArea" class="flex items-center justify-center border-l border-neutral-100 pl-10 text-neutral-400 italic">
+            Entrez vos données pour voir notre préconisation technique.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODOLOGIE -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl md:text-5xl text-primary mb-16 text-center reveal-on-scroll">Notre Méthodologie : De l'étude à la mise en service</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+        <div class="relative group reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="h-64 mb-6 overflow-hidden">
+            <img src="https://images.pexels.com/photos/4458203/pexels-photo-4458203.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Conception" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+          </div>
+          <span class="text-6xl font-heading text-secondary/30 absolute top-4 left-4">01</span>
+          <h3 class="text-2xl text-primary mb-2">Étude &amp; Plans</h3>
+          <p class="text-neutral-500 text-sm">Modélisation 3D (BIM) pour une intégration parfaite des réseaux et du mobilier.</p>
+        </div>
+        <div class="relative group reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="h-64 mb-6 overflow-hidden">
+            <img src="https://images.pexels.com/photos/271667/pexels-photo-271667.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Fabrication" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+          </div>
+          <span class="text-6xl font-heading text-secondary/30 absolute top-4 left-4">02</span>
+          <h3 class="text-2xl text-primary mb-2">Fabrication</h3>
+          <p class="text-neutral-500 text-sm">Production sur mesure dans nos ateliers certifiés ISO 9001 en France et en Italie.</p>
+        </div>
+        <div class="relative group reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="h-64 mb-6 overflow-hidden">
+            <img src="https://images.pexels.com/photos/8961554/pexels-photo-8961554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+          </div>
+          <span class="text-6xl font-heading text-secondary/30 absolute top-4 left-4">03</span>
+          <h3 class="text-2xl text-primary mb-2">Pose Expert</h3>
+          <p class="text-neutral-500 text-sm">Installation par nos propres équipes : nivelage, étanchéité et raccordements.</p>
+        </div>
+        <div class="relative group reveal-on-scroll" style="transition-delay: 400ms;">
+          <div class="h-64 mb-6 overflow-hidden">
+            <img src="https://images.pexels.com/photos/8372631/pexels-photo-8372631.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Certification" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+          </div>
+          <span class="text-6xl font-heading text-secondary/30 absolute top-4 left-4">04</span>
+          <h3 class="text-2xl text-primary mb-2">Qualification</h3>
+          <p class="text-neutral-500 text-sm">Tests IQ/OQ/PQ et remise du dossier technique complet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTEURS -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-on-scroll">
+        <div class="md:w-1/2">
+          <h2 class="text-4xl md:text-5xl text-white mb-6">Des solutions par industrie</h2>
+          <p class="text-neutral-400">Chaque secteur possède ses propres contraintes. Nous adaptons nos installations pour répondre aux exigences spécifiques de votre métier.</p>
+        </div>
+        <a href="/secteurs-activite" class="text-secondary border-b border-secondary pb-1 mt-6 md:mt-0 inline-block uppercase tracking-widest font-bold">Voir tous les secteurs</a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+        <div class="p-12 border border-white/10 hover:bg-white/5 transition-colors reveal-on-scroll">
+          <h3 class="text-2xl text-secondary mb-6">Pharmaceutique</h3>
+          <p class="text-neutral-300 text-sm leading-relaxed">Zones à atmosphère contrôlée (ZAC), mobilier en inox 316L, finitions sans aspérités pour une stérilité parfaite.</p>
+        </div>
+        <div class="p-12 border border-white/10 hover:bg-white/5 transition-colors reveal-on-scroll">
+          <h3 class="text-2xl text-secondary mb-6">Agroalimentaire</h3>
+          <p class="text-neutral-300 text-sm leading-relaxed">Paillasses résistantes aux acides organiques, facilitant les protocoles de nettoyage intensifs (HACCP).</p>
+        </div>
+        <div class="p-12 border border-white/10 hover:bg-white/5 transition-colors reveal-on-scroll">
+          <h3 class="text-2xl text-secondary mb-6">Énergie &amp; Chimie</h3>
+          <p class="text-neutral-300 text-sm leading-relaxed">Résistance thermique accrue, sorbonnes haute performance pour manipulations de produits pétroliers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NORMES -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-4xl text-primary mb-12 text-center reveal-on-scroll">Conformité et Sécurité : Notre engagement</h2>
+        <div class="bg-white p-10 shadow-sm reveal-on-scroll">
+          <p class="text-lg mb-8 leading-relaxed">
+            L'aménagement d'un laboratoire est régi par des normes strictes qui garantissent la sécurité des utilisateurs et la protection de l'environnement. Notre expertise inclut le respect total de :
+          </p>
+          <ul class="space-y-6">
+            <li class="flex items-start gap-4">
+              <span class="text-secondary font-bold text-2xl">&rarr;</span>
+              <div>
+                <h4 class="font-bold text-primary">NF EN 13150</h4>
+                <p class="text-neutral-500">Dimensions, exigences de sécurité et méthodes d'essai pour les paillasses de laboratoire.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="text-secondary font-bold text-2xl">&rarr;</span>
+              <div>
+                <h4 class="font-bold text-primary">NF EN 14470-1</h4>
+                <p class="text-neutral-500">Stockage de produits inflammables en armoires de sécurité coupe-feu.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="text-secondary font-bold text-2xl">&rarr;</span>
+              <div>
+                <h4 class="font-bold text-primary">NF EN 14175</h4>
+                <p class="text-neutral-500">Conception, fabrication et installation des sorbonnes de laboratoire.</p>
+              </div>
+            </li>
+          </ul>
+          <div class="mt-12 p-6 border-t border-neutral-100 flex items-center gap-6">
+            <img src="https://images.pexels.com/photos/34779218/pexels-photo-34779218.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Certification" class="w-16 h-16 opacity-30 grayscale" loading="lazy" />
+            <p class="text-sm italic text-neutral-400">Pour en savoir plus sur les aspects réglementaires, consultez notre guide complet sur les <a href="/normes-reglementations" class="text-primary underline">normes et réglementations</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} title="Questions Fréquentes" />
+
+  <!-- CTA FINAL -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Prêt à transformer votre espace ?"}
+    description={cta?.ctaDescription ?? "Nos experts sont à votre disposition pour réaliser un audit technique de vos futurs locaux et vous proposer un aménagement optimisé."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Demander un devis personnalisé', href: '/contact-devis' },
+    ]}
+    bg={cta?.ctaBg ?? "white"}
+  />
+
+</BaseLayout>
+
+<script>
+  function calculateSetup() {
+    const sizeEl = document.getElementById('labSize') as HTMLInputElement;
+    const riskEl = document.getElementById('riskLevel') as HTMLSelectElement;
+    const resultArea = document.getElementById('resultArea');
+    if (!sizeEl || !riskEl || !resultArea) return;
+
+    const size = sizeEl.value;
+    const risk = riskEl.value;
+
+    if (!size || parseInt(size) <= 0) {
+      resultArea.innerHTML = "<span class='text-red-500'>Veuillez entrer une surface valide.</span>";
+      return;
+    }
+
+    let recommendation = "";
+
+    if (risk === "chimique") {
+      recommendation = `Pour ${size}m² en risque chimique, nous préconisons : <br>• 1 Sorbonne NF EN 14175<br>• Paillasses en Grès étiré<br>• Armoire de sécurité pour Acides/Bases.`;
+    } else if (risk === "inflammable") {
+      recommendation = `Pour ${size}m² en risque solvants, nous préconisons : <br>• 1 Armoire de sécurité Type 90 (EN 14470-1)<br>• Système d'extraction ATEX<br>• Paillasses Trespa TopLab.`;
+    } else if (risk === "bio") {
+      recommendation = `Pour ${size}m² en risque bio, nous préconisons : <br>• Poste de Sécurité Microbiologique (PSM)<br>• Revêtements sols remontés en plinthes<br>• Paillasses en Résine Inox.`;
+    } else {
+      recommendation = `Pour ${size}m² en analyse classique, nous préconisons : <br>• Paillasses à piétement en H<br>• Mobilier de rangement suspendu<br>• Hotte d'aspiration localisée.`;
+    }
+
+    resultArea.classList.remove('italic', 'text-neutral-400');
+    resultArea.classList.add('text-left', 'text-primary');
+    resultArea.innerHTML = `<div>
+      <h4 class='font-bold mb-4 uppercase text-xs tracking-widest text-secondary'>Préconisation 2026</h4>
+      <p class='text-sm leading-relaxed'>${recommendation}</p>
+      <a href='/contact-devis' class='mt-4 inline-block text-xs font-bold border-b border-primary'>Affiner ce devis &rarr;</a>
+    </div>`;
+  }
+
+  document.getElementById('calcBtn')?.addEventListener('click', calculateSetup);
+</script>

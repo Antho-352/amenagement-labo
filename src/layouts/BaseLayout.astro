@@ -1,0 +1,84 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  canonical?: string;
+  schema?: object[];
+}
+
+const {
+  title,
+  description,
+  keywords,
+  ogTitle,
+  ogDescription,
+  ogImage = 'https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
+  canonical,
+  schema = [],
+} = Astro.props;
+
+const siteUrl = 'https://amenagement-labo.fr';
+const canonicalUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
+---
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {keywords && <meta name="keywords" content={keywords} />}
+  <meta http-equiv="content-language" content="fr" />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={ogTitle || title} />
+  <meta property="og:description" content={ogDescription || description} />
+  <meta property="og:image" content={ogImage} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content={twitterTitle || title} />
+  <meta property="twitter:description" content={twitterDescription || description} />
+  <meta property="twitter:image" content={twitterImage || ogImage} />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://api.dicebear.com/9.x/shapes/png?seed=amenagement-labo.fr" />
+
+  <!-- Schema.org -->
+  {schema.map((s) => (
+    <script type="application/ld+json" set:html={JSON.stringify(s)} />
+  ))}
+</head>
+<body class="bg-white text-neutral-900">
+  <Header />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+  <MobileMenu />
+  <ScrollReveal />
+</body>
+</html>

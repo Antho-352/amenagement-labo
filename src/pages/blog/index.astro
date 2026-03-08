@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { getPosts } from '../../lib/wp';
+
+let posts: Awaited<ReturnType<typeof getPosts>> = [];
+try {
+  posts = await getPosts(50);
+} catch (e) {
+  console.error('WP fetch failed for blog posts:', e);
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+}
+
+function stripTags(html: string) {
+  return html.replace(/<[^>]*>/g, '').trim();
+}
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Blog", "name": "Blog amenagement-labo.fr", "url": "https://amenagement-labo.fr/blog" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://amenagement-labo.fr/blog" }
+  ]}
+];
+---
+
+<BaseLayout
+  title="Blog — Conseils & Actualités Aménagement de Laboratoires | amenagement-labo.fr"
+  description="Découvrez nos articles d'experts sur l'aménagement de laboratoires : conseils techniques, normes, innovations et bonnes pratiques."
+  ogTitle="Blog Aménagement de Laboratoires"
+  ogDescription="Articles d'experts sur la conception, l'installation et l'équipement de laboratoires scientifiques."
+  canonical="https://amenagement-labo.fr/blog"
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title="Notre <span class='italic text-secondary'>Blog</span>"
+    subtitle="Conseils d'experts, innovations et bonnes pratiques pour l'aménagement de vos laboratoires scientifiques."
+    bgImage="https://images.pexels.com/photos/3912981/pexels-photo-3912981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    bgAlt="Blog aménagement laboratoire"
+    badge="Actualités & Conseils"
+    height="h-[60vh]"
+  />
+
+  <!-- BREADCRUMB -->
+  <nav class="bg-neutral-50 border-b border-neutral-200 py-3">
+    <div class="container mx-auto px-6">
+      <ol class="flex items-center gap-2 text-sm text-neutral-500">
+        <li><a href="/" class="hover:text-primary transition">Accueil</a></li>
+        <li>/</li>
+        <li class="text-primary font-semibold">Blog</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ARTICLES LISTING -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+
+      {posts.length === 0 ? (
+        <div class="text-center py-20">
+          <p class="text-xl text-neutral-500">Aucun article pour le moment. Revenez bientôt !</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {posts.map((post) => (
+            <article class="group reveal-on-scroll">
+              <a href={`/blog/${post.slug}`} class="block">
+                {post.featuredImage?.node ? (
+                  <div class="overflow-hidden rounded-lg mb-5">
+                    <img
+                      src={post.featuredImage.node.sourceUrl}
+                      alt={post.featuredImage.node.altText || post.title}
+                      class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div class="w-full h-56 bg-neutral-100 rounded-lg mb-5 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                  </div>
+                )}
+
+                <div class="flex items-center gap-3 mb-3">
+                  {post.categories.nodes.length > 0 && (
+                    <span class="text-xs uppercase tracking-wider font-semibold text-secondary bg-secondary/10 px-3 py-1 rounded-full">
+                      {post.categories.nodes[0].name}
+                    </span>
+                  )}
+                  <time class="text-sm text-neutral-400" datetime={post.date}>{formatDate(post.date)}</time>
+                </div>
+
+                <h2 class="text-2xl font-heading text-primary group-hover:text-secondary transition-colors mb-3" set:html={post.title} />
+                <p class="text-neutral-600 leading-relaxed line-clamp-3">{stripTags(post.excerpt)}</p>
+
+                <span class="inline-flex items-center gap-2 mt-4 text-secondary font-semibold text-sm group-hover:gap-3 transition-all">
+                  Lire l'article
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+              </a>
+            </article>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaBanner
+    title="Besoin d'un aménagement sur mesure ?"
+    description="Nos experts sont à votre disposition pour une étude personnalisée de votre projet de laboratoire."
+    ctas={[
+      { label: 'Demander un devis gratuit', href: '/contact-devis' },
+      { label: 'Nos réalisations', href: '/projets-realisations', variant: 'outline' },
+    ]}
+    bg="white"
+  />
+
+</BaseLayout>

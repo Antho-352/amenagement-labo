@@ -1,0 +1,78 @@
+---
+const navLinks = [
+  { href: '/', label: 'Solutions Laboratoires' },
+  { href: '/conception-laboratoires', label: 'Conception sur mesure' },
+  { href: '/installation-equipements-techniques', label: 'Installation équipements' },
+  { href: '/revetements-finitions', label: 'Revêtements & finitions' },
+  { href: '/consommables-equipements', label: 'Consommables & instruments' },
+  { href: '/normes-reglementations', label: 'Normes & sécurité' },
+  { href: '/secteurs-activite', label: "Secteurs d'activité" },
+  { href: '/projets-realisations', label: 'Réalisations' },
+  { href: '/conseils-actualites', label: 'Conseils & actualités' },
+  { href: '/contact-devis', label: 'Contact & devis' },
+];
+---
+
+<nav class="relative z-50 bg-[#FAFAF8] border-b border-secondary/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-24">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a href="/" class="group">
+          <span class="font-heading text-2xl tracking-tight text-primary">
+            amenagement<span class="text-secondary font-bold">-</span>labo<span class="text-secondary">.</span>fr
+          </span>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-primary/60 -mt-1 group-hover:text-secondary transition-colors duration-300">Conception &amp; Haute Précision</p>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex lg:items-center lg:space-x-8">
+        {navLinks.map((link) => (
+          <a href={link.href} class="text-sm font-medium text-primary hover:text-secondary transition-colors duration-300">
+            {link.label}
+          </a>
+        ))}
+        <div class="ml-4 pl-8 border-l border-secondary/30">
+          <a href="/contact-devis" class="inline-flex items-center px-6 py-2.5 border border-secondary text-xs font-semibold uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-all duration-500 ease-in-out">
+            Nous Contacter
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex lg:hidden">
+        <button id="navToggleButton" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-secondary focus:outline-none transition-colors" aria-expanded="false">
+          <span class="sr-only">Ouvrir le menu</span>
+          <svg id="navIconOpen" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path>
+          </svg>
+          <svg id="navIconClose" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Container -->
+  <div id="navMobileMenu" class="fixed inset-0 z-40 lg:hidden transform translate-x-full">
+    <div id="navBackdrop" class="absolute inset-0 bg-primary/95 backdrop-blur-sm"></div>
+    <div class="relative flex flex-col h-full w-full p-8 justify-center">
+      <div class="space-y-6">
+        {navLinks.map((link) => (
+          <div class="overflow-hidden">
+            <a href={link.href} class="navMobileItem block font-heading text-4xl text-[#FAFAF8] hover:text-secondary transition-colors duration-300 transform translate-y-full opacity-0">
+              {link.label}
+            </a>
+          </div>
+        ))}
+      </div>
+      <div class="mt-12 pt-12 border-t border-secondary/20">
+        <p class="text-secondary text-xs uppercase tracking-widest mb-4">Projets &amp; Devis</p>
+        <a href="tel:+33000000000" class="block font-heading text-2xl text-[#FAFAF8] mb-2">+33 (0)1 23 45 67 89</a>
+        <a href="mailto:contact@amenagement-labo.fr" class="block text-[#FAFAF8]/60 hover:text-secondary transition-colors">contact@amenagement-labo.fr</a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,376 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { getPosts, getPostBySlug } from '../../lib/wp';
+import type { WpPost } from '../../lib/types';
+
+// Generate static paths for all posts at build time
+export async function getStaticPaths() {
+  let posts: WpPost[] = [];
+  try {
+    posts = await getPosts(100);
+  } catch (e) {
+    console.error('Failed to fetch posts for static paths:', e);
+  }
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+}
+
+// Extract H2 headings from content for table of contents
+function extractHeadings(html: string): { id: string; text: string }[] {
+  const regex = /<h2[^>]*id="([^"]*)"[^>]*>(.*?)<\/h2>/gi;
+  const headings: { id: string; text: string }[] = [];
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    headings.push({ id: match[1], text: match[2].replace(/<[^>]*>/g, '') });
+  }
+  // If no IDs, try extracting h2 text and generate IDs
+  if (headings.length === 0) {
+    const simpleRegex = /<h2[^>]*>(.*?)<\/h2>/gi;
+    while ((match = simpleRegex.exec(html)) !== null) {
+      const text = match[1].replace(/<[^>]*>/g, '');
+      const id = text.toLowerCase().replace(/[^a-zà-ÿ0-9]+/gi, '-').replace(/(^-|-$)/g, '');
+      headings.push({ id, text });
+    }
+  }
+  return headings;
+}
+
+// Add IDs to H2 elements in content for anchor links
+function addHeadingIds(html: string): string {
+  return html.replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (_match, attrs, content) => {
+    if (attrs.includes('id=')) return _match;
+    const text = content.replace(/<[^>]*>/g, '');
+    const id = text.toLowerCase().replace(/[^a-zà-ÿ0-9]+/gi, '-').replace(/(^-|-$)/g, '');
+    return `<h2${attrs} id="${id}">${content}</h2>`;
+  });
+}
+
+const headings = extractHeadings(post.content);
+const contentWithIds = addHeadingIds(post.content);
+const category = post.categories.nodes[0];
+const seo = post.seo;
+
+// Fetch related posts (same category)
+let relatedPosts: WpPost[] = [];
+try {
+  if (category && category.slug !== 'uncategorized') {
+    const { getPostsByCategory } = await import('../../lib/wp');
+    const catPosts = await getPostsByCategory(category.slug, 4);
+    relatedPosts = catPosts.filter(p => p.slug !== post.slug).slice(0, 3);
+  }
+} catch (_e) { /* ignore */ }
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "datePublished": post.date,
+    "author": { "@type": "Person", "name": post.author.node.name },
+    "publisher": { "@type": "Organization", "name": "amenagement-labo.fr" },
+    ...(post.featuredImage?.node && { "image": post.featuredImage.node.sourceUrl }),
+  },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://amenagement-labo.fr/blog" },
+    { "@type": "ListItem", "position": 3, "name": post.title.replace(/<[^>]*>/g, ''), "item": `https://amenagement-labo.fr/blog/${post.slug}` },
+  ]},
+];
+---
+
+<BaseLayout
+  title={seo?.title || post.title}
+  description={seo?.metaDesc || `Découvrez notre article sur ${post.title.replace(/<[^>]*>/g, '')}.`}
+  ogTitle={seo?.opengraphTitle || post.title}
+  ogDescription={seo?.opengraphDescription || seo?.metaDesc}
+  ogImage={seo?.opengraphImage?.sourceUrl || post.featuredImage?.node?.sourceUrl}
+  twitterTitle={seo?.twitterTitle || post.title}
+  twitterDescription={seo?.twitterDescription || seo?.metaDesc}
+  twitterImage={seo?.twitterImage?.sourceUrl || post.featuredImage?.node?.sourceUrl}
+  canonical={`https://amenagement-labo.fr/blog/${post.slug}`}
+  schema={schema}
+>
+
+  <!-- HERO IMAGE -->
+  {post.featuredImage?.node && (
+    <div class="relative h-[50vh] overflow-hidden">
+      <img
+        src={post.featuredImage.node.sourceUrl}
+        alt={post.featuredImage.node.altText || post.title}
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-primary/60"></div>
+    </div>
+  )}
+
+  <!-- BREADCRUMB -->
+  <nav class="bg-neutral-50 border-b border-neutral-200 py-3">
+    <div class="container mx-auto px-6">
+      <ol class="flex items-center gap-2 text-sm text-neutral-500">
+        <li><a href="/" class="hover:text-primary transition">Accueil</a></li>
+        <li>/</li>
+        <li><a href="/blog" class="hover:text-primary transition">Blog</a></li>
+        <li>/</li>
+        <li class="text-primary font-semibold truncate max-w-xs" set:html={post.title} />
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ARTICLE HEADER + CONTENT -->
+  <article class="py-16">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto lg:max-w-none lg:grid lg:grid-cols-[1fr_280px] lg:gap-16">
+
+        <!-- MAIN CONTENT -->
+        <div class="max-w-3xl">
+          <!-- Meta info -->
+          <div class="flex flex-wrap items-center gap-4 mb-8">
+            {category && category.slug !== 'uncategorized' && (
+              <span class="text-xs uppercase tracking-wider font-semibold text-secondary bg-secondary/10 px-4 py-1.5 rounded-full">
+                {category.name}
+              </span>
+            )}
+            <time class="text-sm text-neutral-400" datetime={post.date}>{formatDate(post.date)}</time>
+            <span class="text-sm text-neutral-400">par {post.author.node.name}</span>
+          </div>
+
+          <!-- Title -->
+          <h1 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-10 leading-tight" set:html={post.title} />
+
+          <!-- Gold separator -->
+          <div class="gold-separator mb-10"></div>
+
+          <!-- Article content -->
+          <div class="prose-article" set:html={contentWithIds} />
+
+          <!-- Tags -->
+          {post.tags.nodes.length > 0 && (
+            <div class="mt-12 pt-8 border-t border-neutral-200">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="text-sm font-semibold text-primary">Tags :</span>
+                {post.tags.nodes.map((tag) => (
+                  <span class="text-sm bg-neutral-100 text-neutral-600 px-3 py-1 rounded-full">{tag.name}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Author box -->
+          <div class="mt-12 bg-neutral-50 rounded-lg p-8 flex items-center gap-6">
+            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-heading flex-shrink-0">
+              {post.author.node.name.charAt(0)}
+            </div>
+            <div>
+              <p class="font-semibold text-primary text-lg">{post.author.node.name}</p>
+              <p class="text-neutral-500 text-sm">Expert en aménagement de laboratoires</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR (sticky table of contents) -->
+        <aside class="hidden lg:block">
+          <div class="sticky top-8">
+            {headings.length > 0 && (
+              <div class="bg-neutral-50 rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-heading text-primary mb-4 flex items-center gap-2">
+                  <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                  </svg>
+                  Sommaire
+                </h3>
+                <nav>
+                  <ol class="space-y-3">
+                    {headings.map((h, i) => (
+                      <li>
+                        <a
+                          href={`#${h.id}`}
+                          class="text-sm text-neutral-600 hover:text-secondary transition flex items-start gap-2"
+                        >
+                          <span class="text-secondary font-semibold flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                          <span>{h.text}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              </div>
+            )}
+
+            <!-- CTA sidebar -->
+            <div class="bg-primary rounded-lg p-6 text-white">
+              <h3 class="text-lg font-heading mb-3">Besoin d'un expert ?</h3>
+              <p class="text-sm text-neutral-300 mb-4">Contactez-nous pour une étude personnalisée de votre projet.</p>
+              <a href="/contact-devis" class="block w-full bg-secondary text-primary text-center py-3 font-bold rounded hover:bg-white transition text-sm">
+                Demander un devis
+              </a>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- RELATED ARTICLES -->
+  {relatedPosts.length > 0 && (
+    <section class="py-16 bg-neutral-50">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-heading text-primary text-center mb-12">Articles similaires</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {relatedPosts.map((rp) => (
+            <a href={`/blog/${rp.slug}`} class="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
+              {rp.featuredImage?.node ? (
+                <img src={rp.featuredImage.node.sourceUrl} alt={rp.featuredImage.node.altText || rp.title} class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              ) : (
+                <div class="w-full h-40 bg-neutral-100"></div>
+              )}
+              <div class="p-5">
+                <time class="text-xs text-neutral-400">{formatDate(rp.date)}</time>
+                <h3 class="text-lg font-heading text-primary mt-2 group-hover:text-secondary transition-colors" set:html={rp.title} />
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA BOTTOM -->
+  <CtaBanner
+    title="Vous avez un projet de laboratoire ?"
+    description="Nos experts vous accompagnent de la conception à l'installation. Obtenez un devis gratuit."
+    ctas={[
+      { label: 'Demander un devis', href: '/contact-devis' },
+      { label: 'Retour au blog', href: '/blog', variant: 'outline' },
+    ]}
+    bg="white"
+  />
+
+</BaseLayout>
+
+<style is:global>
+  /* Article prose styling */
+  .prose-article {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #374151;
+  }
+
+  .prose-article h2 {
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    scroll-margin-top: 2rem;
+  }
+
+  .prose-article h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose-article p {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose-article a {
+    color: var(--color-secondary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-article a:hover {
+    color: var(--color-primary);
+  }
+
+  .prose-article ul, .prose-article ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-article li {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-article ul li::marker {
+    color: var(--color-secondary);
+  }
+
+  .prose-article ol li::marker {
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .prose-article blockquote {
+    border-left: 4px solid var(--color-secondary);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: #fafaf8;
+    font-style: italic;
+    color: #4b5563;
+  }
+
+  .prose-article img {
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+  }
+
+  .prose-article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  .prose-article th {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .prose-article td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .prose-article tr:nth-child(even) {
+    background: #f9fafb;
+  }
+
+  .prose-article pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .prose-article code {
+    background: #f1f5f9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .prose-article pre code {
+    background: none;
+    padding: 0;
+  }
+</style>

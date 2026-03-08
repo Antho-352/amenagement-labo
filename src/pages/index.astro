@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CardGrid from '../components/CardGrid.astro';
+import LabSimulator from '../components/LabSimulator.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import SectorGrid from '../components/SectorGrid.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" }] }
+];
+
+let page;
+try {
+  page = await getPage('accueil');
+} catch (e) {
+  console.error('WP fetch failed for accueil:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Quels sont les délais moyens pour un aménagement complet ?", answer: "Le délai dépend de la complexité technique. En moyenne, comptez 4 à 6 semaines pour la phase d'étude et de conception, et 8 à 12 semaines pour la fabrication et l'installation finale. Nous nous engageons sur un planning précis dès la signature du devis." },
+  { question: "Intervenez-vous sur des laboratoires déjà en activité ?", answer: "Oui, nous avons une expertise spécifique en rénovation de sites occupés. Nous mettons en place des sas de confinement provisoires et organisons les travaux en horaires décalés pour minimiser l'impact sur vos manipulations en cours." },
+  { question: "Assurez-vous la maintenance des sorbonnes ?", answer: "La maintenance préventive est cruciale pour la sécurité. Nous proposons des contrats d'entretien incluant le contrôle annuel des vitesses d'air, le remplacement des filtres charbon et la vérification des automatismes de fermeture." },
+];
+
+const sectors = [
+  { name: 'Pharmacie', image: 'https://images.pexels.com/photos/3683081/pexels-photo-3683081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+  { name: 'Chimie', image: 'https://images.pexels.com/photos/9628826/pexels-photo-9628826.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+  { name: 'Cosmétique', image: 'https://images.pexels.com/photos/361755/pexels-photo-361755.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+  { name: 'Agroalimentaire', image: 'https://images.pexels.com/photos/248167/pexels-photo-248167.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Aménagement de Laboratoire sur Mesure | Conception & Installation Clé en Main 2026"}
+  description={seo?.metaDesc ?? "Spécialiste de l'aménagement de laboratoires en France. Conception 3D, installation de paillasses, sorbonnes, équipements techniques et maintenance. Solutions pour Pharma, Chimie et Agroalimentaire conformes aux normes 2026."}
+  keywords="aménagement laboratoire, mobilier laboratoire, installation paillasse, sorbonne de laboratoire, conception laboratoire 3D, normes laboratoire, équipement scientifique"
+  ogTitle={seo?.opengraphTitle ?? "Expertise en Aménagement de Laboratoires : Conception et Installation Premium"}
+  ogDescription={seo?.opengraphDescription ?? "Découvrez nos solutions globales d'aménagement pour laboratoires de recherche et d'industrie. Expertise technique et design haut de gamme."}
+  twitterTitle={seo?.twitterTitle ?? "Aménagement de Laboratoire sur Mesure 2026"}
+  twitterDescription={seo?.twitterDescription ?? "Transformez vos espaces scientifiques avec nos solutions d'aménagement clé en main. Qualité industrielle et design fonctionnel."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8471930/pexels-photo-8471930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "L'art de l'aménagement de laboratoires : <span class='text-secondary italic underline decoration-1 underline-offset-8'>Précision et Excellence.</span>"}
+    subtitle={hero?.heroSubtitle ?? "Conception, installation et équipement clé en main pour les secteurs de la pharmacie, chimie, cosmétique et recherche fondamentale. Nous transformons vos exigences techniques en espaces de travail performants et sécurisés."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Laboratoire moderne"
+    badge={hero?.heroBadge ?? "Expertise Scientifique 2026"}
+    ctas={hero?.heroCtas ?? [
+      { label: 'Démarrer votre projet', href: '/contact-devis' },
+      { label: 'Nos réalisations', href: '/projets-realisations', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl text-primary mb-8">Une approche globale pour des environnements complexes</h2>
+          <div class="space-y-6 text-neutral-700 leading-relaxed text-lg">
+            <p>En 2026, la conception d'un laboratoire ne se limite plus à la simple juxtaposition de meubles de rangement et de plans de travail. Elle exige une compréhension profonde des flux de travail, de la cinétique des fluides et des impératifs de biosécurité. Notre mission est d'accompagner les décideurs scientifiques dans la création d'espaces où la performance technologique s'allie à l'ergonomie.</p>
+            <p>Qu'il s'agisse de la <a href="/conception-laboratoires" class="text-secondary font-semibold hover:underline">conception personnalisée de laboratoires</a> ou de la rénovation d'unités existantes, nous intégrons chaque contrainte technique — ventilation, gestion des déchets chimiques, connectivité — dès la phase d'esquisse.</p>
+            <ul class="space-y-4 pt-4">
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span><span>Étude de flux et optimisation ergonomique des postes de travail.</span></li>
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span><span>Maîtrise complète de la chaîne de valeur : du sol au plafond.</span></li>
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span><span>Respect strict des protocoles de sécurité et environnementaux.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/3908180/pexels-photo-3908180.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Détail technique" class="rounded-3xl shadow-2xl relative z-10 border-8 border-white" loading="lazy" />
+          <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-primary opacity-10 rounded-full z-0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES GRID -->
+  <section class="py-24">
+    <div class="container mx-auto px-6 text-center mb-16">
+      <h2 class="text-4xl text-primary mb-4">Un écosystème complet de prestations</h2>
+      <div class="w-24 h-1 bg-secondary mx-auto"></div>
+    </div>
+    <div class="container mx-auto px-6">
+      <CardGrid cols={3}>
+        <article class="p-10 border border-neutral-100 hover:shadow-xl transition-all group reveal-on-scroll">
+          <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
+            <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Ingénierie &amp; Design 3D</h3>
+          <p class="text-neutral-600 mb-6">Modélisation complète de vos espaces pour une projection réaliste des flux de travail et des implantations techniques.</p>
+          <a href="/conception-laboratoires" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+        </article>
+
+        <article class="p-10 border border-neutral-100 hover:shadow-xl transition-all group reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
+            <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Mobilier &amp; Équipements</h3>
+          <p class="text-neutral-600 mb-6">Installation experte de <a href="/installation-equipements-techniques" class="underline hover:text-secondary">paillasses techniques</a>, sorbonnes, et armoires de sécurité conformes.</p>
+          <a href="/installation-equipements-techniques" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+        </article>
+
+        <article class="p-10 border border-neutral-100 hover:shadow-xl transition-all group reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
+            <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-2xl text-primary mb-4">Infrastructures &amp; Fluides</h3>
+          <p class="text-neutral-600 mb-6">Gestion des <a href="/revetements-finitions" class="underline hover:text-secondary">réseaux électriques et fluides</a>, traitement d'air et finitions de surfaces spécialisées.</p>
+          <a href="/revetements-finitions" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+        </article>
+      </CardGrid>
+    </div>
+  </section>
+
+  <!-- LAB SIMULATOR -->
+  <LabSimulator />
+
+  <!-- FOCUS TECHNIQUE -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-16 items-center">
+        <div class="md:w-1/2 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/35300832/pexels-photo-35300832.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation technique" class="rounded-xl shadow-2xl grayscale hover:grayscale-0 transition duration-700" loading="lazy" />
+        </div>
+        <div class="md:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl text-primary mb-6">Expertise technique : de la pose au calibrage</h2>
+          <p class="text-neutral-700 mb-6 leading-relaxed">L'installation ne s'arrête pas au montage du mobilier. Nos équipes spécialisées interviennent pour assurer le raccordement critique des réseaux. Chaque sorbonne installée subit des tests de confinement rigoureux selon la norme EN 14175.</p>
+          <div class="space-y-4">
+            <div class="flex gap-4">
+              <div class="text-secondary"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg></div>
+              <div>
+                <h4 class="font-bold text-primary">Aéraulique maîtrisée</h4>
+                <p class="text-neutral-600">Calcul des débits d'air et compensation pour garantir la protection des opérateurs.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="text-secondary"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg></div>
+              <div>
+                <h4 class="font-bold text-primary">Matériaux Inertes</h4>
+                <p class="text-neutral-600">Utilisation de résines phénoliques, grès étiré ou inox 316L selon l'agressivité des produits.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NORMES -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mb-16 reveal-on-scroll">
+        <h2 class="text-4xl mb-6 font-heading text-secondary">Conformité et Sécurité : Notre Engagement</h2>
+        <p class="text-neutral-300 text-lg">En tant qu'intégrateur, nous portons la responsabilité de la <a href="/normes-reglementations" class="text-secondary hover:underline">conformité normative</a> de votre installation. Dans un contexte réglementaire qui évolue sans cesse, nous veillons à ce que chaque composant réponde aux exigences de l'année 2026.</p>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8 reveal-on-scroll">
+        <div class="p-6 border-l border-secondary">
+          <h3 class="text-xl font-bold mb-3">EN 14175</h3>
+          <p class="text-sm opacity-80">La référence européenne pour les sorbonnes de laboratoire, garantissant un confinement optimal des vapeurs toxiques.</p>
+        </div>
+        <div class="p-6 border-l border-secondary">
+          <h3 class="text-xl font-bold mb-3">ISO 14644</h3>
+          <p class="text-sm opacity-80">Normes relatives aux salles propres et environnements maîtrisés apparentés.</p>
+        </div>
+        <div class="p-6 border-l border-secondary">
+          <h3 class="text-xl font-bold mb-3">NFC 15-100</h3>
+          <p class="text-sm opacity-80">Sécurité des installations électriques basse tension, spécifiquement adaptées aux milieux humides et corrosifs.</p>
+        </div>
+        <div class="p-6 border-l border-secondary">
+          <h3 class="text-xl font-bold mb-3">Réglementation ATEX</h3>
+          <p class="text-sm opacity-80">Maîtrise des risques d'explosion pour le stockage et la manipulation de solvants inflammables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTEURS -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16 reveal-on-scroll">
+        <h2 class="text-4xl text-primary mb-4">Des solutions pour chaque industrie</h2>
+        <p class="text-neutral-600 max-w-2xl mx-auto">Nous adaptons nos matériaux et configurations aux spécificités de votre métier.</p>
+      </div>
+      <SectorGrid sectors={sectors} />
+    </div>
+  </section>
+
+  <!-- CONSOMMABLES -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row-reverse gap-16 items-center">
+        <div class="md:w-1/2 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/1148450/pexels-photo-1148450.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Consommables labo" class="rounded-xl shadow-2xl" loading="lazy" />
+        </div>
+        <div class="md:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl text-primary mb-6">Équipement &amp; Consommables : Le service continu</h2>
+          <p class="text-neutral-700 mb-6 leading-relaxed">Au-delà de l'enveloppe et du mobilier, nous assurons la <a href="/consommables-equipements" class="text-secondary font-semibold hover:underline">fourniture complète de vos équipements</a>. Verrerie de précision, instrumentation analytique, produits chimiques de haute pureté : nous sommes votre partenaire d'approvisionnement unique pour garantir la continuité de vos recherches.</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-neutral-100">
+              <span class="block text-secondary font-bold text-2xl mb-1">5000+</span>
+              <span class="text-xs uppercase text-neutral-500">Références en verrerie</span>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-neutral-100">
+              <span class="block text-secondary font-bold text-2xl mb-1">24h</span>
+              <span class="text-xs uppercase text-neutral-500">Délai de livraison réactifs</span>
+            </div>
+          </div>
+          <a href="/consommables-equipements" class="mt-8 inline-block text-primary font-bold border-b-2 border-secondary pb-1 hover:border-primary transition">Parcourir le catalogue technique</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} />
+
+  <!-- BLOG SNIPPET -->
+  <section class="py-24 bg-primary">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-end mb-12">
+        <h2 class="text-4xl text-white font-heading">Conseils &amp; Innovations</h2>
+        <a href="/conseils-actualites" class="text-secondary font-bold hover:underline">Voir tous les articles</a>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
+          <span class="text-xs text-secondary font-mono">14 Janvier 2026</span>
+          <h3 class="text-xl text-white mt-3 mb-4 font-heading">L'impact de l'IA sur l'ergonomie des laboratoires</h3>
+          <p class="text-sm text-neutral-400 mb-6">Comment les nouveaux algorithmes optimisent les flux de travail et réduisent les risques TMS chez les techniciens.</p>
+          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
+        </article>
+        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
+          <span class="text-xs text-secondary font-mono">02 Janvier 2026</span>
+          <h3 class="text-xl text-white mt-3 mb-4 font-heading">Matériaux durables : Le grès vs la résine</h3>
+          <p class="text-sm text-neutral-400 mb-6">Une analyse comparative de l'empreinte carbone et de la durabilité des surfaces de travail en laboratoire.</p>
+          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
+        </article>
+        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
+          <span class="text-xs text-secondary font-mono">15 Décembre 2025</span>
+          <h3 class="text-xl text-white mt-3 mb-4 font-heading">Sécurité ATEX : Ce qu'il faut savoir</h3>
+          <p class="text-sm text-neutral-400 mb-6">Mise à jour des protocoles de sécurité pour le stockage des solvants inflammables en 2026.</p>
+          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Prêt à transformer votre espace de recherche ?"}
+    description={cta?.ctaDescription ?? "Nos experts sont à votre disposition pour une première consultation gratuite et l'établissement d'un devis détaillé."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Demander un devis personnalisé', href: '/contact-devis' },
+      { label: 'Consulter nos références', href: '/projets-realisations', variant: 'outline' },
+    ]}
+    bg={cta?.ctaBg ?? 'white'}
+  />
+
+</BaseLayout>

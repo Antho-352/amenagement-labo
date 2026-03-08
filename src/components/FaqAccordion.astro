@@ -1,0 +1,34 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  title?: string;
+}
+
+const { items, title = 'Questions fréquentes' } = Astro.props;
+---
+
+<section class="py-24">
+  <div class="container mx-auto px-6 max-w-4xl">
+    <h2 class="text-4xl text-primary text-center mb-12 reveal-on-scroll">{title}</h2>
+    <div class="space-y-6">
+      {items.map((item) => (
+        <details class="group border-b border-neutral-200 pb-6 outline-none reveal-on-scroll">
+          <summary class="flex justify-between items-center font-bold text-xl text-primary cursor-pointer list-none">
+            {item.question}
+            <span class="group-open:rotate-180 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-4 text-neutral-600 leading-relaxed" set:html={item.answer} />
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+---
+// Lab simulator interactive tool for homepage
+---
+
+<section class="py-24 lab-gradient text-white overflow-hidden">
+  <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal-on-scroll">
+        <h2 class="text-4xl mb-6 font-heading">Simulateur d'espace technique</h2>
+        <p class="text-neutral-300 mb-8 text-lg">
+          Estimez vos besoins primaires en fonction de votre surface et de votre secteur d'activité. Cet outil vous donne une première indication des ratios d'équipements recommandés.
+        </p>
+        <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-md border border-white/20">
+          <div class="space-y-6">
+            <div>
+              <label class="block mb-2 font-semibold">Surface du laboratoire (m²)</label>
+              <input type="range" id="surfaceRange" min="20" max="500" value="100" class="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-secondary" />
+              <div class="text-right mt-2 font-bold"><span id="surfaceVal">100</span> m²</div>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Niveau de risque (Sécurité)</label>
+              <select id="safetyLevel" class="w-full bg-white text-neutral-900 p-3 rounded-md">
+                <option value="1">L1 - Recherche standard</option>
+                <option value="1.5">L2 - Risque modéré</option>
+                <option value="2.2">L3 - Haute sécurité / Bio-confinement</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 bg-white/5 border border-white/10 rounded-lg">
+                <p class="text-xs uppercase opacity-70">Paillasses rec.</p>
+                <p id="benchResult" class="text-2xl font-bold text-secondary">--</p>
+              </div>
+              <div class="p-4 bg-white/5 border border-white/10 rounded-lg">
+                <p class="text-xs uppercase opacity-70">Points d'extraction</p>
+                <p id="hoodResult" class="text-2xl font-bold text-secondary">--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative hidden lg:block reveal-on-scroll">
+        <img src="https://images.pexels.com/photos/8482821/pexels-photo-8482821.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plan de laboratoire" class="rounded-2xl opacity-80 mix-blend-lighten" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const surfaceRange = document.getElementById('surfaceRange') as HTMLInputElement;
+  const surfaceVal = document.getElementById('surfaceVal');
+  const safetyLevel = document.getElementById('safetyLevel') as HTMLSelectElement;
+  const benchResult = document.getElementById('benchResult');
+  const hoodResult = document.getElementById('hoodResult');
+
+  function updateCalculator() {
+    const surface = parseInt(surfaceRange.value);
+    const risk = parseFloat(safetyLevel.value);
+    if (surfaceVal) surfaceVal.innerText = String(surface);
+    const benches = Math.round((surface / 10) * (risk > 1.5 ? 0.8 : 1.2));
+    const hoods = Math.max(1, Math.round((surface / 30) * risk));
+    if (benchResult) benchResult.innerText = benches + ' ml';
+    if (hoodResult) hoodResult.innerText = String(hoods);
+  }
+
+  surfaceRange?.addEventListener('input', updateCalculator);
+  safetyLevel?.addEventListener('change', updateCalculator);
+  updateCalculator();
+</script>

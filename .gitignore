@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Astro
+.astro/
+
+# WordPress scripts (ne pas versionner)
+wp-*.php
+wp-*.sh
+
+# Source HTML originaux
+*.html
+styles.css
+sitemap.xml

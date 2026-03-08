@@ -1,0 +1,46 @@
+<!-- Mobile menu toggle script - include once in layout -->
+<script>
+  const navToggleButton = document.getElementById('navToggleButton');
+  const navMobileMenu = document.getElementById('navMobileMenu');
+  const navIconOpen = document.getElementById('navIconOpen');
+  const navIconClose = document.getElementById('navIconClose');
+  const navMobileItems = document.querySelectorAll('.navMobileItem');
+  const navBackdrop = document.getElementById('navBackdrop');
+  let navIsOpen = false;
+
+  function navToggleMenu() {
+    navIsOpen = !navIsOpen;
+    if (navIsOpen) {
+      navMobileMenu?.classList.remove('translate-x-full');
+      navIconOpen?.classList.add('hidden');
+      navIconClose?.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      navMobileItems.forEach((item, index) => {
+        setTimeout(() => {
+          (item as HTMLElement).style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+          (item as HTMLElement).style.transform = 'translateY(0)';
+          (item as HTMLElement).style.opacity = '1';
+        }, 100 + index * 100);
+      });
+    } else {
+      navMobileMenu?.classList.add('translate-x-full');
+      navIconOpen?.classList.remove('hidden');
+      navIconClose?.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      navMobileItems.forEach((item) => {
+        (item as HTMLElement).style.transform = 'translateY(100%)';
+        (item as HTMLElement).style.opacity = '0';
+        (item as HTMLElement).style.transition = 'none';
+      });
+    }
+  }
+
+  navToggleButton?.addEventListener('click', navToggleMenu);
+  navBackdrop?.addEventListener('click', navToggleMenu);
+  navMobileItems.forEach((item) => {
+    item.addEventListener('click', () => { if (navIsOpen) navToggleMenu(); });
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024 && navIsOpen) navToggleMenu();
+  });
+</script>

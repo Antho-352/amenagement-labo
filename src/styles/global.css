@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1E4D3A;
+  --color-secondary: #C9A96E;
+  --color-bg-alt: #FAFAF8;
+  --color-text-dark: #171717;
+
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius-card: 12px;
+  --shadow-green: 0 10px 30px rgba(30, 77, 58, 0.12);
+}
+
+/* Base typography */
+body {
+  font-family: var(--font-body);
+  background-color: #ffffff;
+  color: var(--color-text-dark);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--color-primary);
+}
+
+/* Utility classes from original */
+.primary-bg { background-color: var(--color-primary); }
+.primary-text { color: var(--color-primary); }
+.secondary-bg { background-color: var(--color-secondary); }
+.secondary-text { color: var(--color-secondary); }
+.border-gold { border-color: var(--color-secondary); }
+
+.lab-gradient {
+  background: linear-gradient(135deg, #1E4D3A 0%, #2d6b52 100%);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #C9A96E 0%, #A68B56 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+/* Scroll reveal animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible,
+.reveal-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom bullet style */
+.custom-bullet { list-style: none; }
+.custom-bullet li::before {
+  content: "\2022";
+  color: var(--color-secondary);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+/* Gold separator */
+.gold-separator {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-secondary);
+  margin: 1.5rem 0;
+}
+
+/* Card shadow */
+.card-shadow {
+  box-shadow: 0 10px 30px -10px rgba(30, 77, 58, 0.15);
+}
+
+/* Spec table (from original styles.css) */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+}
+
+.spec-table td {
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(30, 77, 58, 0.1);
+  font-size: 0.95rem;
+}
+
+.spec-table td:first-child {
+  font-weight: 600;
+  color: var(--color-primary);
+  width: 40%;
+}
+
+/* Image defaults */
+img {
+  max-width: 100%;
+  display: block;
+}

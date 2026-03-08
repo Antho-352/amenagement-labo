@@ -1,0 +1,116 @@
+---
+const navLinks = [
+  { href: '/', label: 'Solutions Laboratoires' },
+  { href: '/conception-laboratoires', label: 'Conception sur mesure' },
+  { href: '/installation-equipements-techniques', label: 'Installation équipements' },
+  { href: '/revetements-finitions', label: 'Revêtements & finitions' },
+  { href: '/consommables-equipements', label: 'Consommables & instruments' },
+  { href: '/normes-reglementations', label: 'Normes & sécurité' },
+  { href: '/secteurs-activite', label: "Secteurs d'activité" },
+  { href: '/projets-realisations', label: 'Réalisations' },
+  { href: '/conseils-actualites', label: 'Conseils & actualités' },
+  { href: '/contact-devis', label: 'Contact & devis' },
+];
+---
+
+<footer class="relative bg-primary text-[#FAFAF8] pt-20 pb-10 px-6 md:px-12 lg:px-24 font-body overflow-hidden">
+  <!-- Grain texture overlay -->
+  <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+
+      <!-- Column 1: Brand Identity -->
+      <div class="lg:col-span-5 flex flex-col space-y-8">
+        <div class="space-y-4">
+          <a href="/" class="inline-block">
+            <span class="text-3xl md:text-4xl font-heading text-secondary tracking-tight">amenagement-labo<span class="opacity-80">.fr</span></span>
+          </a>
+          <p class="text-[#FAFAF8]/80 max-w-md leading-relaxed text-sm md:text-base italic">
+            Expertise scientifique et précision technique pour l'aménagement de vos espaces de laboratoire. De la conception à l'installation des équipements critiques.
+          </p>
+        </div>
+        <!-- Social icons -->
+        <div class="flex items-center space-x-5">
+          <a href="#" class="group transition-transform duration-300 hover:-translate-y-1" aria-label="LinkedIn">
+            <svg class="w-5 h-5 stroke-secondary fill-none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+          <a href="#" class="group transition-transform duration-300 hover:-translate-y-1" aria-label="YouTube">
+            <svg class="w-5 h-5 stroke-secondary fill-none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path><path d="m9.75 15.02 5.75-3.27-5.75-3.27v6.54z"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Navigation -->
+      <div class="lg:col-span-3">
+        <h4 class="font-heading text-xl text-secondary mb-8">Navigation</h4>
+        <nav class="flex flex-col space-y-4">
+          {navLinks.map((link) => (
+            <a href={link.href} class="text-[#FAFAF8]/70 hover:text-secondary transition-colors duration-300 text-sm flex items-center group">
+              <span class="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 opacity-0 group-hover:opacity-100 mr-0 group-hover:mr-2">
+                <svg class="w-4 h-4 stroke-secondary" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </span>
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Column 3: Newsletter -->
+      <div class="lg:col-span-4 flex flex-col space-y-8">
+        <div class="bg-[#FAFAF8]/5 p-6 rounded-sm border border-secondary/20">
+          <h4 class="font-heading text-xl text-secondary mb-4">Newsletter Technique</h4>
+          <p class="text-xs text-[#FAFAF8]/60 mb-6 uppercase tracking-widest font-medium">Veille normative et innovations</p>
+          <form class="flex flex-col space-y-3" onsubmit="event.preventDefault();">
+            <div class="relative">
+              <input type="email" placeholder="Votre email professionnel" class="w-full bg-transparent border-b border-secondary/40 py-3 text-sm focus:outline-none focus:border-secondary transition-colors placeholder:text-[#FAFAF8]/30">
+            </div>
+            <button class="bg-secondary text-primary py-3 px-6 text-sm font-bold tracking-wider hover:bg-[#FAFAF8] transition-all duration-500 rounded-sm">
+              S'ABONNER
+            </button>
+          </form>
+        </div>
+        <div class="flex items-center space-x-4 text-sm text-[#FAFAF8]/80">
+          <span class="w-10 h-[1px] bg-secondary/40"></span>
+          <span class="tracking-widest uppercase">France Entière</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-20 pt-8 border-t border-secondary/10 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+      <!-- Mobile nav -->
+      <div class="flex md:hidden flex-wrap justify-center gap-4 text-xs">
+        {navLinks.map((link) => (
+          <a href={link.href} class="text-[#FAFAF8]/60">{link.label}</a>
+        ))}
+      </div>
+
+      <div class="flex items-center space-x-8">
+        <div class="text-[10px] md:text-xs text-[#FAFAF8]/40 uppercase tracking-widest">
+          &copy; <span id="footerYear"></span> amenagement-labo.fr &mdash; Précision &amp; Rigueur
+        </div>
+      </div>
+
+      <div class="flex space-x-6 text-[10px] md:text-xs text-[#FAFAF8]/40 uppercase tracking-widest">
+        <a href="#" class="hover:text-secondary transition-colors">Mentions Légales</a>
+        <a href="#" class="hover:text-secondary transition-colors">Confidentialité</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative grid -->
+  <div class="absolute bottom-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
+    <svg viewBox="0 0 100 100" class="w-full h-full fill-secondary">
+      <pattern id="footerGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+      </pattern>
+      <rect width="100" height="100" fill="url(#footerGrid)"></rect>
+    </svg>
+  </div>
+
+  <script>
+    const y = document.getElementById('footerYear');
+    if (y) y.textContent = String(new Date().getFullYear());
+  </script>
+</footer>

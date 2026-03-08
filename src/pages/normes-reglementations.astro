@@ -1,0 +1,410 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Normes et réglementations en aménagement de laboratoires", "item": "https://amenagement-labo.fr/normes-reglementations" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('normes-reglementations');
+} catch (e) {
+  console.error('WP fetch failed for normes-reglementations:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Quelles sont les obligations majeures pour un labo de chimie en 2026 ?", answer: "En 2026, l'obligation majeure réside dans la ventilation à double flux avec récupération d'énergie et la mise en place d'une traçabilité numérique complète via LIMS pour chaque agent chimique présent sur site." },
+  { question: "Comment savoir si mes paillasses sont encore conformes ?", answer: "Une paillasse conforme doit résister aux agents corrosifs spécifiques utilisés dans votre process. Nous recommandons un audit de surface pour vérifier l'absence de porosité, source de contaminations croisées. Consultez notre page <a href='/installation-equipements-techniques' class='text-secondary underline'>installation de paillasses</a> pour les détails techniques." },
+  { question: "La rénovation d'un laboratoire ancien permet-elle d'atteindre les normes actuelles ?", answer: "Oui, absolument. Nous intervenons régulièrement sur des sites anciens pour moderniser la ventilation, sécuriser les réseaux électriques et remplacer les revêtements de sol obsolètes par des solutions <a href='/revetements-finitions' class='text-secondary underline'>haut de gamme</a>." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Normes et réglementations en aménagement de laboratoires : votre sécurité garantie en 2026"}
+  description={seo?.metaDesc ?? "Expertise complète sur les normes de sécurité, réglementations et conception de laboratoires en France. Découvrez comment sécuriser vos infrastructures scientifiques selon les standards 2026."}
+  keywords="normes laboratoire, réglementation aménagement labo, sécurité chimique, conception laboratoire, ED 6551, LIMS, conformité laboratoire 2026"
+  ogTitle={seo?.opengraphTitle ?? "Sécurité et Normes de Laboratoire : Le Guide Expert 2026"}
+  ogDescription={seo?.opengraphDescription ?? "Maîtrisez les réglementations en vigueur pour l'aménagement de vos laboratoires. De la ventilation à la gestion numérique des données."}
+  twitterTitle={seo?.twitterTitle ?? "Normes Laboratoires 2026 : Guide de Conformité et Sécurité"}
+  twitterDescription={seo?.twitterDescription ?? "Tout savoir sur les obligations légales et techniques pour l'aménagement de laboratoires haute performance."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/592600/pexels-photo-592600.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "Normes & Réglementations : <span class='text-secondary italic'>Votre sécurité, notre exigence absolue.</span>"}
+    subtitle={hero?.heroSubtitle ?? "En 2026, l'aménagement d'un laboratoire ne se limite plus à la simple pose de mobilier. C'est un écosystème complexe où la conformité réglementaire devient le moteur de l'innovation et de la protection humaine."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/4458203/pexels-photo-4458203.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Plan de laboratoire"
+    badge={hero?.heroBadge ?? "Expertise Réglementaire 2026"}
+    height="h-screen"
+    ctas={hero?.heroCtas ?? [
+      { label: 'Consulter un expert', href: '/contact-devis' },
+      { label: 'Voir nos réalisations', href: '/projets-realisations', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRO -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl font-bold text-primary mb-8">Un paysage normatif en constante mutation</h2>
+          <div class="space-y-6 text-lg text-neutral-700 leading-relaxed">
+            <p>
+              L'univers des laboratoires de chimie, de biologie et de recherche industrielle est marqué par une diversité sectorielle sans précédent. De la <a href="/secteurs-activite" class="text-primary font-semibold underline decoration-secondary">pharmacie à l'agroalimentaire</a>, chaque environnement possède ses propres contraintes. Cependant, un socle commun demeure : la nécessité de garantir un environnement de travail sans faille.
+            </p>
+            <p>
+              En 2026, l'application des règles de prévention est devenue plus complexe. L'intégration massive de nouvelles substances chimiques, couplée à des exigences environnementales accrues, impose une rigueur chirurgicale dès la phase de <a href="/conception-laboratoires" class="text-primary font-semibold underline decoration-secondary">conception personnalisée</a>.
+            </p>
+            <p>
+              La prévention des risques professionnels n'est plus une option post-installation. Elle est le fil conducteur qui relie l'évaluation initiale des risques à l'implantation physique des locaux. Chaque paillasse, chaque hotte, chaque flux de circulation doit être pensé pour minimiser l'exposition et maximiser l'efficience.
+            </p>
+          </div>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <div class="aspect-square rounded-full overflow-hidden border-[12px] border-bg-alt relative z-10 shadow-2xl">
+            <img src="https://images.pexels.com/photos/8325981/pexels-photo-8325981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Scientifique en laboratoire" class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700" loading="lazy" />
+          </div>
+          <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-secondary/10 rounded-full -z-10 blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 PILIERS -->
+  <section class="py-24 bg-neutral-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal-on-scroll">
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-6">Les 4 piliers de la conception sécuritaire</h2>
+        <p class="text-neutral-600 text-lg">Notre approche vise des objectifs précis pour assurer la santé et la pérennité de vos équipes.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white p-10 shadow-sm border-t-4 border-secondary hover:shadow-xl transition-shadow reveal-on-scroll">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h3 class="text-2xl font-bold text-primary mb-4">Réduction Chimique</h3>
+          <p class="text-neutral-600">Limitation drastique de l'exposition aux substances toxiques par inhalation, contact ou ingestion grâce à des systèmes de captage ultra-performants.</p>
+        </div>
+        <div class="bg-white p-10 shadow-sm border-t-4 border-secondary hover:shadow-xl transition-shadow reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.99 7.99 0 0120 13a7.99 7.99 0 01-2.343 5.657z"></path></svg>
+          </div>
+          <h3 class="text-2xl font-bold text-primary mb-4">Prévention ATEX</h3>
+          <p class="text-neutral-600">Anticipation rigoureuse des risques d'incendie et d'explosion par un zonage précis et des installations électriques antidéflagrantes.</p>
+        </div>
+        <div class="bg-white p-10 shadow-sm border-t-4 border-secondary hover:shadow-xl transition-shadow reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-2xl font-bold text-primary mb-4">Risques Physiques</h3>
+          <p class="text-neutral-600">Protection contre les chocs électriques, les brûlures thermiques et les chutes de hauteur par un aménagement ergonomique des circulations.</p>
+        </div>
+        <div class="bg-white p-10 shadow-sm border-t-4 border-secondary hover:shadow-xl transition-shadow reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="text-secondary mb-6">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h3 class="text-2xl font-bold text-primary mb-4">Confort & Fatigue</h3>
+          <p class="text-neutral-600">Réduction des TMS (Troubles Musculo-Squelettiques) et de la fatigue cognitive par une gestion optimale de l'acoustique et de l'éclairage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ED 6551 -->
+  <section class="py-24 bg-primary text-white overflow-hidden relative">
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="flex flex-col lg:flex-row gap-16 items-center">
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl font-bold mb-8">La Brochure ED 6551 : Votre Bible de Conception</h2>
+          <p class="text-xl text-neutral-300 mb-8 leading-relaxed">
+            Ce document de référence guide désormais chaque acteur du projet : du maître d'ouvrage à l'utilisateur final. En 2026, la collaboration interdisciplinaire est devenue la norme pour assurer une conformité sans faille.
+          </p>
+          <ul class="space-y-6">
+            <li class="flex items-start gap-4">
+              <span class="w-6 h-6 rounded-full bg-secondary flex-shrink-0 flex items-center justify-center text-xs text-white">1</span>
+              <div>
+                <h4 class="font-bold text-secondary uppercase tracking-wider mb-2">Périmètre d'application</h4>
+                <p class="text-neutral-400 italic">S'applique aux laboratoires de recherche, de contrôle qualité et de R&D. (Exclut les ateliers répétitifs et l'enseignement primaire).</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="w-6 h-6 rounded-full bg-secondary flex-shrink-0 flex items-center justify-center text-xs text-white">2</span>
+              <div>
+                <h4 class="font-bold text-secondary uppercase tracking-wider mb-2">Collaboration Tripartite</h4>
+                <p class="text-neutral-400 italic">Dialogue permanent entre Maître d'Œuvre, CSPS et Employeur pour une intégration des risques dès l'esquisse.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="w-6 h-6 rounded-full bg-secondary flex-shrink-0 flex items-center justify-center text-xs text-white">3</span>
+              <div>
+                <h4 class="font-bold text-secondary uppercase tracking-wider mb-2">Maintenance Anticipée</h4>
+                <p class="text-neutral-400 italic">Chaque choix technique doit permettre une maintenance sécurisée sans interrompre les activités critiques.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="lg:w-1/2 grid grid-cols-2 gap-4 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/771881/pexels-photo-771881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Architecture technique" class="rounded-lg shadow-2xl mt-12" loading="lazy" />
+          <img src="https://images.pexels.com/photos/6076273/pexels-photo-6076273.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Structure de labo" class="rounded-lg shadow-2xl" loading="lazy" />
+        </div>
+      </div>
+    </div>
+    <div class="absolute top-0 right-0 w-1/3 h-full bg-secondary/5 -skew-x-12 translate-x-20"></div>
+  </section>
+
+  <!-- SIMULATEUR DE CONFORMITÉ -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="bg-white/90 backdrop-blur-sm p-12 rounded-sm border-2 border-secondary/30 reveal-on-scroll">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-primary mb-4">Simulateur de Conformité 2026</h2>
+          <p class="text-neutral-600">Évaluez rapidement le niveau de sécurité réglementaire de votre projet actuel.</p>
+        </div>
+
+        <div id="audit-tool" class="max-w-4xl mx-auto">
+          <div class="space-y-8">
+            <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
+              <label class="block text-lg font-semibold text-primary mb-4">Votre ventilation assure-t-elle au moins 10 renouvellements d'air par heure ?</label>
+              <div class="flex gap-4">
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="10">Oui</button>
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="0">Non / Partiel</button>
+              </div>
+            </div>
+            <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
+              <label class="block text-lg font-semibold text-primary mb-4">Utilisez-vous un système LIMS pour la traçabilité des produits chimiques ?</label>
+              <div class="flex gap-4">
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="15">Oui</button>
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="0">Non / Format Papier</button>
+              </div>
+            </div>
+            <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
+              <label class="block text-lg font-semibold text-primary mb-4">Vos <a href="/installation-equipements-techniques" class="underline">armoires de sécurité</a> sont-elles conformes à la norme EN 14470-1 ?</label>
+              <div class="flex gap-4">
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="15">Oui (Type 90)</button>
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="5">Oui (Type 30)</button>
+                <button class="audit-btn px-6 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded" data-points="0">Non</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-12 p-8 bg-primary text-white text-center rounded-sm">
+            <div class="text-sm uppercase tracking-widest text-secondary mb-2">Score de conformité estimé</div>
+            <div id="audit-score" class="text-6xl font-bold mb-4">0%</div>
+            <p id="audit-feedback" class="text-neutral-300">Commencez l'auto-diagnostic pour voir les résultats.</p>
+            <a href="/contact-devis" class="inline-block mt-6 bg-secondary text-white px-8 py-3 uppercase text-xs font-bold tracking-widest">Obtenir un audit complet</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMMANDATIONS TECHNIQUES -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl md:text-5xl font-bold text-primary mb-16 text-center reveal-on-scroll">Mesures de Prévention Incontournables</h2>
+
+      <div class="grid lg:grid-cols-3 gap-12">
+        <div class="space-y-6 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/32032996/pexels-photo-32032996.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Hotte de laboratoire" class="w-full h-64 object-cover rounded-sm mb-6 shadow-lg" loading="lazy" />
+          <h3 class="text-2xl font-bold text-primary border-b border-secondary pb-4">Ventilation & Filtration</h3>
+          <p class="text-neutral-600">
+            La pièce maîtresse de la sécurité. En 2026, nous privilégions les <a href="/installation-equipements-techniques" class="text-secondary font-semibold">sorbonnes à débit variable (VAV)</a> qui s'adaptent en temps réel à l'ouverture de la vitre, garantissant une vitesse frontale constante tout en réduisant la consommation énergétique de 40%.
+          </p>
+          <ul class="list-disc pl-5 text-neutral-500 space-y-2">
+            <li>Captage à la source (bras aspirants)</li>
+            <li>Compensation d'air neuf filtré</li>
+            <li>Contrôle permanent des pressions différentielles</li>
+          </ul>
+        </div>
+
+        <div class="space-y-6 reveal-on-scroll" style="transition-delay: 150ms;">
+          <img src="https://images.pexels.com/photos/9628807/pexels-photo-9628807.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Stockage chimique" class="w-full h-64 object-cover rounded-sm mb-6 shadow-lg" loading="lazy" />
+          <h3 class="text-2xl font-bold text-primary border-b border-secondary pb-4">Stockage Sécurisé</h3>
+          <p class="text-neutral-600">
+            La gestion des produits chimiques ne souffre aucune approximation. Les <a href="/installation-equipements-techniques" class="text-secondary font-semibold">armoires de sécurité ventilées</a> doivent séparer les incompatibles (acides/bases, comburants/inflammables) pour éviter tout risque de réaction exothermique incontrôlée.
+          </p>
+          <ul class="list-disc pl-5 text-neutral-500 space-y-2">
+            <li>Bacs de rétention en matériaux résistants</li>
+            <li>Signalétique normalisée GHS</li>
+            <li>Accès restreint par badge magnétique</li>
+          </ul>
+        </div>
+
+        <div class="space-y-6 reveal-on-scroll" style="transition-delay: 300ms;">
+          <img src="https://images.pexels.com/photos/48889/cleaning-washing-cleanup-the-ilo-48889.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Sol technique" class="w-full h-64 object-cover rounded-sm mb-6 shadow-lg" loading="lazy" />
+          <h3 class="text-2xl font-bold text-primary border-b border-secondary pb-4">Matériaux & Sols</h3>
+          <p class="text-neutral-600">
+            Chaque surface est un rempart. Nos <a href="/revetements-finitions" class="text-secondary font-semibold">revêtements techniques</a> (résines époxy, sols PVC soudés à chaud) sont choisis pour leur décontaminabilité et leur résistance mécanique aux charges lourdes de l'instrumentation.
+          </p>
+          <ul class="list-disc pl-5 text-neutral-500 space-y-2">
+            <li>Plinthes à gorge pour hygiène parfaite</li>
+            <li>Peintures décontaminables sans COV</li>
+            <li>Plafonds suspendus étanches à l'air</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NORMES POST-2025 -->
+  <section class="py-24 bg-neutral-900 text-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto text-center reveal-on-scroll">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">Le Virage Numérique : Normes Post-2025</h2>
+        <p class="text-xl text-neutral-400 mb-16 leading-relaxed">
+          L'année 2025 a marqué un tournant. La conformité passe désormais par la donnée. L'adoption de systèmes électroniques n'est plus un luxe, mais une exigence de traçabilité pour les audits internationaux.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="bg-white/5 p-10 border border-white/10 rounded-sm reveal-on-scroll">
+          <h3 class="text-3xl font-bold text-secondary mb-6 italic">LIMS & Cahiers de Labo Électroniques</h3>
+          <p class="text-neutral-300 mb-6 leading-relaxed text-lg">
+            L'intégration de systèmes LIMS (Laboratory Information Management System) permet une gestion automatisée des stocks et des échantillons. En cas d'incident, la remontée d'information est instantanée, permettant un confinement immédiat des risques.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Sécurisation des données sensibles</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Traçabilité GLP/GMP renforcée</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Interconnexion avec l'instrumentation analytique</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Logiciel de gestion de labo" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMATION -->
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row-reverse gap-16 items-center">
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl font-bold text-primary mb-8">Le Capital Humain : Premier Maillon de la Sécurité</h2>
+          <p class="text-lg text-neutral-700 leading-relaxed mb-8">
+            L'aménagement matériel n'est efficace que si le personnel est formé à l'utiliser. En 2026, nous accompagnons nos clients avec des programmes de sensibilisation continue. Un personnel averti est un personnel qui prévient l'accident avant qu'il n'advienne.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="p-6 bg-neutral-50 border-l-4 border-secondary">
+              <h4 class="font-bold text-primary mb-2">Manipulation EPI</h4>
+              <p class="text-sm text-neutral-500">Formations régulières sur le port et l'entretien des Equipements de Protection Individuelle de nouvelle génération.</p>
+            </div>
+            <div class="p-6 bg-neutral-50 border-l-4 border-secondary">
+              <h4 class="font-bold text-primary mb-2">Gestion Urgence</h4>
+              <p class="text-sm text-neutral-500">Simulations réelles d'épandage chimique et utilisation des dispositifs de douche de sécurité.</p>
+            </div>
+          </div>
+          <div class="mt-10">
+            <a href="/conseils-actualites" class="text-primary font-bold border-b-2 border-secondary pb-1 hover:text-secondary transition-all">Consulter nos ressources pédagogiques</a>
+          </div>
+        </div>
+        <div class="lg:w-1/2 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/260447/pexels-photo-260447.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Formation de personnel" class="rounded-lg shadow-xl" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÉNÉFICES -->
+  <section class="py-24 bg-bg-alt relative">
+    <div class="container mx-auto px-6">
+      <div class="bg-primary p-16 rounded-sm shadow-2xl text-white overflow-hidden relative">
+        <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-4xl font-bold mb-6">Au-delà de la conformité : L'excellence scientifique</h2>
+            <p class="text-xl text-neutral-300 leading-relaxed mb-8">
+              Investir dans un laboratoire aux normes 2026 n'est pas seulement un coût réglementaire. C'est un avantage stratégique qui booste votre image de marque et attire les meilleurs talents.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Rigueur Scientifique</span>
+              <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Productivité Accrue</span>
+              <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Confiance des Investisseurs</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-8 bg-secondary text-white text-center rounded">
+              <div class="text-4xl font-bold mb-2">30%</div>
+              <div class="text-xs uppercase tracking-widest font-semibold">Gain d'efficacité spatiale</div>
+            </div>
+            <div class="p-8 bg-white/5 border border-white/20 text-white text-center rounded backdrop-blur-md">
+              <div class="text-4xl font-bold mb-2">-50%</div>
+              <div class="text-xs uppercase tracking-widest font-semibold">Risques d'incidents</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} />
+
+  <!-- CTA -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Prêt à sécuriser votre environnement de recherche ?"}
+    description={cta?.ctaDescription ?? "Nos experts sont à votre disposition pour une étude personnalisée de votre projet d'aménagement, partout en France."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Demander un devis gratuit', href: '/contact-devis' },
+    ]}
+    bg={cta?.ctaBg ?? "gold"}
+  />
+
+</BaseLayout>
+
+<script>
+  const scoreEl = document.getElementById('audit-score');
+  const feedbackEl = document.getElementById('audit-feedback');
+
+  document.querySelectorAll('.audit-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const parent = target.parentElement;
+      if (!parent) return;
+      parent.querySelectorAll('button').forEach(b => {
+        b.classList.remove('bg-primary', 'text-white');
+      });
+      target.classList.add('bg-primary', 'text-white');
+
+      let total = 0;
+      document.querySelectorAll('#audit-tool .bg-primary.text-white[data-points]').forEach(activeBtn => {
+        total += parseInt((activeBtn as HTMLElement).dataset.points || '0');
+      });
+
+      const percent = Math.min(Math.round((total / 40) * 100), 100);
+
+      if (scoreEl) scoreEl.innerText = percent + '%';
+
+      if (feedbackEl) {
+        if (percent < 40) feedbackEl.innerText = "Niveau de risque élevé. Une mise en conformité est urgente.";
+        else if (percent < 80) feedbackEl.innerText = "Bonnes bases, mais des optimisations numériques sont nécessaires.";
+        else feedbackEl.innerText = "Excellente conformité ! Vous êtes prêt pour les audits 2026.";
+      }
+    });
+  });
+</script>

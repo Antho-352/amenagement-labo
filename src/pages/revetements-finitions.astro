@@ -1,0 +1,395 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { getPage } from '../lib/wp';
+
+const schema = [
+  { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Revêtements et finitions haut de gamme", "item": "https://amenagement-labo.fr/revetements-finitions" }
+  ]}
+];
+
+let page;
+try {
+  page = await getPage('revetements-finitions');
+} catch (e) {
+  console.error('WP fetch failed for revetements-finitions:', e);
+}
+
+const seo = page?.seo;
+const hero = page?.heroFields;
+const faq = page?.faqFields;
+const cta = page?.ctaFields;
+
+const faqItems = faq?.faqItems ?? [
+  { question: "Quel est le meilleur revêtement de sol pour un laboratoire de chimie ?", answer: "Pour un laboratoire de chimie manipulant des solvants et des acides concentrés, la résine époxy spécifique avec traitement anti-corrosion est fortement recommandée. Elle assure une barrière imperméable et sans joint, empêchant toute infiltration dans la dalle béton." },
+  { question: "Peut-on rénover les finitions sans arrêter totalement l'activité ?", answer: "Oui, nous proposons des interventions en \"zones isolées\" avec confinement temporaire (sas de protection). Certains sols PVC ou cloisons modulaires permettent une pose rapide durant les week-ends ou périodes de maintenance annuelle." },
+  { question: "Quelles sont les obligations électriques pour les laboratoires pharma ?", answer: "Les installations doivent respecter la norme NF C 15-100 avec une attention particulière pour les zones ATEX (Atmosphères Explosives). L'étanchéité des appareillages (IP élevé) et la protection contre les surtensions sont obligatoires pour les instruments de mesure critiques." },
+];
+---
+
+<BaseLayout
+  title={seo?.title ?? "Revêtements et finitions de laboratoires haut de gamme | Sols, Murs, Électricité 2026"}
+  description={seo?.metaDesc ?? "Expertise premium en revêtements et finitions pour laboratoires : sols résines, cloisons stériles, faux-plafonds techniques et installations électriques courant fort/faible. Solutions conformes aux normes 2026."}
+  keywords="revêtement laboratoire, sol résine époxy, cloison salle blanche, plafond technique, installation électrique laboratoire, aménagement scientifique, finitions haut de gamme"
+  ogTitle={seo?.opengraphTitle ?? "L'Excellence des Finitions pour Laboratoires Scientifiques | amenagement-labo.fr"}
+  ogDescription={seo?.opengraphDescription ?? "Découvrez nos solutions de revêtements techniques et finitions esthétiques pour laboratoires pharma, cosmétiques et chimiques. Précision et durabilité garanties."}
+  ogImage="https://images.pexels.com/photos/17812839/pexels-photo-17812839.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+  twitterTitle={seo?.twitterTitle ?? "Aménagement de Laboratoire : Finitions et Installations Électriques de Prestige"}
+  twitterDescription={seo?.twitterDescription ?? "Solutions complètes pour l'enveloppe de vos espaces de recherche. Design premium, hygiène absolue et performance technique."}
+  twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/323772/pexels-photo-323772.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+  schema={schema}
+>
+
+  <!-- HERO -->
+  <Hero
+    title={hero?.heroTitle ?? "L'Art de l'Enveloppe Technique."}
+    subtitle={hero?.heroSubtitle ?? "Sublimer la précision scientifique par des finitions d'exception. Sols techniques, murs aseptiques et réseaux électriques intelligents : nous redéfinissons les standards de l'aménagement de laboratoire."}
+    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/323772/pexels-photo-323772.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
+    bgAlt="Laboratoire moderne haut de gamme"
+    badge={hero?.heroBadge ?? "Expertise 2026"}
+    ctas={hero?.heroCtas ?? [
+      { label: 'Demander une étude personnalisée', href: '/contact-devis' },
+      { label: 'Voir nos réalisations', href: '/projets-realisations', variant: 'outline' },
+    ]}
+  />
+
+  <!-- INTRODUCTION -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl text-primary mb-8">Une approche holistique du revêtement scientifique</h2>
+          <div class="w-24 h-1 bg-secondary mb-8"></div>
+          <p class="text-lg leading-relaxed text-neutral-700 mb-6">
+            En 2026, l'aménagement d'un laboratoire ne se limite plus à la simple pose de paillasses. L'enveloppe du bâtiment — sols, murs et plafonds — est devenue une composante critique de la performance analytique et de la sécurité biologique. Notre mission chez <strong>amenagement-labo.fr</strong> est de transformer vos contraintes techniques en un environnement de travail harmonieux et durable.
+          </p>
+          <p class="text-lg leading-relaxed text-neutral-700 mb-6">
+            Chaque centimètre carré de votre laboratoire est pensé pour résister aux agressions chimiques, faciliter la décontamination et offrir un confort acoustique et visuel optimal. Nous collaborons avec des architectes, des directeurs de recherche et des gestionnaires de maintenance pour concevoir des espaces qui répondent aux exigences les plus strictes de la <a href="/normes-reglementations" class="text-primary font-semibold underline decoration-secondary">réglementation en vigueur</a>.
+          </p>
+          <div class="grid grid-cols-2 gap-8 mt-12">
+            <div>
+              <span class="text-3xl font-heading text-secondary block mb-2">0.01&#956;m</span>
+              <p class="text-sm text-neutral-500 uppercase tracking-wide">Précision de filtration et d'étanchéité</p>
+            </div>
+            <div>
+              <span class="text-3xl font-heading text-secondary block mb-2">100%</span>
+              <p class="text-sm text-neutral-500 uppercase tracking-wide">Conformité aux normes ISO 14644</p>
+            </div>
+          </div>
+        </div>
+        <div class="relative reveal-on-scroll">
+          <div class="absolute -inset-4 border-2 border-secondary translate-x-8 translate-y-8 z-0"></div>
+          <img src="https://images.pexels.com/photos/220072/pexels-photo-220072.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Détail technique laboratoire" class="relative z-10 w-full h-[600px] object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-1000" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLS TECHNIQUES -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl md:text-5xl text-center text-primary mb-16 reveal-on-scroll">Sols de Haute Performance</h2>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="p-8 bg-white border-b-4 border-secondary shadow-lg reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/6156378/pexels-photo-6156378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Résine époxy" class="w-full h-48 object-cover mb-6" loading="lazy" />
+          <h3 class="text-2xl text-primary mb-4">Résines Époxy &amp; Polyuréthane</h3>
+          <p class="text-neutral-600 mb-4 italic">L'imperméabilité absolue.</p>
+          <p class="text-neutral-600 leading-relaxed mb-6">Idéales pour les zones de production chimique et pharmaceutique, nos résines coulées sans joints offrent une résistance mécanique exceptionnelle et une facilité de nettoyage inégalée. Disponibles en finitions antistatiques (ESD) pour la protection de vos instruments sensibles.</p>
+          <ul class="space-y-2 text-sm text-primary">
+            <li>• Résistance aux acides et bases fortes</li>
+            <li>• Continuité sol-mur par plinthe à gorge</li>
+            <li>• Finition mate ou brillante au choix</li>
+          </ul>
+        </div>
+        <div class="p-8 bg-white border-b-4 border-secondary shadow-lg reveal-on-scroll" style="transition-delay: 200ms;">
+          <img src="https://images.pexels.com/photos/235985/pexels-photo-235985.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Sol PVC technique" class="w-full h-48 object-cover mb-6" loading="lazy" />
+          <h3 class="text-2xl text-primary mb-4">Sols Vinyles &amp; PVC Soudés</h3>
+          <p class="text-neutral-600 mb-4 italic">Confort et acoustique.</p>
+          <p class="text-neutral-600 leading-relaxed mb-6">Nos gammes de sols PVC hétérogènes et homogènes sont spécifiquement traitées pour les milieux hospitaliers et laboratoires. Les soudures à chaud assurent une étanchéité parfaite aux fluides, évitant toute prolifération bactérienne dans les interstices.</p>
+          <ul class="space-y-2 text-sm text-primary">
+            <li>• Isolation acoustique jusqu'à 19dB</li>
+            <li>• Traitement de surface anti-tâches</li>
+            <li>• Grand choix de coloris et textures</li>
+          </ul>
+        </div>
+        <div class="p-8 bg-white border-b-4 border-secondary shadow-lg reveal-on-scroll" style="transition-delay: 400ms;">
+          <img src="https://images.pexels.com/photos/5769593/pexels-photo-5769593.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Grès cérame technique" class="w-full h-48 object-cover mb-6" loading="lazy" />
+          <h3 class="text-2xl text-primary mb-4">Grès Cérame Technique</h3>
+          <p class="text-neutral-600 mb-4 italic">La durabilité minérale.</p>
+          <p class="text-neutral-600 leading-relaxed mb-6">Pour les zones à fort trafic ou soumises à des contraintes thermiques extrêmes, le carrelage technique en grès cérame reste une valeur sûre. Nous utilisons exclusivement des joints époxy anti-acides pour garantir l'intégrité de la structure.</p>
+          <ul class="space-y-2 text-sm text-primary">
+            <li>• Résistance au poinçonnement</li>
+            <li>• Classement UPEC élevé (U4 P4)</li>
+            <li>• Propriétés antidérapantes (R10-R11)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MURS ET CLOISONS -->
+  <section class="py-24 bg-primary text-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-16 items-center">
+        <div class="md:w-1/2 reveal-on-scroll">
+          <h2 class="text-4xl md:text-5xl mb-8">Cloisonnement et Parois Aseptiques</h2>
+          <p class="text-lg text-neutral-300 mb-8 leading-relaxed">
+            Le traitement des surfaces verticales est primordial pour maintenir l'intégrité de vos zones à atmosphère contrôlée (ZAC). Nous installons des systèmes de cloisons modulaires en acier laqué, inox ou stratifié haute pression (HPL), garantissant une surface parfaitement lisse et inerte.
+          </p>
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-1">Peintures Décontaminables</h4>
+                <p class="text-neutral-400">Application de résines murales résistantes aux agents de nettoyage agressifs (VHP, détergents).</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold mb-1">Réactivité et Modularité</h4>
+                <p class="text-neutral-400">Systèmes de cloisons amovibles pour faire évoluer vos espaces sans interruption d'activité majeure.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2 grid grid-cols-2 gap-4 reveal-on-scroll">
+          <img src="https://images.pexels.com/photos/10667169/pexels-photo-10667169.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Salle blanche" class="w-full h-64 object-cover rounded-lg" loading="lazy" />
+          <img src="https://images.pexels.com/photos/35300832/pexels-photo-35300832.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation murs" class="w-full h-64 object-cover rounded-lg mt-8" loading="lazy" />
+          <img src="https://images.pexels.com/photos/19680/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Finition peinture" class="w-full h-64 object-cover rounded-lg -mt-8" loading="lazy" />
+          <img src="https://images.pexels.com/photos/19893408/pexels-photo-19893408.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Surface lisse" class="w-full h-64 object-cover rounded-lg" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAFONDS ET ÉCLAIRAGE -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto text-center mb-16 reveal-on-scroll">
+        <h2 class="text-4xl md:text-5xl text-primary mb-6">Plafonds Techniques &amp; Scénographie Lumineuse</h2>
+        <p class="text-lg text-neutral-600 leading-relaxed">
+          Au-delà de l'esthétique, le plafond est le centre névralgique des flux : aération, filtration HEPA, réseaux de fluides et éclairage. Nos solutions intègrent ces technologies avec une élégance discrète.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="reveal-on-scroll">
+          <h3 class="text-2xl text-primary mb-6 border-l-4 border-secondary pl-6">Plafonds Suspendus Étanches</h3>
+          <p class="mb-6 leading-relaxed">
+            Nous posons des dalles de plafond à bords jointifs ou systèmes de plafonds tendus spécifiques aux environnements stériles. L'étanchéité à l'air est assurée par des joints en silicone de qualité pharmaceutique, évitant tout échange incontrôlé avec le plénum.
+          </p>
+          <img src="https://images.pexels.com/photos/34133/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plafond technique" class="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" loading="lazy" />
+        </div>
+        <div class="reveal-on-scroll">
+          <h3 class="text-2xl text-primary mb-6 border-l-4 border-secondary pl-6">Éclairage LED Spécialisé</h3>
+          <p class="mb-6 leading-relaxed">
+            Un éclairage sans ombre portée est crucial pour la précision des manipulations. Nos luminaires LED encastrés (IP65) offrent un rendu des couleurs (IRC &gt; 90) fidèle, indispensable pour la chimie colorimétrique et le contrôle qualité cosmétique.
+          </p>
+          <div class="bg-bg-alt p-8">
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span> Flux lumineux adapté (500-1000 lux)</li>
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span> Gestion DALI pour économie d'énergie</li>
+              <li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary rounded-full"></span> Intégration de luminaires UV-C pour désinfection automatique</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALLATIONS ÉLECTRIQUES -->
+  <section class="py-24 bg-bg-alt">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl text-primary mb-16 reveal-on-scroll">Intelligence et Puissance : Électricité &amp; Connectivité</h2>
+      <div class="grid lg:grid-cols-4 gap-8">
+        <div class="bg-white p-8 border border-neutral-200 hover:border-secondary transition-colors reveal-on-scroll">
+          <div class="text-secondary mb-4">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold text-primary mb-4">Courant Fort</h4>
+          <p class="text-sm text-neutral-600">Alimentation sécurisée des paillasses, armoires de sécurité et équipements énergivores. Tableaux divisionnaires dédiés.</p>
+        </div>
+        <div class="bg-white p-8 border border-neutral-200 hover:border-secondary transition-colors reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="text-secondary mb-4">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071a9.5 9.5 0 0113.42 0m-15.547-2.121a12.5 12.5 0 0117.678 0"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold text-primary mb-4">Courant Faible</h4>
+          <p class="text-sm text-neutral-600">Réseau VDI haute performance, fibre optique et points d'accès Wi-Fi 7 pour instruments connectés.</p>
+        </div>
+        <div class="bg-white p-8 border border-neutral-200 hover:border-secondary transition-colors reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="text-secondary mb-4">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold text-primary mb-4">GTC &amp; Automatisme</h4>
+          <p class="text-sm text-neutral-600">Gestion Technique Centralisée pour le pilotage des consommations, du climat et de la sécurité des accès.</p>
+        </div>
+        <div class="bg-white p-8 border border-neutral-200 hover:border-secondary transition-colors reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="text-secondary mb-4">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          </div>
+          <h4 class="text-xl font-bold text-primary mb-4">Alimentation de Secours</h4>
+          <p class="text-sm text-neutral-600">Mise en place d'onduleurs et groupes électrogènes pour garantir la continuité des expériences et du stockage froid.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTIMATEUR -->
+  <section class="py-24 bg-white border-y border-secondary/20">
+    <div class="container mx-auto px-6 max-w-5xl">
+      <div class="bg-primary p-12 rounded-lg shadow-2xl overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-secondary opacity-10 rounded-full -mr-32 -mt-32"></div>
+        <h2 class="text-3xl font-heading text-secondary mb-8">Estimateur de Besoins : Finitions Labo</h2>
+        <p class="text-white/80 mb-10">Configurez les paramètres de base de votre projet pour obtenir une première estimation des matériaux nécessaires.</p>
+
+        <div class="grid md:grid-cols-2 gap-12 text-white">
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm uppercase tracking-wider mb-2">Surface du Laboratoire (m²)</label>
+              <input type="range" id="surfaceRange" min="20" max="500" value="50" class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-secondary" />
+              <div class="flex justify-between mt-2 font-mono text-secondary">
+                <span>20 m²</span>
+                <span id="surfaceVal" class="text-xl font-bold">50 m²</span>
+                <span>500 m²</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm uppercase tracking-wider mb-2">Type de Revêtement de Sol</label>
+              <select id="solType" class="w-full bg-white/10 border border-white/20 p-3 outline-none focus:border-secondary">
+                <option value="120" class="text-black">Résine Époxy Coulée (Premium)</option>
+                <option value="85" class="text-black">PVC Technique Soudé</option>
+                <option value="150" class="text-black">Grès Cérame Anti-Acide</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm uppercase tracking-wider mb-2">Niveau de filtration plafond</label>
+              <div class="flex gap-4">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="filter" value="0" checked class="accent-secondary" /> Standard
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="filter" value="2500" class="accent-secondary" /> ISO 7 / HEPA
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white/5 p-8 border border-white/10 flex flex-col justify-center items-center text-center">
+            <span class="text-sm uppercase tracking-widest text-secondary mb-4">Estimation Globale Finitions</span>
+            <div class="text-5xl font-heading mb-4" id="totalEstimate">0 &euro;</div>
+            <p class="text-xs text-white/40 max-w-xs italic">Cette estimation inclut la pose professionnelle, les matériaux certifiés et la gestion des déchets. Hors mobilier technique et équipements de ventilation.</p>
+            <a href="/contact-devis" class="mt-8 px-6 py-3 bg-secondary text-primary font-bold hover:bg-white transition-all uppercase text-sm">Obtenir un devis ferme</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCOMPAGNEMENT -->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-20">
+        <div class="reveal-on-scroll">
+          <h2 class="text-4xl text-primary mb-8">Showrooms et Outils de Projection</h2>
+          <p class="text-lg leading-relaxed text-neutral-600 mb-8">
+            Parce qu'il est complexe de se projeter dans un environnement aussi technique, nous mettons à votre disposition des showrooms immersifs à travers la France. Vous pourrez y toucher les textures, tester la glissance des sols et apprécier la qualité de finition de nos menuiseries sur-mesure.
+          </p>
+          <p class="text-lg leading-relaxed text-neutral-600 mb-8">
+            Nos ingénieurs utilisent des outils de modélisation BIM (Building Information Modeling) et de réalité virtuelle pour vous permettre de visiter votre futur laboratoire avant même le premier coup de pinceau. Cette approche limite les erreurs de conception et assure une ergonomie parfaite des <a href="/installation-equipements-techniques" class="text-primary font-semibold underline decoration-secondary">installations techniques</a>.
+          </p>
+          <div class="border-t border-secondary/30 pt-8 mt-8">
+            <h4 class="text-secondary font-bold uppercase text-sm mb-4">Notre différence :</h4>
+            <ul class="grid grid-cols-2 gap-4">
+              <li class="flex items-center gap-2 text-sm">&#10003; Conseils matériaux neutres</li>
+              <li class="flex items-center gap-2 text-sm">&#10003; Maîtrise d'œuvre intégrée</li>
+              <li class="flex items-center gap-2 text-sm">&#10003; Respect strict des délais</li>
+              <li class="flex items-center gap-2 text-sm">&#10003; SAV réactif sous 24h</li>
+            </ul>
+          </div>
+        </div>
+        <div class="reveal-on-scroll relative">
+          <img src="https://images.pexels.com/photos/4427624/pexels-photo-4427624.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Consultation expert" class="w-full h-full object-cover shadow-2xl grayscale" loading="lazy" />
+          <div class="absolute bottom-0 left-0 bg-secondary p-8 -ml-12 -mb-8 hidden lg:block">
+            <p class="text-primary font-bold text-2xl italic">"La technique au service de l'utilisateur."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉCO-RESPONSABILITÉ -->
+  <section class="py-24 bg-primary text-white overflow-hidden relative">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl">
+        <h2 class="text-4xl font-heading mb-8 text-secondary">Un Engagement Durable pour 2026</h2>
+        <p class="text-xl leading-relaxed text-neutral-300 mb-8">
+          Nous sélectionnons rigoureusement des gammes de produits à faible émission de COV (Composés Organiques Volatils) et favorisons les matériaux biosourcés dès que la technique le permet. La durabilité de nos finitions haut de gamme est notre meilleur argument écologique : un laboratoire qui dure 25 ans est un laboratoire dont l'empreinte environnementale est maîtrisée.
+        </p>
+        <div class="flex items-center gap-8">
+          <div class="text-center">
+            <span class="block text-4xl text-secondary font-heading mb-2">A+</span>
+            <span class="text-xs uppercase tracking-widest">Qualité de l'Air</span>
+          </div>
+          <div class="w-px h-12 bg-white/20"></div>
+          <div class="text-center">
+            <span class="block text-4xl text-secondary font-heading mb-2">Recyclé</span>
+            <span class="text-xs uppercase tracking-widest">Supports Cloisons</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="https://images.pexels.com/photos/167699/pexels-photo-167699.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Design durable" class="absolute right-0 top-0 h-full w-1/3 object-cover opacity-30 mix-blend-overlay" loading="lazy" />
+  </section>
+
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} title="Questions Fréquentes sur les Finitions" />
+
+  <!-- CTA FINAL -->
+  <CtaBanner
+    title={cta?.ctaTitle ?? "Prêt à transformer votre espace de recherche ?"}
+    description={cta?.ctaDescription ?? "Contactez nos experts pour une consultation technique gratuite et un devis détaillé adapté à vos contraintes budgétaires et réglementaires."}
+    ctas={cta?.ctaButtons ?? [
+      { label: 'Démarrer mon projet', href: '/contact-devis' },
+      { label: "Retour à l'accueil", href: '/', variant: 'outline' },
+    ]}
+    bg={cta?.ctaBg ?? "green"}
+  />
+
+</BaseLayout>
+
+<script>
+  const surfaceRange = document.getElementById('surfaceRange') as HTMLInputElement;
+  const surfaceVal = document.getElementById('surfaceVal');
+  const solType = document.getElementById('solType') as HTMLSelectElement;
+  const totalEstimate = document.getElementById('totalEstimate');
+  const filters = document.getElementsByName('filter') as NodeListOf<HTMLInputElement>;
+
+  function calculateEstimate() {
+    const surface = parseInt(surfaceRange.value);
+    const pricePerM2 = parseInt(solType.value);
+    let filterPrice = 0;
+
+    filters.forEach(f => {
+      if (f.checked) filterPrice = parseInt(f.value);
+    });
+
+    const total = (surface * pricePerM2) + filterPrice + (surface * 150);
+
+    if (surfaceVal) surfaceVal.innerText = surface + ' m²';
+    if (totalEstimate) totalEstimate.innerText = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(total);
+  }
+
+  surfaceRange?.addEventListener('input', calculateEstimate);
+  solType?.addEventListener('change', calculateEstimate);
+  filters.forEach(f => f.addEventListener('change', calculateEstimate));
+  calculateEstimate();
+</script>
