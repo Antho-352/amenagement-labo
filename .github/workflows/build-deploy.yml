@@ -34,6 +34,6 @@ jobs:
           path: dist/
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: ${{ secrets.DEPLOY_HOST }}
-remote_port: 5022          
-remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_port: 5022
+          remote_user: ${{ secrets.DEPLOY_USER }}
           remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
