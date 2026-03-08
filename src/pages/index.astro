@@ -6,7 +6,8 @@ import LabSimulator from '../components/LabSimulator.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import SectorGrid from '../components/SectorGrid.astro';
 import CtaBanner from '../components/CtaBanner.astro';
-import { getPage } from '../lib/wp';
+import { getPage, getPosts } from '../lib/wp';
+import type { WpPost } from '../lib/types';
 
 const schema = [
   { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
@@ -30,6 +31,23 @@ const faqItems = faq?.faqItems ?? [
   { question: "Intervenez-vous sur des laboratoires déjà en activité ?", answer: "Oui, nous avons une expertise spécifique en rénovation de sites occupés. Nous mettons en place des sas de confinement provisoires et organisons les travaux en horaires décalés pour minimiser l'impact sur vos manipulations en cours." },
   { question: "Assurez-vous la maintenance des sorbonnes ?", answer: "La maintenance préventive est cruciale pour la sécurité. Nous proposons des contrats d'entretien incluant le contrôle annuel des vitesses d'air, le remplacement des filtres charbon et la vérification des automatismes de fermeture." },
 ];
+
+let latestPosts: WpPost[] = [];
+try {
+  latestPosts = await getPosts(6);
+} catch (e) {
+  console.error('WP fetch failed for latest posts:', e);
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+}
+
+function stripTags(html: string) {
+  return html.replace(/<[^>]*>/g, '').trim();
+}
 
 const sectors = [
   { name: 'Pharmacie', image: 'https://images.pexels.com/photos/3683081/pexels-photo-3683081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
@@ -228,33 +246,41 @@ const sectors = [
   <!-- FAQ -->
   <FaqAccordion items={faqItems} />
 
-  <!-- BLOG SNIPPET -->
+  <!-- BLOG SNIPPET — 6 derniers articles WP -->
   <section class="py-24 bg-primary">
     <div class="container mx-auto px-6">
       <div class="flex justify-between items-end mb-12">
         <h2 class="text-4xl text-white font-heading">Conseils &amp; Innovations</h2>
-        <a href="/conseils-actualites" class="text-secondary font-bold hover:underline">Voir tous les articles</a>
+        <a href="/blog" class="text-secondary font-bold hover:underline">Voir tous les articles</a>
       </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
-          <span class="text-xs text-secondary font-mono">14 Janvier 2026</span>
-          <h3 class="text-xl text-white mt-3 mb-4 font-heading">L'impact de l'IA sur l'ergonomie des laboratoires</h3>
-          <p class="text-sm text-neutral-400 mb-6">Comment les nouveaux algorithmes optimisent les flux de travail et réduisent les risques TMS chez les techniciens.</p>
-          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
-        </article>
-        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
-          <span class="text-xs text-secondary font-mono">02 Janvier 2026</span>
-          <h3 class="text-xl text-white mt-3 mb-4 font-heading">Matériaux durables : Le grès vs la résine</h3>
-          <p class="text-sm text-neutral-400 mb-6">Une analyse comparative de l'empreinte carbone et de la durabilité des surfaces de travail en laboratoire.</p>
-          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
-        </article>
-        <article class="bg-white/5 p-6 rounded-lg border border-white/10 hover:border-secondary transition">
-          <span class="text-xs text-secondary font-mono">15 Décembre 2025</span>
-          <h3 class="text-xl text-white mt-3 mb-4 font-heading">Sécurité ATEX : Ce qu'il faut savoir</h3>
-          <p class="text-sm text-neutral-400 mb-6">Mise à jour des protocoles de sécurité pour le stockage des solvants inflammables en 2026.</p>
-          <a href="/conseils-actualites" class="text-white underline underline-offset-4 text-sm">Lire l'article</a>
-        </article>
-      </div>
+      {latestPosts.length > 0 ? (
+        <div class="grid md:grid-cols-3 gap-8">
+          {latestPosts.slice(0, 6).map((post) => (
+            <a href={`/blog/${post.slug}`} class="group bg-white/5 rounded-lg border border-white/10 hover:border-secondary transition overflow-hidden block">
+              {post.featuredImage?.node ? (
+                <img
+                  src={post.featuredImage.node.sourceUrl}
+                  alt={post.featuredImage.node.altText || post.title}
+                  class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-44 bg-white/5 flex items-center justify-center">
+                  <svg class="w-10 h-10 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+                </div>
+              )}
+              <div class="p-6">
+                <span class="text-xs text-secondary font-mono">{formatDate(post.date)}</span>
+                <h3 class="text-xl text-white mt-3 mb-4 font-heading group-hover:text-secondary transition-colors" set:html={post.title} />
+                <p class="text-sm text-neutral-400 mb-4 line-clamp-2">{stripTags(post.excerpt)}</p>
+                <span class="text-white underline underline-offset-4 text-sm">Lire l'article</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-neutral-400 text-center">Les articles arrivent bientôt.</p>
+      )}
     </div>
   </section>
 

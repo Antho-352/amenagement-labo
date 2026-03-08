@@ -6,7 +6,7 @@ import { getPosts } from '../../lib/wp';
 
 let posts: Awaited<ReturnType<typeof getPosts>> = [];
 try {
-  posts = await getPosts(50);
+  posts = await getPosts(20);
 } catch (e) {
   console.error('WP fetch failed for blog posts:', e);
 }
