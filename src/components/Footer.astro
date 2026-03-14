@@ -1,6 +1,5 @@
 ---
 const navLinks = [
-  { href: '/', label: 'Solutions Laboratoires' },
   { href: '/conception-laboratoires', label: 'Conception sur mesure' },
   { href: '/installation-equipements-techniques', label: 'Installation équipements' },
   { href: '/revetements-finitions', label: 'Revêtements & finitions' },
@@ -10,6 +9,7 @@ const navLinks = [
   { href: '/projets-realisations', label: 'Réalisations' },
   { href: '/conseils-actualites', label: 'Conseils & actualités' },
   { href: '/contact-devis', label: 'Contact & devis' },
+  { href: '/mentions-legales', label: 'Mentions légales' },
 ];
 ---
 
@@ -30,7 +30,8 @@ const navLinks = [
             Expertise scientifique et précision technique pour l'aménagement de vos espaces de laboratoire. De la conception à l'installation des équipements critiques.
           </p>
         </div>
-        <!-- Social icons -->
+        <!-- Social icons (masqués tant que les profils ne sont pas créés) -->
+        <!--
         <div class="flex items-center space-x-5">
           <a href="#" class="group transition-transform duration-300 hover:-translate-y-1" aria-label="LinkedIn">
             <svg class="w-5 h-5 stroke-secondary fill-none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
@@ -39,6 +40,7 @@ const navLinks = [
             <svg class="w-5 h-5 stroke-secondary fill-none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path><path d="m9.75 15.02 5.75-3.27-5.75-3.27v6.54z"></path></svg>
           </a>
         </div>
+        -->
       </div>
 
       <!-- Column 2: Navigation -->
@@ -56,23 +58,21 @@ const navLinks = [
         </nav>
       </div>
 
-      <!-- Column 3: Newsletter -->
+      <!-- Column 3: Contact & Info -->
       <div class="lg:col-span-4 flex flex-col space-y-8">
         <div class="bg-[#FAFAF8]/5 p-6 rounded-sm border border-secondary/20">
-          <h4 class="font-heading text-xl text-secondary mb-4">Newsletter Technique</h4>
-          <p class="text-xs text-[#FAFAF8]/60 mb-6 uppercase tracking-widest font-medium">Veille normative et innovations</p>
-          <form class="flex flex-col space-y-3" onsubmit="event.preventDefault();">
-            <div class="relative">
-              <input type="email" placeholder="Votre email professionnel" class="w-full bg-transparent border-b border-secondary/40 py-3 text-sm focus:outline-none focus:border-secondary transition-colors placeholder:text-[#FAFAF8]/30">
-            </div>
-            <button class="bg-secondary text-primary py-3 px-6 text-sm font-bold tracking-wider hover:bg-[#FAFAF8] transition-all duration-500 rounded-sm">
-              S'ABONNER
-            </button>
-          </form>
+          <h4 class="font-heading text-xl text-secondary mb-4">Un projet ?</h4>
+          <p class="text-sm text-[#FAFAF8]/70 mb-6">Nos experts sont à votre disposition pour étudier votre besoin et vous accompagner dans l'aménagement de votre laboratoire.</p>
+          <a href="/contact-devis" class="block bg-secondary text-primary py-3 px-6 text-sm font-bold tracking-wider hover:bg-[#FAFAF8] transition-all duration-500 rounded-sm text-center">
+            DEMANDER UN DEVIS
+          </a>
         </div>
-        <div class="flex items-center space-x-4 text-sm text-[#FAFAF8]/80">
-          <span class="w-10 h-[1px] bg-secondary/40"></span>
-          <span class="tracking-widest uppercase">France Entière</span>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4 text-sm text-[#FAFAF8]/80">
+            <span class="w-10 h-[1px] bg-secondary/40"></span>
+            <span class="tracking-widest uppercase">France Entière</span>
+          </div>
+          <a href="mailto:contact@amenagement-labo.fr" class="text-sm text-[#FAFAF8]/60 hover:text-secondary transition-colors block pl-14">contact@amenagement-labo.fr</a>
         </div>
       </div>
     </div>
@@ -93,8 +93,8 @@ const navLinks = [
       </div>
 
       <div class="flex space-x-6 text-[10px] md:text-xs text-[#FAFAF8]/40 uppercase tracking-widest">
-        <a href="#" class="hover:text-secondary transition-colors">Mentions Légales</a>
-        <a href="#" class="hover:text-secondary transition-colors">Confidentialité</a>
+        <a href="/mentions-legales" class="hover:text-secondary transition-colors">Mentions Légales</a>
+        <a href="/politique-confidentialite" class="hover:text-secondary transition-colors">Confidentialité</a>
       </div>
     </div>
   </div>

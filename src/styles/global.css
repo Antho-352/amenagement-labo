@@ -14,20 +14,22 @@
 }
 
 /* Base typography */
-body {
-  font-family: var(--font-body);
-  background-color: #ffffff;
-  color: var(--color-text-dark);
-  line-height: 1.7;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+@layer base {
+  body {
+    font-family: var(--font-body);
+    background-color: #ffffff;
+    color: var(--color-text-dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--color-primary);
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-primary);
+  }
 }
 
 /* Utility classes from original */

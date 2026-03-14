@@ -8,7 +8,7 @@ import { getPage } from '../lib/wp';
 const schema = [
   { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" },
     { "@type": "ListItem", "position": 2, "name": "Conception personnalisée de laboratoires", "item": "https://amenagement-labo.fr/conception-laboratoires" }
   ]}
 ];
@@ -34,8 +34,8 @@ const faqItems = faq?.faqItems ?? [
 
 <BaseLayout
   title={seo?.title ?? "Conception personnalisée de laboratoires : Expertise Architecturale et Technique | amenagement-labo.fr"}
-  description={seo?.metaDesc ?? "Découvrez notre approche holistique de la conception de laboratoires en 2026. Alliez esthétique premium, ergonomie de pointe et conformité normative pour vos espaces médicaux et dentaires."}
-  keywords="conception laboratoire, aménagement sur mesure, architecture médicale, laboratoire dentaire, ergonomie laboratoire, design scientifique, modélisation 3D labo, normes santé"
+  description={seo?.metaDesc ?? "Découvrez notre approche de la conception de laboratoires en 2026. Alliez ergonomie de pointe et conformité normative pour vos espaces scientifiques et de recherche."}
+  keywords="conception laboratoire, aménagement sur mesure, ergonomie laboratoire, design scientifique, modélisation 3D labo, normes laboratoire"
   ogTitle={seo?.opengraphTitle ?? "L'Art de Concevoir des Laboratoires : Fusion entre Science et Esthétique"}
   ogDescription={seo?.opengraphDescription ?? "Expertise complète en aménagement de laboratoires : de la modélisation 3D à l'installation technique. Créez un environnement performant et serein."}
   twitterTitle={seo?.twitterTitle ?? "Conception de Laboratoires Premium : L'Innovation par le Design"}
@@ -92,7 +92,7 @@ const faqItems = faq?.faqItems ?? [
   <section class="py-24 bg-white">
     <div class="container mx-auto px-6">
       <div class="text-center mb-20 reveal-on-scroll">
-        <h2 class="text-4xl md:text-5xl text-primary mb-4">Un Processus de Co-Construction</h2>
+        <h2 class="text-4xl md:text-5xl text-primary mb-4">Un processus de co-construction</h2>
         <div class="w-24 h-1 bg-secondary mx-auto"></div>
         <p class="mt-8 text-xl text-neutral-600 max-w-3xl mx-auto">
           Nous ne concevons pas <em>pour</em> vous, mais <em>avec</em> vous. L'implication des utilisateurs finaux est la clé d'un projet réussi.
@@ -102,7 +102,7 @@ const faqItems = faq?.faqItems ?? [
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="p-8 border-t-2 border-secondary bg-neutral-50 reveal-on-scroll" style="transition-delay: 100ms;">
           <span class="text-6xl font-heading text-secondary/30 mb-4 block">01</span>
-          <h3 class="text-2xl font-bold text-primary mb-4">Immersion &amp; Analyse des Flux</h3>
+          <h3 class="text-2xl font-bold text-primary mb-4">Immersion &amp; analyse des flux</h3>
           <p class="text-neutral-600 mb-6">
             Nous analysons vos processus quotidiens, le taux d'affluence des patients et les mouvements du personnel pour identifier les goulots d'étranglement. Cette étape définit l'ADN de votre futur laboratoire.
           </p>
@@ -114,7 +114,7 @@ const faqItems = faq?.faqItems ?? [
         </div>
         <div class="p-8 border-t-2 border-secondary bg-neutral-50 reveal-on-scroll" style="transition-delay: 200ms;">
           <span class="text-6xl font-heading text-secondary/30 mb-4 block">02</span>
-          <h3 class="text-2xl font-bold text-primary mb-4">Modélisation 3D Interactive</h3>
+          <h3 class="text-2xl font-bold text-primary mb-4">Modélisation 3D interactive</h3>
           <p class="text-neutral-600 mb-6">
             Grâce à nos outils de pointe, vous visualisez votre laboratoire avant même le premier coup de pioche. La 3D permet d'ajuster l'ergonomie des postes de travail en temps réel.
           </p>
@@ -126,7 +126,7 @@ const faqItems = faq?.faqItems ?? [
         </div>
         <div class="p-8 border-t-2 border-secondary bg-neutral-50 reveal-on-scroll" style="transition-delay: 300ms;">
           <span class="text-6xl font-heading text-secondary/30 mb-4 block">03</span>
-          <h3 class="text-2xl font-bold text-primary mb-4">Ingénierie de Détail</h3>
+          <h3 class="text-2xl font-bold text-primary mb-4">Ingénierie de détail</h3>
           <p class="text-neutral-600 mb-6">
             C'est ici que la technique prend vie. Nous planifions l'intégration des <a href="/installation-equipements-techniques" class="text-secondary font-semibold">équipements techniques</a>, des réseaux de fluides et de l'électricité.
           </p>
@@ -140,17 +140,17 @@ const faqItems = faq?.faqItems ?? [
     </div>
   </section>
 
-  <!-- L'EXPÉRIENCE PATIENT -->
+  <!-- ERGONOMIE & BIEN-ÊTRE -->
   <section class="py-24 bg-primary text-white">
     <div class="container mx-auto px-6">
       <div class="flex flex-wrap -mx-6">
         <div class="w-full lg:w-1/2 px-6 mb-12 lg:mb-0 reveal-on-scroll">
-          <img src="https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Accueil médical design" class="rounded-3xl shadow-2xl" loading="lazy" />
+          <img src="https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Environnement de travail optimisé" class="rounded-3xl shadow-2xl" loading="lazy" />
         </div>
         <div class="w-full lg:w-1/2 px-6 flex flex-col justify-center reveal-on-scroll">
-          <h2 class="text-4xl md:text-5xl mb-8">Redéfinir le parcours patient</h2>
+          <h2 class="text-4xl md:text-5xl mb-8">L'ergonomie au service de la performance</h2>
           <p class="text-xl text-neutral-300 mb-8">
-            Dans un laboratoire d'analyses médicales, l'anxiété est souvent présente. Notre mission est de transformer cette attente en une expérience apaisante.
+            Un laboratoire bien conçu réduit la fatigue, limite les erreurs et améliore la concentration de vos équipes. L'ergonomie est un investissement qui se mesure au quotidien.
           </p>
           <div class="space-y-8">
             <div class="flex gap-4">
@@ -158,8 +158,8 @@ const faqItems = faq?.faqItems ?? [
                 <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
               </div>
               <div>
-                <h4 class="text-xl font-bold mb-2">Zones d'accueil biophiliques</h4>
-                <p class="text-neutral-400">Intégration de textures naturelles et de végétation pour réduire le stress cortisolique dès l'entrée.</p>
+                <h4 class="text-xl font-bold mb-2">Postes de travail adaptés</h4>
+                <p class="text-neutral-400">Hauteurs réglables, éclairage ciblé et agencement pensé pour les gestes répétitifs du quotidien.</p>
               </div>
             </div>
             <div class="flex gap-4">
@@ -167,8 +167,8 @@ const faqItems = faq?.faqItems ?? [
                 <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               </div>
               <div>
-                <h4 class="text-xl font-bold mb-2">Fluidité des prélèvements</h4>
-                <p class="text-neutral-400">Optimisation des circuits pour minimiser le temps d'attente et garantir une intimité totale des patients.</p>
+                <h4 class="text-xl font-bold mb-2">Circulation optimisée</h4>
+                <p class="text-neutral-400">Des flux logiques qui minimisent les déplacements inutiles et réduisent les risques de contamination croisée.</p>
               </div>
             </div>
           </div>
@@ -182,7 +182,7 @@ const faqItems = faq?.faqItems ?? [
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm p-12 rounded-3xl shadow-xl border-2 border-secondary/20">
         <div class="text-center mb-10">
-          <h3 class="text-3xl text-primary mb-4">Simulateur d'Optimisation d'Espace</h3>
+          <h3 class="text-3xl text-primary mb-4">Simulateur d'optimisation d'espace</h3>
           <p class="text-neutral-600">Estimez la configuration idéale de votre futur plateau technique en quelques clics.</p>
         </div>
 
@@ -201,7 +201,7 @@ const faqItems = faq?.faqItems ?? [
               <label class="block text-sm font-bold text-primary mb-2">Secteur d'activité</label>
               <select id="sectorInput" class="w-full p-3 border border-neutral-300 rounded focus:border-secondary focus:outline-none">
                 <option value="medical">Biologie Médicale</option>
-                <option value="dental">Laboratoire Dentaire</option>
+                <option value="dental">Contrôle qualité</option>
                 <option value="pharma">Pharmaceutique / Chimie</option>
                 <option value="food">Agroalimentaire</option>
               </select>
@@ -209,7 +209,7 @@ const faqItems = faq?.faqItems ?? [
           </div>
 
           <div class="bg-primary p-8 rounded-2xl text-white">
-            <h4 class="text-lg font-bold mb-6 text-secondary">Nos Recommandations :</h4>
+            <h4 class="text-lg font-bold mb-6 text-secondary">Nos recommandations :</h4>
             <div id="results" class="space-y-4">
               <p class="flex justify-between border-b border-white/10 pb-2"><span>Espace technique :</span> <span class="font-bold">85 m²</span></p>
               <p class="flex justify-between border-b border-white/10 pb-2"><span>Nombre de paillasses :</span> <span class="font-bold">12</span></p>
@@ -223,35 +223,32 @@ const faqItems = faq?.faqItems ?? [
     </div>
   </section>
 
-  <!-- LABORATOIRES DENTAIRES -->
+  <!-- LABORATOIRES SCIENTIFIQUES -->
   <section class="py-24 bg-neutral-50 overflow-hidden">
     <div class="container mx-auto px-6">
       <div class="flex flex-wrap items-center">
         <div class="w-full lg:w-1/2 mb-12 lg:mb-0 reveal-on-scroll">
-          <h2 class="text-4xl md:text-5xl text-primary mb-8">L'Orfèvrerie Dentaire : Entre Technologie et Artisanat</h2>
+          <h2 class="text-4xl md:text-5xl text-primary mb-8">Des espaces pensés pour la recherche et le contrôle qualité</h2>
           <p class="text-lg text-neutral-700 mb-6">
-            L'aménagement d'un laboratoire de prothèse dentaire exige une précision millimétrée. Nous concevons des postes de travail modulaires qui s'adaptent à la posture du technicien, favorisant ainsi la productivité et prévenant les troubles musculo-squelettiques (TMS).
+            Qu'il s'agisse d'un laboratoire de R&D, d'une unité de contrôle qualité ou d'un espace d'analyse, chaque projet présente des contraintes spécifiques. Nous concevons des postes de travail modulaires qui s'adaptent aux activités de vos équipes, favorisant la productivité et prévenant les troubles musculo-squelettiques (TMS).
           </p>
           <p class="text-lg text-neutral-700 mb-8">
-            Nos solutions incluent l'intégration de systèmes de CAO/FAO, de fours de frittage et de cabines de sablage avec aspiration centralisée. Chaque poste est un chef-d'œuvre d'ergonomie, alliant robustesse des matériaux et finesse des finitions.
+            Nos solutions intègrent la gestion des flux de circulation, l'optimisation de l'éclairage, le positionnement des équipements critiques et l'accessibilité des postes de travail. Chaque détail est étudié pour garantir un environnement fonctionnel, sûr et agréable.
           </p>
           <div class="grid grid-cols-2 gap-4">
             <div class="p-4 bg-white shadow-sm border-l-4 border-secondary">
-              <p class="font-bold text-primary">Modularité Totale</p>
+              <p class="font-bold text-primary">Modularité totale</p>
               <p class="text-sm text-neutral-500">Mobilier évolutif selon vos besoins.</p>
             </div>
             <div class="p-4 bg-white shadow-sm border-l-4 border-secondary">
-              <p class="font-bold text-primary">Aspiration Intégrée</p>
-              <p class="text-sm text-neutral-500">Silence et air pur garantis.</p>
+              <p class="font-bold text-primary">Ventilation intégrée</p>
+              <p class="text-sm text-neutral-500">Qualité de l'air et confort garantis.</p>
             </div>
           </div>
         </div>
         <div class="w-full lg:w-1/2 lg:pl-20 reveal-on-scroll">
           <div class="relative">
-            <img src="https://images.pexels.com/photos/52527/dentist-pain-borowac-cure-52527.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire dentaire" class="rounded-full w-full aspect-square object-cover border-[20px] border-white shadow-xl" loading="lazy" />
-            <div class="absolute top-0 right-0 bg-secondary text-primary w-32 h-32 rounded-full flex items-center justify-center text-center font-bold text-sm leading-tight p-2 rotate-12">
-              Expertise<br />Dentaire<br />2026
-            </div>
+            <img src="https://images.pexels.com/photos/8657297/pexels-photo-8657297.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Laboratoire scientifique moderne" class="rounded-full w-full aspect-square object-cover border-[20px] border-white shadow-xl" loading="lazy" />
           </div>
         </div>
       </div>
@@ -271,11 +268,11 @@ const faqItems = faq?.faqItems ?? [
             <div class="space-y-4">
               <div class="flex items-start gap-4">
                 <span class="text-secondary text-2xl">&#10004;</span>
-                <p>Confinement des zones de travaux (poussière et bruit).</p>
+                <p>Organisation des phases de travaux en concertation avec vos équipes pour limiter les perturbations.</p>
               </div>
               <div class="flex items-start gap-4">
                 <span class="text-secondary text-2xl">&#10004;</span>
-                <p>Travaux en horaires décalés si nécessaire.</p>
+                <p>Planning adapté à vos contraintes opérationnelles, défini en amont avec votre chef de projet.</p>
               </div>
               <div class="flex items-start gap-4">
                 <span class="text-secondary text-2xl">&#10004;</span>
@@ -315,7 +312,7 @@ const faqItems = faq?.faqItems ?? [
   <section class="py-24 bg-white">
     <div class="container mx-auto px-6">
       <div class="text-center mb-20 reveal-on-scroll">
-        <h2 class="text-4xl md:text-5xl text-primary mb-4">La Noblesse des Matériaux</h2>
+        <h2 class="text-4xl md:text-5xl text-primary mb-4">La noblesse des matériaux</h2>
         <p class="text-xl text-neutral-600">Pour un laboratoire durable, chaque surface compte.</p>
       </div>
 
@@ -324,28 +321,28 @@ const faqItems = faq?.faqItems ?? [
           <div class="aspect-video mb-6 overflow-hidden rounded-lg">
             <img src="https://images.pexels.com/photos/33013263/pexels-photo-33013263.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Verre technique" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
           </div>
-          <h4 class="text-xl font-bold text-primary mb-2">Verre et Transparence</h4>
+          <h4 class="text-xl font-bold text-primary mb-2">Verre et transparence</h4>
           <p class="text-neutral-600 text-sm">Utilisation de cloisons vitrées pour favoriser la lumière naturelle et la communication visuelle.</p>
         </div>
         <div class="group cursor-pointer reveal-on-scroll" style="transition-delay: 100ms;">
           <div class="aspect-video mb-6 overflow-hidden rounded-lg">
             <img src="https://images.pexels.com/photos/29842696/pexels-photo-29842696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Inox médical" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
           </div>
-          <h4 class="text-xl font-bold text-primary mb-2">Inox et Résines</h4>
+          <h4 class="text-xl font-bold text-primary mb-2">Inox et résines</h4>
           <p class="text-neutral-600 text-sm">Surfaces décontaminables aux ions d'argent pour une hygiène irréprochable.</p>
         </div>
         <div class="group cursor-pointer reveal-on-scroll" style="transition-delay: 200ms;">
           <div class="aspect-video mb-6 overflow-hidden rounded-lg">
             <img src="https://images.pexels.com/photos/6254/texture-broken-vintage-wooden.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Bois chaleureux" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
           </div>
-          <h4 class="text-xl font-bold text-primary mb-2">Bois et Chaleur</h4>
+          <h4 class="text-xl font-bold text-primary mb-2">Bois et chaleur</h4>
           <p class="text-neutral-600 text-sm">Accents boisés dans les zones administratives pour humaniser l'environnement technique.</p>
         </div>
         <div class="group cursor-pointer reveal-on-scroll" style="transition-delay: 300ms;">
           <div class="aspect-video mb-6 overflow-hidden rounded-lg">
             <img src="https://images.pexels.com/photos/368754/pexels-photo-368754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Sol technique" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
           </div>
-          <h4 class="text-xl font-bold text-primary mb-2">Sols Performants</h4>
+          <h4 class="text-xl font-bold text-primary mb-2">Sols performants</h4>
           <p class="text-neutral-600 text-sm">Consultez nos <a href="/revetements-finitions" class="text-secondary underline">revêtements et finitions</a> techniques pour sols antistatiques.</p>
         </div>
       </div>
@@ -353,7 +350,7 @@ const faqItems = faq?.faqItems ?? [
   </section>
 
   <!-- FAQ -->
-  <FaqAccordion items={faqItems} title="Questions Fréquentes" />
+  <FaqAccordion items={faqItems} title="Questions fréquentes" />
 
   <!-- CTA FINAL -->
   <CtaBanner

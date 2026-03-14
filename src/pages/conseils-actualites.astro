@@ -1,15 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import FaqAccordion from '../components/FaqAccordion.astro';
 import CtaBanner from '../components/CtaBanner.astro';
-import { getPage } from '../lib/wp';
+import { getPage, getPosts } from '../lib/wp';
+import type { WpPost } from '../lib/types';
 
 const schema = [
   { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
-    { "@type": "ListItem", "position": 2, "name": "Conseils et actualités : innovations et bonnes pratiques dans l'aménagement de laboratoires", "item": "https://amenagement-labo.fr/conseils-actualites" }
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Conseils & Actualités", "item": "https://amenagement-labo.fr/conseils-actualites" }
   ]}
 ];
 
@@ -21,388 +20,90 @@ try {
 }
 
 const seo = page?.seo;
-const hero = page?.heroFields;
-const faq = page?.faqFields;
 const cta = page?.ctaFields;
 
-const faqItems = faq?.faqItems ?? [
-  { question: "Quelle est la durée moyenne d'un projet d'aménagement ?", answer: "Un projet complet, de la conception à la pose, prend généralement entre 12 et 24 semaines selon la complexité technique et les délais de fabrication du mobilier sur mesure." },
-  { question: "Proposez-vous une maintenance après installation ?", answer: "Oui, nous assurons le suivi et la maintenance périodique des sorbonnes et réseaux de gaz pour garantir la conformité aux normes annuelles." },
-  { question: "Peut-on réaménager un laboratoire existant sans tout casser ?", answer: "Grâce à notre mobilier modulaire, nous pouvons réaliser des \"reamping\" techniques en changeant les paillasses et en optimisant les stockages tout en conservant les structures de base si elles sont saines." },
-];
+let posts: WpPost[] = [];
+try {
+  posts = await getPosts(50);
+} catch (e) {
+  console.error('WP fetch failed for posts:', e);
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  }).toUpperCase();
+}
 ---
 
 <BaseLayout
-  title={seo?.title ?? "Conseils & Innovations Aménagement Laboratoire 2026 | Guide Expert"}
-  description={seo?.metaDesc ?? "Découvrez les dernières innovations et bonnes pratiques en aménagement de laboratoires. Optimisation d'espace, normes 2026, sécurité et choix des matériaux techniques."}
-  keywords="aménagement laboratoire, paillasse scientifique, norme ISO 14644-1, sorbonne de laboratoire, sécurité chimique, mobilier de laboratoire sur mesure"
-  ogTitle={seo?.opengraphTitle ?? "Innovations & Bonnes Pratiques : Aménager son Laboratoire en 2026"}
-  ogDescription={seo?.opengraphDescription ?? "Expertise complète sur l'agencement de laboratoires haute performance. Normes, matériaux et ergonomie."}
+  title={seo?.title ?? "Conseils & Actualités | Aménagement de Laboratoire 2026"}
+  description={seo?.metaDesc ?? "Découvrez nos articles, conseils et actualités sur l'aménagement de laboratoires. Innovations, normes, bonnes pratiques."}
+  keywords="aménagement laboratoire, conseils laboratoire, actualités laboratoire, normes laboratoire 2026"
+  ogTitle={seo?.opengraphTitle ?? "Conseils & Actualités — amenagement-labo.fr"}
+  ogDescription={seo?.opengraphDescription ?? "Articles et conseils d'experts pour l'aménagement de vos laboratoires."}
   ogImage={seo?.opengraphImage?.sourceUrl ?? "https://images.pexels.com/photos/9574561/pexels-photo-9574561.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
-  twitterTitle={seo?.twitterTitle ?? "Guide de l'Aménagement de Laboratoire Moderne"}
-  twitterDescription={seo?.twitterDescription ?? "Comment optimiser vos flux de travail et garantir la sécurité de vos équipes en laboratoire ? Lisez notre guide complet."}
+  twitterTitle={seo?.twitterTitle ?? "Blog — amenagement-labo.fr"}
+  twitterDescription={seo?.twitterDescription ?? "Conseils et actualités pour l'aménagement de laboratoires en 2026."}
   twitterImage={seo?.twitterImage?.sourceUrl ?? "https://images.pexels.com/photos/8325981/pexels-photo-8325981.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
   canonical="https://amenagement-labo.fr/conseils-actualites"
   schema={schema}
 >
 
-  <!-- HERO -->
-  <Hero
-    title={hero?.heroTitle ?? "Conseils et Actualités : <span class='italic text-secondary'>L'Art de l'Aménagement</span> de Laboratoires"}
-    subtitle={hero?.heroSubtitle ?? "Optimisez vos espaces critiques avec les dernières innovations technologiques et réglementaires pour une performance scientifique sans compromis."}
-    bgImage={hero?.heroImage?.url ?? "https://images.pexels.com/photos/235985/pexels-photo-235985.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"}
-    bgAlt="Laboratoire moderne"
-    badge={hero?.heroBadge ?? "Expertise 2026"}
-    height="h-[80vh]"
-    ctas={hero?.heroCtas ?? [
-      { label: 'Obtenir une étude personnalisée', href: '/contact-devis' },
-      { label: 'Nos Réalisations', href: '/projets-realisations', variant: 'outline' },
-    ]}
-  />
-
-  <!-- INTRODUCTION -->
-  <section class="py-24 bg-neutral-50">
-    <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div class="reveal-on-scroll">
-          <h2 class="text-4xl md:text-5xl font-heading text-primary mb-8">Redéfinir le Laboratoire en 2026 : Entre Modularité et Rigueur</h2>
-          <p class="text-lg leading-relaxed text-neutral-700 mb-6">
-            L'année 2026 marque un tournant décisif dans la conception des espaces scientifiques. Loin de l'image austère des laboratoires traditionnels, les structures modernes intègrent désormais une synergie parfaite entre <strong>ergonomie avancée</strong>, <strong>modularité extrême</strong> et <strong>confort acoustique et visuel</strong>. Un aménagement réussi n'est plus seulement une question de mobilier ; c'est une stratégie globale qui influence directement la productivité de vos chercheurs et la précision de vos résultats.
-          </p>
-          <p class="text-lg leading-relaxed text-neutral-700 mb-6">
-            La planification en amont est le pilier central de tout projet réussi. Chez nous, nous préconisons une approche "User-Centric" où chaque flux (personnel, échantillons, déchets) est analysé pour minimiser les risques de contamination croisée et optimiser le temps de manipulation. Découvrez comment notre <a href="/conception-laboratoires" class="text-secondary font-semibold underline underline-offset-4">conception personnalisée de laboratoires</a> répond à ces enjeux complexes.
-          </p>
-        </div>
-        <div class="relative reveal-on-scroll">
-          <div class="border-2 border-secondary p-4 rounded-lg">
-            <img src="https://images.pexels.com/photos/60022/microscope-slide-research-close-up-60022.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Technologie de laboratoire" class="rounded shadow-2xl" loading="lazy" />
-          </div>
-          <div class="absolute -bottom-10 -left-10 bg-primary text-white p-8 max-w-xs shadow-xl hidden md:block">
-            <p class="italic font-heading text-xl">"L'innovation naît d'un environnement où la technique s'efface devant la fluidité du geste scientifique."</p>
-          </div>
-        </div>
-      </div>
+  <!-- HEADER -->
+  <section class="pt-32 pb-16 bg-bg-alt">
+    <div class="container mx-auto px-6 text-center">
+      <span class="inline-block px-6 py-2 border border-secondary text-secondary uppercase tracking-widest text-xs font-semibold mb-6">Blog & Conseils</span>
+      <h1 class="text-5xl md:text-6xl font-heading text-primary mb-6">Le Magazine</h1>
+      <p class="text-neutral-600 max-w-2xl mx-auto text-lg">Découvrez nos derniers articles, conseils d'experts et actualités pour optimiser vos espaces de laboratoire.</p>
     </div>
   </section>
 
-  <!-- PAILLASSE -->
-  <section class="py-24 bg-white">
+  <!-- ARTICLES GRID -->
+  <section class="py-16 bg-bg-alt">
     <div class="container mx-auto px-6">
-      <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
-        <h2 class="text-4xl font-heading text-primary mb-4">La Paillasse : Cœur Technologique du Travail</h2>
-        <div class="w-24 h-1 bg-secondary mx-auto mb-8"></div>
-        <p class="text-neutral-600">Le choix de la surface de travail est déterminant pour la pérennité de votre installation. Chaque discipline impose ses propres contraintes de résistance.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <article class="p-8 border border-neutral-200 hover:border-secondary hover:-translate-y-1 transition-all reveal-on-scroll">
-          <div class="mb-6"><img src="https://images.pexels.com/photos/29842696/pexels-photo-29842696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Inox" class="w-full h-48 object-cover rounded" loading="lazy" /></div>
-          <h3 class="text-2xl font-heading text-primary mb-4">Acier Inoxydable 316L</h3>
-          <p class="text-neutral-600 mb-4">Indispensable pour la microbiologie et les environnements stériles. Résistance thermique exceptionnelle et décontamination aisée.</p>
-          <ul class="text-sm space-y-2 text-neutral-500 italic">
-            <li>• Hygiène irréprochable</li>
-            <li>• Résistance aux chocs thermiques</li>
-            <li>• Longévité supérieure</li>
-          </ul>
-        </article>
-
-        <article class="p-8 border border-neutral-200 hover:border-secondary hover:-translate-y-1 transition-all reveal-on-scroll">
-          <div class="mb-6"><img src="https://images.pexels.com/photos/33013263/pexels-photo-33013263.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Verre trempé" class="w-full h-48 object-cover rounded" loading="lazy" /></div>
-          <h3 class="text-2xl font-heading text-primary mb-4">Verre Trempé Émaillé</h3>
-          <p class="text-neutral-600 mb-4">Le choix de prédilection pour la chimie lourde. Une résistance chimique quasi-totale contre les acides forts et les bases.</p>
-          <ul class="text-sm space-y-2 text-neutral-500 italic">
-            <li>• Inaltérabilité chimique</li>
-            <li>• Esthétique haut de gamme</li>
-            <li>• Facilité de nettoyage</li>
-          </ul>
-        </article>
-
-        <article class="p-8 border border-neutral-200 hover:border-secondary hover:-translate-y-1 transition-all reveal-on-scroll">
-          <div class="mb-6"><img src="https://images.pexels.com/photos/7718454/pexels-photo-7718454.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Mélamine technique" class="w-full h-48 object-cover rounded" loading="lazy" /></div>
-          <h3 class="text-2xl font-heading text-primary mb-4">Stratifié Haute Pression (HPL)</h3>
-          <p class="text-neutral-600 mb-4">Idéal pour les laboratoires de physique ou d'enseignement. Un compromis parfait entre budget et polyvalence.</p>
-          <ul class="text-sm space-y-2 text-neutral-500 italic">
-            <li>• Large gamme de coloris</li>
-            <li>• Résistance mécanique</li>
-            <li>• Économique et robuste</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="mt-16 bg-neutral-50 p-10 rounded-lg reveal-on-scroll">
-        <h3 class="text-2xl font-heading text-primary mb-6 text-center">L'Intégration des Fluides et Électricités</h3>
-        <p class="text-center max-w-4xl mx-auto leading-relaxed text-neutral-700">
-          Au-delà du matériau, l'ergonomie d'une paillasse repose sur l'intégration intelligente des nourrices de gaz, des prises de courant étanches (IP55 minimum) et des dosserets tablettes. Un rangement optimisé sous paillasse via des modules suspendus ou sur roulettes permet une adaptabilité immédiate aux nouvelles méthodes de travail. Consultez notre offre d'<a href="/installation-equipements-techniques" class="text-secondary font-semibold underline">installation d'équipements techniques</a> pour plus de détails.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SÉCURITÉ ET FLUX LAMINAIRE -->
-  <section class="py-24 bg-primary text-white">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row gap-20 items-center">
-        <div class="lg:w-1/2 reveal-on-scroll">
-          <h2 class="text-4xl md:text-5xl font-heading mb-8 text-secondary">La Maîtrise de l'Air : Sorbonnes et Flux Laminaire</h2>
-          <p class="text-lg leading-relaxed mb-8 text-neutral-200">
-            La protection de l'opérateur est notre priorité absolue. En 2026, les systèmes d'aspiration ne sont plus de simples ventilateurs, mais des dispositifs intelligents à débit variable (VAV) qui s'adaptent en temps réel à l'ouverture de la guillotine.
-          </p>
-          <div class="space-y-6">
-            <div class="flex items-start gap-4">
-              <div class="p-2 bg-secondary/20 rounded border border-secondary">
-                <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="group relative block rounded-xl overflow-hidden aspect-[4/3] shadow-lg hover:shadow-2xl transition-shadow duration-300">
+              {post.featuredImage?.node ? (
+                <img
+                  src={post.featuredImage.node.sourceUrl}
+                  alt={post.featuredImage.node.altText || post.title}
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="absolute inset-0 bg-primary"></div>
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="w-1 h-5 bg-secondary rounded-full"></span>
+                  <span class="text-xs text-white/90 font-mono tracking-wider">{formatDate(post.date)}</span>
+                </div>
+                <h2 class="text-lg md:text-xl font-heading text-white font-bold leading-tight group-hover:text-secondary transition-colors duration-300" set:html={post.title} />
               </div>
-              <div>
-                <h4 class="text-xl font-heading mb-2">Hottes d'aspiration intégrées</h4>
-                <p class="text-neutral-300 text-sm">Filtration HEPA H14 ou ULPA pour une pureté d'air maximale dans les environnements contrôlés.</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-4">
-              <div class="p-2 bg-secondary/20 rounded border border-secondary">
-                <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              </div>
-              <div>
-                <h4 class="text-xl font-heading mb-2">Armoires de sécurité aspirées</h4>
-                <p class="text-neutral-300 text-sm">Stockage des produits chimiques inflammables ou corrosifs avec extraction continue pour éviter l'accumulation de vapeurs nocives.</p>
-              </div>
-            </div>
-          </div>
+            </a>
+          ))}
         </div>
-        <div class="lg:w-1/2 grid grid-cols-2 gap-4 reveal-on-scroll">
-          <img src="https://images.pexels.com/photos/32032996/pexels-photo-32032996.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Système d'aspiration" class="w-full h-64 object-cover rounded-lg" loading="lazy" />
-          <img src="https://images.pexels.com/photos/8327053/pexels-photo-8327053.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Expérience sous hotte" class="w-full h-64 object-cover rounded-lg mt-8" loading="lazy" />
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-neutral-500 text-lg">Les articles arrivent bientôt.</p>
         </div>
-      </div>
+      )}
     </div>
   </section>
-
-  <!-- SIMULATEUR DE SÉCURITÉ -->
-  <section class="py-24 bg-neutral-100">
-    <div class="container mx-auto px-6">
-      <div class="bg-white p-12 rounded-2xl shadow-2xl border-t-8 border-secondary">
-        <h3 class="text-3xl font-heading text-primary mb-8 text-center">Outil d'Aide à l'Aménagement : Simulateur de Sécurité</h3>
-        <p class="text-center text-neutral-600 mb-10 max-w-2xl mx-auto">Évaluez en quelques clics le type d'aspiration et la surface minimale nécessaire pour votre projet de laboratoire en 2026.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div class="space-y-6">
-            <div>
-              <label class="block text-sm font-semibold text-primary mb-2">Secteur d'Activité</label>
-              <select id="sectorSelect" class="w-full border-neutral-300 p-3 rounded bg-neutral-50 focus:border-secondary outline-none transition-all">
-                <option value="pharma">Pharmaceutique / Chimie Fine</option>
-                <option value="agro">Agroalimentaire</option>
-                <option value="enseig">Enseignement / R&D Générale</option>
-                <option value="cosme">Cosmétique & Parfumerie</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-primary mb-2">Nombre d'opérateurs simultanés</label>
-              <input type="range" id="operatorRange" min="1" max="20" value="5" class="w-full accent-secondary" />
-              <span id="operatorValue" class="text-secondary font-bold">5</span> opérateurs
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-primary mb-2">Utilisation de produits volatils ?</label>
-              <div class="flex gap-4">
-                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="volatile" value="yes" checked class="accent-secondary" /> Oui</label>
-                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="volatile" value="no" class="accent-secondary" /> Non</label>
-              </div>
-            </div>
-          </div>
-
-          <div id="resultBox" class="bg-primary text-white p-8 rounded-lg flex flex-col justify-center items-center text-center">
-            <h4 class="text-secondary font-heading text-2xl mb-4">Recommandations</h4>
-            <div id="resultContent" class="space-y-4">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NORMES ET RÉGLEMENTATIONS -->
-  <section class="py-24 bg-white">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row-reverse gap-16 items-start">
-        <div class="lg:w-1/2 reveal-on-scroll">
-          <h2 class="text-4xl font-heading text-primary mb-8">Conformité et Normes : Le Cadre Français et International</h2>
-          <div class="max-w-none text-neutral-700 leading-relaxed">
-            <p class="mb-4">Aménager un laboratoire en France exige une connaissance pointue des référentiels en vigueur. Le non-respect de ces normes peut entraîner non seulement des risques humains, mais aussi l'arrêt administratif de vos activités.</p>
-            <ul class="space-y-4">
-              <li><strong>Norme ISO 14644-1 :</strong> Cruciale pour les laboratoires agroalimentaires et pharmaceutiques, elle définit les classes de propreté particulaire de l'air.</li>
-              <li><strong>NFPA 13 & 14 :</strong> Référentiels d'origine américaine mais souvent appliqués en synergie avec les assureurs pour la protection contre l'incendie dans les zones de stockage de solvants.</li>
-              <li><strong>NF EN 14175 :</strong> La norme européenne encadrant les performances des sorbonnes (confinement, robustesse, flux d'air).</li>
-              <li><strong>Code du Travail (R4222-1 à R4222-26) :</strong> Obligations sur le renouvellement d'air et l'assainissement des locaux de travail.</li>
-            </ul>
-            <p class="mt-6">Notre équipe réalise systématiquement une évaluation des risques préalable pour déterminer les zones ATEX (Atmosphères Explosives) et adapter les installations électriques en conséquence. Pour un panorama complet, consultez notre guide sur les <a href="/normes-reglementations" class="text-secondary font-semibold underline">normes et réglementations</a>.</p>
-          </div>
-        </div>
-        <div class="lg:w-1/2 reveal-on-scroll">
-          <img src="https://images.pexels.com/photos/4458203/pexels-photo-4458203.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plan technique laboratoire" class="rounded-lg shadow-xl mb-8" loading="lazy" />
-          <div class="bg-neutral-50 p-8 border-l-4 border-secondary italic text-neutral-600">
-            "L'anticipation normative dès la phase de conception permet d'économiser jusqu'à 30% sur les coûts de maintenance future."
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INSTRUMENTATION -->
-  <section class="py-24 bg-neutral-50">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-heading text-primary text-center mb-16 reveal-on-scroll">L'Instrumentation au Service de la Précision</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 reveal-on-scroll">
-        <div class="bg-white p-6 rounded shadow-sm border-b-2 border-transparent hover:border-secondary transition-all">
-          <div class="h-12 w-12 bg-secondary/10 rounded flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.675.27a6 6 0 01-3.86.517l-3.158-.632a2 2 0 01-1.454-2.147l.477-4.773a2 2 0 011.454-2.147l3.158-.632a6 6 0 013.86.517l.675.27a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l.477 4.773a2 2 0 01-.477 1.022z"></path></svg>
-          </div>
-          <h3 class="font-bold text-primary mb-2">Verrerie technique</h3>
-          <p class="text-sm text-neutral-500">Borosilicate de haute qualité pour toutes vos synthèses et analyses.</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow-sm border-b-2 border-transparent hover:border-secondary transition-all">
-          <div class="h-12 w-12 bg-secondary/10 rounded flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m12 4a2 2 0 100-4m0 4a2 2 0 110-4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4"></path></svg>
-          </div>
-          <h3 class="font-bold text-primary mb-2">Balances de précision</h3>
-          <p class="text-sm text-neutral-500">Du micro-dosage à l'analyse analytique certifiée.</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow-sm border-b-2 border-transparent hover:border-secondary transition-all">
-          <div class="h-12 w-12 bg-secondary/10 rounded flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          </div>
-          <h3 class="font-bold text-primary mb-2">EPI & Protection</h3>
-          <p class="text-sm text-neutral-500">Gants, lunettes et masques adaptés aux risques spécifiques de votre labo.</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow-sm border-b-2 border-transparent hover:border-secondary transition-all">
-          <div class="h-12 w-12 bg-secondary/10 rounded flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.675.27a6 6 0 01-3.86.517l-3.158-.632a2 2 0 01-1.454-2.147l.477-4.773a2 2 0 011.454-2.147l3.158-.632a6 6 0 013.86.517l.675.27a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l.477 4.773a2 2 0 01-.477 1.022z"></path></svg>
-          </div>
-          <h3 class="font-bold text-primary mb-2">Instrumentation</h3>
-          <p class="text-sm text-neutral-500">Spectrophotomètres, chromatographes et systèmes de titrage.</p>
-        </div>
-      </div>
-      <div class="mt-12 text-center">
-        <a href="/consommables-equipements" class="inline-block px-10 py-4 bg-primary text-white hover:bg-neutral-800 transition-all">Découvrir notre catalogue complet</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOLS, MURS, PLAFONDS -->
-  <section class="py-24 bg-white">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row gap-16">
-        <div class="lg:w-1/3 reveal-on-scroll">
-          <h2 class="text-4xl font-heading text-primary mb-6">Sols, Murs et Plafonds : La Coquille Technique</h2>
-          <p class="text-neutral-700 leading-relaxed mb-6">
-            L'aménagement ne s'arrête pas au mobilier. L'enveloppe du laboratoire doit répondre à des critères d'étanchéité et de résistance aux agents chimiques.
-          </p>
-          <p class="text-neutral-700 leading-relaxed">
-            Nous préconisons des sols PVC techniques ou résine époxy avec remontée en plinthes pour une hygiène irréprochable. Les plafonds, quant à eux, doivent être démontables tout en restant étanches pour permettre l'accès aux réseaux fluides.
-          </p>
-          <a href="/revetements-finitions" class="inline-block mt-8 text-secondary font-bold hover:underline">Voir nos solutions de finition →</a>
-        </div>
-        <div class="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8 reveal-on-scroll">
-          <div class="group relative overflow-hidden rounded-lg">
-            <img src="https://images.pexels.com/photos/368754/pexels-photo-368754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Revêtement de sol" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-            <div class="absolute inset-0 bg-primary/60 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span class="text-white font-heading text-xl">Sols résine sans joint</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg">
-            <img src="https://images.pexels.com/photos/27243718/pexels-photo-27243718.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation électrique" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-            <div class="absolute inset-0 bg-primary/60 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span class="text-white font-heading text-xl">Réseaux fluides & data</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTEURS -->
-  <section class="py-24 bg-primary text-white" style="clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);">
-    <div class="container mx-auto px-6 mb-20">
-      <h2 class="text-5xl font-heading text-center mb-16 reveal-on-scroll">Une Réponse Sur Mesure par Secteur</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        <div class="reveal-on-scroll">
-          <h3 class="text-2xl font-heading text-secondary mb-4">Pharmacie & Cosmétique</h3>
-          <p class="text-neutral-300 leading-relaxed">Respect strict des BPF (Bonnes Pratiques de Fabrication) et des environnements sous atmosphère contrôlée (Salles blanches).</p>
-        </div>
-        <div class="reveal-on-scroll">
-          <h3 class="text-2xl font-heading text-secondary mb-4">Agroalimentaire</h3>
-          <p class="text-neutral-300 leading-relaxed">Focus sur la microbiologie, la traçabilité et les zones de lavage intensives avec des matériaux résistants à l'humidité constante.</p>
-        </div>
-        <div class="reveal-on-scroll">
-          <h3 class="text-2xl font-heading text-secondary mb-4">Énergie & Industrie</h3>
-          <p class="text-neutral-300 leading-relaxed">Aménagements pour la pétrochimie ou les nouvelles batteries, nécessitant une sécurité incendie et une ventilation renforcée.</p>
-        </div>
-      </div>
-      <div class="text-center mt-16">
-        <a href="/secteurs-activite" class="border border-secondary text-secondary px-12 py-4 hover:bg-secondary hover:text-primary transition-all">Explorer les secteurs</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <FaqAccordion items={faqItems} title="Questions Fréquentes sur l'Aménagement" />
 
   <!-- CTA -->
   <CtaBanner
     title={cta?.ctaTitle ?? "Votre vision scientifique mérite une expertise d'exception"}
     description={cta?.ctaDescription ?? "Ensemble, concevons le laboratoire qui portera vos innovations de demain. Contactez nos experts pour un devis détaillé."}
     ctas={cta?.ctaButtons ?? [
-      { label: 'Échanger avec un conseiller technique', href: '/contact-devis' },
+      { label: 'Demander un devis', href: '/contact-devis' },
+      { label: 'Nos réalisations', href: '/projets-realisations', variant: 'outline' },
     ]}
     bg={cta?.ctaBg ?? "white"}
   />
 
 </BaseLayout>
-
-<script>
-  const sectorSelect = document.getElementById('sectorSelect') as HTMLSelectElement;
-  const operatorRange = document.getElementById('operatorRange') as HTMLInputElement;
-  const operatorValue = document.getElementById('operatorValue');
-  const volatileRadio = document.getElementsByName('volatile');
-  const resultContent = document.getElementById('resultContent');
-
-  function updateSimulation() {
-    if (!sectorSelect || !operatorRange || !operatorValue || !resultContent) return;
-
-    const sector = sectorSelect.value;
-    const ops = parseInt(operatorRange.value);
-    operatorValue.innerText = String(ops);
-    let isVolatile = false;
-    volatileRadio.forEach((r: Element) => {
-      const radio = r as HTMLInputElement;
-      if (radio.checked && radio.value === 'yes') isVolatile = true;
-    });
-
-    let surface = ops * 6.5;
-    let rec = "";
-
-    if (sector === 'pharma') {
-      rec = `<li>• <strong>Surface min : ${surface.toFixed(0)} m²</strong></li>
-             <li>• <strong>Filtration : Flux laminaire vertical classe ISO 5</strong></li>
-             <li>• <strong>Aspiration : Sorbonne EN 14175 indispensable</strong></li>`;
-    } else if (sector === 'agro') {
-      rec = `<li>• <strong>Surface min : ${surface.toFixed(0)} m²</strong></li>
-             <li>• <strong>Hygiène : Paillasses Inox 316L avec dosseret</strong></li>
-             <li>• <strong>Norme : ISO 14644-1 pour zones blanches</strong></li>`;
-    } else {
-      rec = `<li>• <strong>Surface min : ${(surface * 0.8).toFixed(0)} m²</strong></li>
-             <li>• <strong>Mobilier : Paillasses en HPL ou Verre</strong></li>
-             <li>• <strong>Protection : Hottes aspirantes localisées</strong></li>`;
-    }
-
-    if (isVolatile) {
-      rec += `<li class="text-secondary font-bold">• Alerte : Armoire de sécurité ventilée Type 90 requise</li>`;
-    }
-
-    resultContent.innerHTML = `<ul class="text-left space-y-2 text-sm">${rec}</ul>`;
-  }
-
-  [sectorSelect, operatorRange].forEach(el => {
-    if (el) el.addEventListener('input', updateSimulation);
-  });
-  volatileRadio.forEach(el => el.addEventListener('change', updateSimulation));
-
-  updateSimulation();
-</script>

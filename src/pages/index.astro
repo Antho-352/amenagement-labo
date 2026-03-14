@@ -11,7 +11,8 @@ import type { WpPost } from '../lib/types';
 
 const schema = [
   { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" }] }
+  { "@context": "https://schema.org", "@type": "LocalBusiness", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "email": "contact@amenagement-labo.fr", "areaServed": "FR", "description": "Spécialiste de l'aménagement de laboratoires en France : conception, installation et équipement sur mesure." },
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" }] }
 ];
 
 let page;
@@ -27,7 +28,7 @@ const faq = page?.faqFields;
 const cta = page?.ctaFields;
 
 const faqItems = faq?.faqItems ?? [
-  { question: "Quels sont les délais moyens pour un aménagement complet ?", answer: "Le délai dépend de la complexité technique. En moyenne, comptez 4 à 6 semaines pour la phase d'étude et de conception, et 8 à 12 semaines pour la fabrication et l'installation finale. Nous nous engageons sur un planning précis dès la signature du devis." },
+  { question: "Quels sont les délais moyens pour un aménagement complet ?", answer: "Les délais varient selon la nature et la complexité de chaque projet : surface à aménager, niveau de personnalisation, contraintes d'accès au site et planning du client. Nous établissons un calendrier prévisionnel détaillé dès la phase d'étude, en concertation avec vous, afin de garantir une planification réaliste et adaptée à vos impératifs opérationnels." },
   { question: "Intervenez-vous sur des laboratoires déjà en activité ?", answer: "Oui, nous avons une expertise spécifique en rénovation de sites occupés. Nous mettons en place des sas de confinement provisoires et organisons les travaux en horaires décalés pour minimiser l'impact sur vos manipulations en cours." },
   { question: "Assurez-vous la maintenance des sorbonnes ?", answer: "La maintenance préventive est cruciale pour la sécurité. Nous proposons des contrats d'entretien incluant le contrôle annuel des vitesses d'air, le remplacement des filtres charbon et la vérification des automatismes de fermeture." },
 ];
@@ -46,7 +47,18 @@ function formatDate(dateStr: string) {
 }
 
 function stripTags(html: string) {
-  return html.replace(/<[^>]*>/g, '').trim();
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rdquo;/g, '\u201D')
+    .replace(/&ldquo;/g, '\u201C')
+    .replace(/&hellip;/g, '\u2026')
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#8217;/g, '\u2019')
+    .replace(/&#8230;/g, '\u2026')
+    .trim();
 }
 
 const sectors = [
@@ -118,7 +130,7 @@ const sectors = [
           <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
             <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
           </div>
-          <h3 class="text-2xl text-primary mb-4">Ingénierie &amp; Design 3D</h3>
+          <h3 class="text-2xl text-primary mb-4">Ingénierie &amp; design 3D</h3>
           <p class="text-neutral-600 mb-6">Modélisation complète de vos espaces pour une projection réaliste des flux de travail et des implantations techniques.</p>
           <a href="/conception-laboratoires" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
         </article>
@@ -127,7 +139,7 @@ const sectors = [
           <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
             <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
           </div>
-          <h3 class="text-2xl text-primary mb-4">Mobilier &amp; Équipements</h3>
+          <h3 class="text-2xl text-primary mb-4">Mobilier &amp; équipements</h3>
           <p class="text-neutral-600 mb-6">Installation experte de <a href="/installation-equipements-techniques" class="underline hover:text-secondary">paillasses techniques</a>, sorbonnes, et armoires de sécurité conformes.</p>
           <a href="/installation-equipements-techniques" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
         </article>
@@ -136,7 +148,7 @@ const sectors = [
           <div class="mb-6 inline-block p-4 bg-bg-alt group-hover:bg-secondary transition-colors rounded-xl">
             <svg class="w-8 h-8 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
-          <h3 class="text-2xl text-primary mb-4">Infrastructures &amp; Fluides</h3>
+          <h3 class="text-2xl text-primary mb-4">Infrastructures &amp; fluides</h3>
           <p class="text-neutral-600 mb-6">Gestion des <a href="/revetements-finitions" class="underline hover:text-secondary">réseaux électriques et fluides</a>, traitement d'air et finitions de surfaces spécialisées.</p>
           <a href="/revetements-finitions" class="text-secondary font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
         </article>
@@ -168,7 +180,7 @@ const sectors = [
             <div class="flex gap-4">
               <div class="text-secondary"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg></div>
               <div>
-                <h4 class="font-bold text-primary">Matériaux Inertes</h4>
+                <h4 class="font-bold text-primary">Matériaux inertes</h4>
                 <p class="text-neutral-600">Utilisation de résines phénoliques, grès étiré ou inox 316L selon l'agressivité des produits.</p>
               </div>
             </div>
@@ -182,8 +194,8 @@ const sectors = [
   <section class="py-24 bg-primary text-white">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mb-16 reveal-on-scroll">
-        <h2 class="text-4xl mb-6 font-heading text-secondary">Conformité et Sécurité : Notre Engagement</h2>
-        <p class="text-neutral-300 text-lg">En tant qu'intégrateur, nous portons la responsabilité de la <a href="/normes-reglementations" class="text-secondary hover:underline">conformité normative</a> de votre installation. Dans un contexte réglementaire qui évolue sans cesse, nous veillons à ce que chaque composant réponde aux exigences de l'année 2026.</p>
+        <h2 class="text-4xl mb-6 font-heading text-secondary">Conformité et sécurité : notre engagement</h2>
+        <p class="text-neutral-300 text-lg">En tant qu'intégrateur, nous portons la responsabilité de la <a href="/normes-reglementations" class="text-secondary hover:underline">conformité normative</a> de votre installation. Dans un contexte réglementaire soumis à des mises à jour fréquentes, nous veillons à ce que chaque composant réponde aux exigences de l'année 2026.</p>
       </div>
       <div class="grid md:grid-cols-4 gap-8 reveal-on-scroll">
         <div class="p-6 border-l border-secondary">
@@ -254,18 +266,18 @@ const sectors = [
         <a href="/blog" class="text-secondary font-bold hover:underline">Voir tous les articles</a>
       </div>
       {latestPosts.length > 0 ? (
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class={`grid gap-8 ${latestPosts.length === 1 ? 'max-w-md mx-auto' : latestPosts.length === 2 ? 'md:grid-cols-2 max-w-3xl mx-auto' : 'md:grid-cols-3'}`}>
           {latestPosts.slice(0, 6).map((post) => (
             <a href={`/blog/${post.slug}`} class="group bg-white/5 rounded-lg border border-white/10 hover:border-secondary transition overflow-hidden block">
               {post.featuredImage?.node ? (
                 <img
                   src={post.featuredImage.node.sourceUrl}
                   alt={post.featuredImage.node.altText || post.title}
-                  class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
+                  class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               ) : (
-                <div class="w-full h-44 bg-white/5 flex items-center justify-center">
+                <div class="w-full h-48 bg-white/5 flex items-center justify-center">
                   <svg class="w-10 h-10 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                 </div>
               )}

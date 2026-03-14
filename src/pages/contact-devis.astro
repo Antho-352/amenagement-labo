@@ -7,7 +7,7 @@ import { getPage } from '../lib/wp';
 const schema = [
   { "@context": "https://schema.org", "@type": "Organization", "name": "amenagement-labo.fr", "url": "https://amenagement-labo.fr", "logo": "https://placehold.co/512x512/000/FFF?text=LOGO" },
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://amenagement-labo.fr" },
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://amenagement-labo.fr" },
     { "@type": "ListItem", "position": 2, "name": "Contact et devis personnalisé : échangez avec nos experts dès aujourd'hui", "item": "https://amenagement-labo.fr/contact-devis" }
   ]}
 ];
@@ -68,12 +68,12 @@ const faqItems = faq?.faqItems ?? [
             En 2026, l'aménagement de laboratoire ne se limite plus à la simple pose de mobilier. Il s'agit d'une orchestration complexe entre <a href="/normes-reglementations" class="text-primary font-semibold underline decoration-secondary">normes de sécurité</a>, flux de travail optimisés et intégration technologique.
           </p>
           <p class="text-lg text-neutral-700 mb-6">
-            Chez Aptik Solutions, nous avons supprimé les barrières administratives pour vous offrir un accès direct à nos ingénieurs et concepteurs. Que vous soyez une PME en pleine croissance ou un grand groupe pharmaceutique, notre approche reste la même : **la précision avant tout.**
+            Chez Aptik Solutions, nous avons supprimé les barrières administratives pour vous offrir un accès direct à nos ingénieurs et concepteurs. Que vous soyez une PME en pleine croissance ou un grand groupe pharmaceutique, notre approche reste la même : <strong>la précision avant tout.</strong>
           </p>
           <div class="grid grid-cols-2 gap-8 mt-12">
             <div>
               <span class="block text-3xl font-heading text-secondary mb-2">150+</span>
-              <span class="text-sm uppercase tracking-wider text-neutral-500 font-bold">Projets livrés en 2025</span>
+              <span class="text-sm uppercase tracking-wider text-neutral-500 font-bold">Projets livrés en 2026</span>
             </div>
             <div>
               <span class="block text-3xl font-heading text-secondary mb-2">48h</span>
@@ -100,17 +100,17 @@ const faqItems = faq?.faqItems ?? [
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
           <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">01</div>
-          <h3 class="font-heading text-2xl text-primary mb-4">Brief & Visioconférence</h3>
+          <h3 class="font-heading text-2xl text-primary mb-4">Brief & visioconférence</h3>
           <p class="text-neutral-600">Prenez rendez-vous en quelques clics pour un premier échange gratuit. Nous analysons vos besoins en <a href="/conception-laboratoires" class="hover:text-secondary">conception personnalisée</a> et définissons les périmètres techniques.</p>
         </div>
         <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
           <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">02</div>
-          <h3 class="font-heading text-2xl text-primary mb-4">Audit & Simulation 3D</h3>
+          <h3 class="font-heading text-2xl text-primary mb-4">Audit & simulation 3D</h3>
           <p class="text-neutral-600">Nos experts se déplacent sur site ou travaillent sur vos plans pour modéliser votre futur espace, incluant les <a href="/installation-equipements-techniques" class="hover:text-secondary">équipements techniques</a> critiques.</p>
         </div>
         <div class="p-8 border-b-2 border-secondary/30 hover:border-secondary transition-all group reveal-on-scroll">
           <div class="w-12 h-12 bg-primary text-secondary flex items-center justify-center rounded-full mb-6 font-heading text-xl group-hover:scale-110 transition-transform">03</div>
-          <h3 class="font-heading text-2xl text-primary mb-4">Devis & Engagement</h3>
+          <h3 class="font-heading text-2xl text-primary mb-4">Devis & engagement</h3>
           <p class="text-neutral-600">Recevez une proposition détaillée, transparente et segmentée. Une fois validé, votre projet entre en phase de réalisation avec un interlocuteur unique.</p>
         </div>
       </div>
@@ -123,7 +123,7 @@ const faqItems = faq?.faqItems ?? [
       <div class="bg-white/5 p-12 rounded-3xl border border-white/10 backdrop-blur-sm">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
-            <h2 class="font-heading text-4xl mb-8">Estimateur de Projet Express</h2>
+            <h2 class="font-heading text-4xl mb-8">Estimateur de projet express</h2>
             <p class="text-gray-300 mb-8">Obtenez une première évaluation de la complexité et des besoins de votre laboratoire en moins de 60 secondes. Cet outil se base sur les standards de <a href="/secteurs-activite" class="text-secondary underline">l'industrie en 2026</a>.</p>
 
             <div class="space-y-8">
@@ -155,7 +155,7 @@ const faqItems = faq?.faqItems ?? [
             </div>
           </div>
           <div class="flex flex-col justify-center items-center bg-white text-primary p-12 rounded-2xl shadow-2xl">
-            <h3 class="font-heading text-2xl mb-4 text-center">Estimation de votre Indice de Complexité</h3>
+            <h3 class="font-heading text-2xl mb-4 text-center">Estimation de votre indice de complexité</h3>
             <div id="resultScore" class="text-7xl font-heading text-secondary my-8">--</div>
             <p class="text-center text-sm text-neutral-500 mb-8">Cet indice nous permet de mobiliser les experts adéquats pour votre projet dès le premier appel.</p>
             <a href="#formulaire" class="w-full py-4 bg-gradient-to-r from-secondary to-[#A68B56] text-white text-center font-bold rounded shadow-lg hover:shadow-secondary/20 transition-all">Confirmer avec un Expert</a>
@@ -172,25 +172,25 @@ const faqItems = faq?.faqItems ?? [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
           <img src="https://images.pexels.com/photos/35300832/pexels-photo-35300832.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Installation paillasses" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
-          <h3 class="font-heading text-xl text-primary mb-4">Infrastructures Techniques</h3>
+          <h3 class="font-heading text-xl text-primary mb-4">Infrastructures techniques</h3>
           <p class="text-sm text-neutral-600 mb-4">Pose de paillasses ergonomiques, armoires de sécurité et réseaux de fluides spécialisés.</p>
           <a href="/installation-equipements-techniques" class="text-secondary font-bold text-sm uppercase tracking-widest">Voir les détails →</a>
         </article>
         <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
           <img src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Plans de laboratoire" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
-          <h3 class="font-heading text-xl text-primary mb-4">Maîtrise d'Œuvre</h3>
+          <h3 class="font-heading text-xl text-primary mb-4">Maîtrise d'œuvre</h3>
           <p class="text-sm text-neutral-600 mb-4">Gestion complète des <a href="/revetements-finitions">revêtements techniques</a>, électricité et plafonds spécifiques.</p>
           <a href="/" class="text-secondary font-bold text-sm uppercase tracking-widest">Nos solutions →</a>
         </article>
         <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
           <img src="https://images.pexels.com/photos/9628826/pexels-photo-9628826.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Consommables labo" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
-          <h3 class="font-heading text-xl text-primary mb-4">Supply Chain Labo</h3>
+          <h3 class="font-heading text-xl text-primary mb-4">Supply chain labo</h3>
           <p class="text-sm text-neutral-600 mb-4">Fourniture continue en <a href="/consommables-equipements">consommables</a>, verrerie et instrumentation de précision.</p>
           <a href="/consommables-equipements" class="text-secondary font-bold text-sm uppercase tracking-widest">Le catalogue →</a>
         </article>
         <article class="bg-white p-8 shadow-sm hover:shadow-xl transition-shadow reveal-on-scroll">
           <img src="https://images.pexels.com/photos/96612/pexels-photo-96612.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Normes sécurité" class="w-full h-40 object-cover mb-6 rounded" loading="lazy" />
-          <h3 class="font-heading text-xl text-primary mb-4">Conformité Totale</h3>
+          <h3 class="font-heading text-xl text-primary mb-4">Conformité totale</h3>
           <p class="text-sm text-neutral-600 mb-4">Veille réglementaire et mise en conformité pour garantir la sécurité de vos équipes.</p>
           <a href="/normes-reglementations" class="text-secondary font-bold text-sm uppercase tracking-widest">Les normes →</a>
         </article>
@@ -229,24 +229,15 @@ const faqItems = faq?.faqItems ?? [
       <div class="max-w-6xl mx-auto bg-white shadow-2xl flex flex-col md:flex-row overflow-hidden rounded-2xl">
         <!-- Info Column -->
         <div class="md:w-1/3 bg-primary text-white p-12">
-          <h2 class="font-heading text-3xl mb-8">Contact Direct</h2>
+          <h2 class="font-heading text-3xl mb-8">Contact direct</h2>
           <div class="space-y-8">
             <div class="flex items-start gap-4">
               <div class="w-6 h-6 text-secondary">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
               </div>
               <div>
-                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Siège Social</h4>
-                <p class="text-gray-300">12 Avenue des Sciences<br>75008 Paris, France</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-4">
-              <div class="w-6 h-6 text-secondary">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Téléphone</h4>
-                <p class="text-gray-300">+33 (0)1 45 67 89 00</p>
+                <h4 class="font-bold text-secondary text-sm uppercase tracking-widest">Email</h4>
+                <p class="text-gray-300"><a href="mailto:contact@amenagement-labo.fr" class="hover:text-secondary transition-colors">contact@amenagement-labo.fr</a></p>
               </div>
             </div>
             <div class="flex items-start gap-4">
