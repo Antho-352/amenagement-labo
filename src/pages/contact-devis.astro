@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
+import ContactFormWP from '../components/ContactFormWP.astro';
 import { getPage } from '../lib/wp';
 
 const schema = [
@@ -257,45 +258,8 @@ const faqItems = faq?.faqItems ?? [
           </div>
         </div>
 
-        <!-- Form Column -->
-        <div class="md:w-2/3 p-12">
-          <h3 class="font-heading text-3xl text-primary mb-8">Parlez-nous de votre projet</h3>
-          <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-neutral-500 mb-2">Prénom & Nom *</label>
-              <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
-            </div>
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-neutral-500 mb-2">Entreprise / Institution *</label>
-              <input type="text" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
-            </div>
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-neutral-500 mb-2">Email Professionnel *</label>
-              <input type="email" required class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" />
-            </div>
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-neutral-500 mb-2">Secteur d'activité</label>
-              <select class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded">
-                <option>Pharmacie / Médical</option>
-                <option>Chimie / Énergie</option>
-                <option>Agroalimentaire</option>
-                <option>Cosmétique</option>
-                <option>Recherche / Université</option>
-              </select>
-            </div>
-            <div class="flex flex-col md:col-span-2">
-              <label class="text-sm font-bold text-neutral-500 mb-2">Votre message / Description du besoin</label>
-              <textarea rows="5" class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded" placeholder="Décrivez votre projet d'aménagement, d'installation ou vos besoins en équipements..."></textarea>
-            </div>
-            <div class="md:col-span-2 flex items-center gap-3">
-              <input type="checkbox" id="consent" class="w-5 h-5 accent-secondary" />
-              <label for="consent" class="text-xs text-neutral-500">J'accepte que mes données soient traitées dans le cadre de ma demande de devis conformément à la politique de confidentialité.</label>
-            </div>
-            <div class="md:col-span-2">
-              <button type="submit" class="w-full py-5 bg-gradient-to-r from-secondary to-[#A68B56] text-white font-bold text-lg hover:brightness-110 transition-all rounded shadow-lg">Envoyer ma demande de devis</button>
-            </div>
-          </form>
-        </div>
+        <!-- Form Column - WordPress Contact Form 7 Integration -->
+        <ContactFormWP />
       </div>
     </div>
   </section>

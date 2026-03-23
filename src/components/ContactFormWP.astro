@@ -1,0 +1,204 @@
+---
+/**
+ * Formulaire de contact intégré avec WordPress Contact Form 7
+ * Envoie les données via l'API REST WordPress
+ */
+---
+
+<div class="md:w-2/3 p-12">
+  <h3 class="font-heading text-3xl text-primary mb-8">Parlez-nous de votre projet</h3>
+
+  <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="flex flex-col">
+      <label for="name" class="text-sm font-bold text-neutral-500 mb-2">Prénom & Nom *</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+        placeholder="Jean Dupont"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="email" class="text-sm font-bold text-neutral-500 mb-2">Email *</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+        placeholder="jean.dupont@entreprise.fr"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="phone" class="text-sm font-bold text-neutral-500 mb-2">Téléphone</label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+        placeholder="06 12 34 56 78"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="company" class="text-sm font-bold text-neutral-500 mb-2">Société</label>
+      <input
+        id="company"
+        name="company"
+        type="text"
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+        placeholder="Nom de votre société"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="project" class="text-sm font-bold text-neutral-500 mb-2">Type de projet</label>
+      <select
+        id="project"
+        name="project"
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+      >
+        <option value="">Sélectionnez...</option>
+        <option value="Création laboratoire">Création laboratoire</option>
+        <option value="Rénovation">Rénovation</option>
+        <option value="Extension">Extension</option>
+        <option value="Équipement seulement">Équipement seulement</option>
+        <option value="Maintenance">Maintenance</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col">
+      <label for="surface" class="text-sm font-bold text-neutral-500 mb-2">Surface approximative (m²)</label>
+      <input
+        id="surface"
+        name="surface"
+        type="number"
+        min="10"
+        max="10000"
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded"
+        placeholder="100"
+      />
+    </div>
+
+    <div class="md:col-span-2 flex flex-col">
+      <label for="message" class="text-sm font-bold text-neutral-500 mb-2">Décrivez votre projet *</label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        rows="4"
+        class="p-4 bg-bg-alt border border-neutral-200 focus:border-secondary outline-none transition-all rounded resize-none"
+        placeholder="Décrivez brièvement votre projet, vos besoins spécifiques et votre calendrier..."
+      ></textarea>
+    </div>
+
+    <div class="md:col-span-2 flex items-start gap-3">
+      <input
+        type="checkbox"
+        id="consent"
+        name="consent"
+        required
+        class="w-5 h-5 accent-secondary mt-0.5 flex-shrink-0"
+      />
+      <label for="consent" class="text-xs text-neutral-500">
+        J'accepte que mes données soient traitées dans le cadre de ma demande de devis conformément à la
+        <a href="/politique-confidentialite" class="text-secondary underline hover:text-primary">politique de confidentialité</a>.
+      </label>
+    </div>
+
+    <div class="md:col-span-2">
+      <button
+        type="submit"
+        id="submitBtn"
+        class="w-full py-5 bg-gradient-to-r from-secondary to-[#A68B56] text-white font-bold text-lg
+        hover:brightness-110 transition-all rounded shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Envoyer ma demande de devis
+      </button>
+    </div>
+
+    <!-- Message de confirmation/erreur -->
+    <div id="formMessage" class="md:col-span-2 hidden p-4 rounded"></div>
+  </form>
+</div>
+
+<script>
+  import { submitContactForm } from '../lib/contact-api';
+  import type { ContactFormData } from '../lib/contact-api';
+
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+  const messageDiv = document.getElementById('formMessage') as HTMLDivElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Désactiver le bouton pendant l'envoi
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+      messageDiv.classList.add('hidden');
+
+      // Récupérer les données du formulaire
+      const formData = new FormData(form);
+
+      const data: ContactFormData = {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string || undefined,
+        company: formData.get('company') as string || undefined,
+        project: formData.get('project') as string || undefined,
+        surface: formData.get('surface') ? Number(formData.get('surface')) : undefined,
+        message: formData.get('message') as string,
+      };
+
+      // Envoyer vers WordPress
+      const result = await submitContactForm(data);
+
+      // Afficher le résultat
+      messageDiv.classList.remove('hidden');
+
+      if (result.success) {
+        messageDiv.className = 'md:col-span-2 p-4 rounded bg-green-100 border border-green-300 text-green-800';
+        messageDiv.innerHTML = `
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <p class="font-bold mb-1">Merci pour votre demande!</p>
+              <p class="text-sm">Nous avons bien reçu votre message. Notre équipe vous répondra sous 48h maximum.</p>
+            </div>
+          </div>
+        `;
+
+        // Réinitialiser le formulaire
+        form.reset();
+
+        // Scroll vers le message
+        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        messageDiv.className = 'md:col-span-2 p-4 rounded bg-red-100 border border-red-300 text-red-800';
+        messageDiv.innerHTML = `
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <p class="font-bold mb-1">Une erreur est survenue</p>
+              <p class="text-sm">${result.error || 'Veuillez réessayer plus tard ou nous contacter par email.'}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Réactiver le bouton
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer ma demande de devis';
+    });
+  }
+</script>
