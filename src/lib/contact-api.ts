@@ -9,7 +9,7 @@ const WP_API_URL = 'https://wp.amenagement-labo.fr/wp-json/contact-form-7/v1';
 
 // TODO: Remplacer par l'ID réel du formulaire après création dans WordPress
 // Pour trouver l'ID: WP Admin → Contact → Votre formulaire → L'ID est dans l'URL
-const FORM_ID = '123';
+const FORM_ID = '2f9d9b9';
 
 export interface ContactFormData {
   name: string;
